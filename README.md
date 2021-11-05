@@ -5,6 +5,9 @@ This is for a science project. The idea is to make a computer program that clean
 3. Might be able to clean up indents and fix the code so it doesn't raise error messages?????
 
 Credits:
+
 https://www.geeksforgeeks.org/python-string-find/
+
 https://stackoverflow.com/questions/15422144/how-to-read-a-long-multiline-string-line-by-line-in-python/15422155
+
 https://stackoverflow.com/questions/13241399/check-string-indentation
