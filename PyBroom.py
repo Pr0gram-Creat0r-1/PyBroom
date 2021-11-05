@@ -26,7 +26,7 @@ def clean():
                 new_string.replace(variable, '')
                 new_string.replace(id_as_variable[1], '')
         counter+=1
-  new_file_name=file_path.replace('.py', '_PyBroom_cleaned.py')
-  new_file=open(new_file_name, 'w')
-  new_file.write(new_string)
-  print('Done!')
+    new_file_name=file_path.replace('.py', '_PyBroom_cleaned.py')
+    new_file=open(new_file_name, 'w')
+    new_file.write(new_string)
+    print('Done!')
