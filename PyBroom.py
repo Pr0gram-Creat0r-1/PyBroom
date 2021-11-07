@@ -8,20 +8,21 @@ def clean():
     the_list=text.splitlines()
     counter=0
     for x in range(0, len(the_list)):
-        if the_list[counter].find('=')!=-1:
+        if the_list[counter].count('=')==1:
             #Identify as a variable assignment
             id_as_variable=the_list[counter].split('=')
             variable=id_as_variable[0]
             exterminator=0
             for y in range(0, len(the_list)):
                 string='\n'.join(the_list)
-                if string.find(variable)!=-1:
+                if string.count(variable)>=2:
                     number=1
                 else:
                     number=0
                 if number==1:
                     new=string.replace(variable, '')
-                    new_string=new.replace(id_as_variable[1], '')
+                    add_equal_sign='='+id_as_variable[1]
+                    new_string=new.replace(add_equal_sign, '')
                     the_list=new_string.splitlines()
                 exterminator+=1
         counter+=1
