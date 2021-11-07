@@ -15,7 +15,7 @@ def clean():
             exterminator=0
             for y in range(0, len(the_list)):
                 string='\n'.join(the_list)
-                if string.count(variable)>=2:
+                if string.count(variable)==1:
                     number=1
                 else:
                     number=0
