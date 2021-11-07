@@ -28,5 +28,5 @@ def clean():
         counter+=1
     new_file_name=file_path.replace('.py', '_PyBroom_cleaned.py')
     new_file=open(new_file_name, 'w')
-    new_file.write(string)
+    new_file.write('\n'.join(the_list))
     print('Done!')
