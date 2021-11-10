@@ -25,6 +25,7 @@ def clean():
                     the_list=new.splitlines()
                 exterminator+=1
         counter+=1
+    string='\n'.join(the_list)
     new_file_name=file_path.replace('.py', '_PyBroom_cleaned.py')
     new_file=open(new_file_name, 'w')
     new_file.write(string)
