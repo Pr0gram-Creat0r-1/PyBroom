@@ -14,4 +14,4 @@ https://stackoverflow.com/questions/13241399/check-string-indentation
 
 Note: This program does not work ALL the time. The best ways to make it not work:
 
-1. Make a variable like this: i=0 print('blah blah blah'). You may notice that "print" has the letter "i" in it.
+1. Make a variable like this: i=0 print('blah blah blah'). You may notice that "print" has the letter "i" in it, and the cleaner works by finding the variables and doing stuff with them, so...
