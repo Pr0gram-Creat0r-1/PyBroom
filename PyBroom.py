@@ -14,12 +14,13 @@ def clean_variables():
     for x in range(0, len(the_list)):
         line=the_list[counter]
         if line.count('=')>=1:
-            variable=line.split('=')[0]
+            new_line=line.replace('    ', '')
+            variable=new_line.split('=')[0]
         variable_list.append(variable)
         counter+=1
     counter=0
     baby_word_string='\n'.join(the_list)
-    word_string=((((((baby_word_string.replace('(', ' ')).replace(')', ' ')).replace('+', ' ')).replace('-', ' ')).replace('*', ' ')).replace('/', ' ')).replace('=', ' ')
+    word_string=baby_word_string.replace('    ', '').replace('(', ' ').replace(')', ' ').replace('+', ' ').replace('-', ' ').replace('*', ' ').replace('/', ' ').replace('=', ' ').replace('.', ' ').replace(':', ' ').replace(',', ' ')
     word_list=word_string.split('\n')
     for c in range(0, len(word_list)):
         string_list=word_list[counter].split(' ')
@@ -45,7 +46,7 @@ def clean_variables():
             string='\n'.join(the_list)
             remove_counter=0
             for z in range(0, len(the_list)):
-                line=the_list[remove_counter].split('=')[0]
+                line=the_list[remove_counter].split('=')[0].replace('    ', '')
                 if var==line:  
                     new=string.replace(the_list[remove_counter], '')
                     the_list=new.splitlines()
