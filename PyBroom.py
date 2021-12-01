@@ -5,7 +5,10 @@ def clean_variables():
     print('Cleaning...')
     file=open(file_path)
     text=file.read()
-    the_list=text.splitlines()
+    new_text=text.replace(' =', '=')
+    while new_text.count(' =')>=1:
+        new_text.replace(' =', '=')
+    the_list=new_text.splitlines()
     counter=0
     variable_list=[]
     word_list=[]
@@ -16,11 +19,11 @@ def clean_variables():
         if line.count('=')>=1:
             new_line=line.replace('    ', '')
             variable=new_line.split('=')[0]
-        variable_list.append(variable)
+            variable_list.append(variable)
         counter+=1
     counter=0
     baby_word_string='\n'.join(the_list)
-    word_string=baby_word_string.replace('    ', '').replace('(', ' ').replace(')', ' ').replace('+', ' ').replace('-', ' ').replace('*', ' ').replace('/', ' ').replace('=', ' ').replace('.', ' ').replace(':', ' ').replace(',', ' ')
+    word_string=baby_word_string.replace('    ', '').replace('(', ' ').replace(')', ' ').replace('+', ' ').replace('-', ' ').replace('*', ' ').replace('/', ' ').replace('=', ' ').replace('.', ' ').replace(':', ' ').replace(',', ' ').replace('[', '').replace(']', '').replace('{', '').replace('}', '')
     word_list=word_string.split('\n')
     for c in range(0, len(word_list)):
         string_list=word_list[counter].split(' ')
