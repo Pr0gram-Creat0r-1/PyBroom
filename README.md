@@ -20,3 +20,5 @@ https://stackoverflow.com/questions/15422144/how-to-read-a-long-multiline-string
 
 https://stackoverflow.com/questions/13241399/check-string-indentation
 
+https://www.programiz.com/python-programming/methods/list/remove
+
