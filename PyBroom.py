@@ -1,8 +1,9 @@
 #I am going to try keeping this file clean
 #Imagine cleaning a code cleaner :)
+import os
 def clean_variables():
+    'Remove unused variables'
     file_path=input('Paste a file path here: ')
-    print('Cleaning...')
     file=open(file_path)
     text=file.read()
     new_text=text.replace(' =', '=')
@@ -59,4 +60,7 @@ def clean_variables():
     new_file_name=file_path.replace('.py', '_PyBroom_cleaned.py')
     new_file=open(new_file_name, 'w')
     new_file.write(string)
-    print('Done!')
+def destroy():
+    'Delete the file completely.'
+    file_path=input('Paste a file path here: ')
+    os.remove(file_path)
