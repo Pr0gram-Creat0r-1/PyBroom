@@ -7,6 +7,11 @@ This is for a science project. The idea is to make a computer program that clean
 5. Can delete the file entirely.
 6. Can offer advice to add comments to your code.
 
+List of functions:
+1. clean_variables(): will remove unused variables from the specified file. Will also save a list of used variables to a separate python file. Will save a list of unused variables to a different python file.
+2. clean_functions(): will remove unused functions from the specified file. Leave a comment with the function name in your code if you do not want it to be removed. Will save a list of used functions to a different file.
+3. clean_classes():
+
 Credits:
 
 https://www.geeksforgeeks.org/python-string-find/
