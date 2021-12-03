@@ -6,6 +6,7 @@ This is for a science project. The idea is to make a computer program that clean
 4. Can test a file for errors.
 5. Can delete the file entirely.
 6. Can offer advice to add comments to your code.
+7. Can install system requirements.
 
 List of functions:
 1. clean_variables(): will remove unused variables from the specified file. Will also save a list of used variables to a separate python file. Will save a list of unused variables to a different python file.
