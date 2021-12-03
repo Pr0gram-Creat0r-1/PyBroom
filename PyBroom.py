@@ -2,7 +2,7 @@
 #Imagine cleaning a code cleaner :)
 import os
 def clean_variables():
-    'Remove unused variables'
+    'Remove unused variables.'
     file_path=input('Paste a file path here: ')
     file=open(file_path)
     text=file.read()
@@ -22,6 +22,8 @@ def clean_variables():
             variable=new_line.split('=')[0]
             variable_list.append(variable)
         counter+=1
+    string_of_variables='\n'.join(variable_list)
+    open('%s_PyBroom_all_variables.txt' % file_path.replace('.py', ''), 'w').write(string_of_variables)
     counter=0
     baby_word_string='\n'.join(the_list)
     word_string=baby_word_string.replace('    ', '').replace('(', ' ').replace(')', ' ').replace('+', ' ').replace('-', ' ').replace('*', ' ').replace('/', ' ').replace('=', ' ').replace('.', ' ').replace(':', ' ').replace(',', ' ').replace('[', '').replace(']', '').replace('{', '').replace('}', '')
@@ -53,6 +55,7 @@ def clean_variables():
                 line=the_list[remove_counter].split('=')[0].replace('    ', '')
                 if var==line:  
                     new=string.replace(the_list[remove_counter], '')
+                    variable_list.remove(var)
                     the_list=new.splitlines()
                 remove_counter+=1
         list_counter1+=1
@@ -60,6 +63,11 @@ def clean_variables():
     new_file_name=file_path.replace('.py', '_PyBroom_cleaned.py')
     new_file=open(new_file_name, 'w')
     new_file.write(string)
+    string_of_variables='\n'.join(variable_list)
+    open('%s_PyBroom_used_variables.txt' % file_path.replace('.py', ''), 'w').write(string_of_variables)
+def clean_functions():
+    'Remove unused functions.'
+    pass #For now :)
 def destroy():
     'Delete the file completely.'
     file_path=input('Paste a file path here: ')
