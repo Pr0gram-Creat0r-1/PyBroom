@@ -26,7 +26,7 @@ def clean_variables():
     open('%s_PyBroom_all_variables.txt' % file_path.replace('.py', ''), 'w').write(string_of_variables)
     counter=0
     baby_word_string='\n'.join(the_list)
-    word_string=baby_word_string.replace('    ', '').replace('(', ' ').replace(')', ' ').replace('+', ' ').replace('-', ' ').replace('*', ' ').replace('/', ' ').replace('=', ' ').replace('.', ' ').replace(':', ' ').replace(',', ' ').replace('[', '').replace(']', '').replace('{', '').replace('}', '')
+    word_string=baby_word_string.replace('    ', '').replace('(', ' ').replace(')', ' ').replace('+', ' ').replace('-', ' ').replace('*', ' ').replace('/', ' ').replace('=', ' ').replace('.', ' ').replace(':', ' ').replace(',', ' ').replace('[', ' ').replace(']', ' ').replace('{', ' ').replace('}', ' ')
     word_list=word_string.split('\n')
     for c in range(0, len(word_list)):
         string_list=word_list[counter].split(' ')
@@ -55,7 +55,8 @@ def clean_variables():
                 line=the_list[remove_counter].split('=')[0].replace('    ', '')
                 if var==line:  
                     new=string.replace(the_list[remove_counter], '')
-                    variable_list.remove(var)
+                    new_variable_list=variable_list.copy()
+                    new_variable_list.remove(var)
                     the_list=new.splitlines()
                 remove_counter+=1
         list_counter1+=1
@@ -63,7 +64,7 @@ def clean_variables():
     new_file_name=file_path.replace('.py', '_PyBroom_cleaned.py')
     new_file=open(new_file_name, 'w')
     new_file.write(string)
-    string_of_variables='\n'.join(variable_list)
+    string_of_variables='\n'.join(new_variable_list)
     open('%s_PyBroom_used_variables.txt' % file_path.replace('.py', ''), 'w').write(string_of_variables)
 def clean_functions():
     'Remove unused functions.'
