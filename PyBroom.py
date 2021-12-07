@@ -1,7 +1,7 @@
 #I am going to try keeping this file clean
 #Imagine cleaning a code cleaner :)
 import os
-def clean_variables():
+def remove_variables():
     'Remove unused variables.'
     file_path=input('Paste a file path here: ')
     file=open(file_path)
@@ -66,10 +66,25 @@ def clean_variables():
     new_file.write(string)
     string_of_variables='\n'.join(new_variable_list)
     open('%s_PyBroom_used_variables.txt' % file_path.replace('.py', ''), 'w').write(string_of_variables)
-def clean_functions():
+def remove_local_variables():
+    'Remove local variables. Use this before cleaning global variables in the remove_variables() function.'
+    pass
+def remove_functions():
     'Remove unused functions.'
     pass #For now :)
 def destroy():
     'Delete the file completely.'
     file_path=input('Paste a file path here: ')
     os.remove(file_path)
+def test_for_errors():
+    'Test the file for errors.'
+    pass
+def install_system_requirements():
+    'Install the python modules needed; uses pip.'
+    pass
+def remove_classes():
+    'Removes unused classes.'
+    pass
+def suggestions():
+    'Give suggestions.'
+    pass
