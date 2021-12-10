@@ -22,10 +22,12 @@ def remove_variables():
             variable=new_line.split('=')[0]
             variable_list.append(variable)
         counter+=1
+    new_variable_list=variable_list.copy()
     string_of_variables='\n'.join(variable_list)
     open('%s_PyBroom_all_variables.txt' % file_path.replace('.py', ''), 'w').write(string_of_variables)
     counter=0
-    baby_word_string='\n'.join(the_list)
+    new_list=the_list.copy()
+    baby_word_string='\n'.join(new_list)
     word_string=baby_word_string.replace('    ', '').replace('(', ' ').replace(')', ' ').replace('+', ' ').replace('-', ' ').replace('*', ' ').replace('/', ' ').replace('=', ' ').replace('.', ' ').replace(':', ' ').replace(',', ' ').replace('[', ' ').replace(']', ' ').replace('{', ' ').replace('}', ' ')
     word_list=word_string.split('\n')
     for c in range(0, len(word_list)):
@@ -55,7 +57,6 @@ def remove_variables():
                 line=the_list[remove_counter].split('=')[0].replace('    ', '')
                 if var==line:  
                     new=string.replace(the_list[remove_counter], '')
-                    new_variable_list=variable_list.copy()
                     new_variable_list.remove(var)
                     the_list=new.splitlines()
                 remove_counter+=1
@@ -88,3 +89,37 @@ def remove_classes():
 def suggestions():
     'Give suggestions.'
     pass
+def find_strings(file_path):
+    'Find strings in a text file. Internal use only. In development.'
+    file_string=open(file_path).read()
+    important_list=[]
+    string_type_list=[]
+    string_index_list=[]
+    file_string=file_string.replace("\\\'", '').replace('\\\"', '')
+    for finder in range(0, len(file_string)):
+        index=file_string.find("'")
+        if index!=-1:
+            string_type_list.append("'")
+            string_index_list.append(index)
+        file_string=file_string.replace("'", '', 1)
+    for finder in range(0, len(file_string)):
+        index=file_string.find('"')
+        if index!=-1:
+            string_type_list.append('"')
+            string_index_list.append(index)
+        file_string=file_string.replace('"', '', 1)
+    first_occurrence=string_index_list[0]
+    first_occurrence_type=string_type_list[0]
+    #Alright, so we now have all the information we need of the first occurrence.
+    string_type_list.remove(first_occurrence_type)
+    string_index_list.remove(first_occurrence)
+    magic=string_type_list.index(first_occurrence_type)+1
+    the_index=string_index_list[magic]
+    important_list.append([first_occurrence, the_index])
+    print(string_index_list)
+    print(string_type_list)
+    print(file_string)
+    return important_list
+    #I think the index list will be in numerical order.
+    #Okay, this is what I have so far.
+    #By the way, I will also program this thing to remove comments :)
