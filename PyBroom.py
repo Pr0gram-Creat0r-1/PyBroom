@@ -1,6 +1,47 @@
 #I am going to try keeping this file clean
 #Imagine cleaning a code cleaner :)
 import os
+def find_strings(file_path):
+    'Find strings in a text file. Internal use only. In development.'
+    file_string=open(file_path).read()
+    important_list=[]
+    string_type_list=[]
+    string_index_list=[]
+    file_string=file_string.replace("\\\'", '  ').replace('\\\"', '  ')
+    for finder in range(0, len(file_string)):
+        index=file_string.find("'")
+        if index!=-1:
+            string_type_list.append("'")
+            string_index_list.append(index)
+        file_string=file_string.replace("'", ' ', 1)
+    for finder in range(0, len(file_string)):
+        index=file_string.find('"')
+        if index!=-1:
+            string_type_list.append('"')
+            string_index_list.append(index)
+        file_string=file_string.replace('"', ' ', 1)
+    while len(string_index_list)>0:
+          first_occurrence=min(string_index_list)
+          first_occurrence_type=string_type_list[0]
+          #Alright, so we now have all the information we need of the first occurrence.
+          string_type_list.remove(first_occurrence_type)
+          string_index_list.remove(first_occurrence)
+          magic=string_type_list.index(first_occurrence_type)
+          the_index=string_index_list[magic]
+          important_list.append([first_occurrence, the_index])
+          counter=0
+          try:
+              while min(string_index_list)<=the_index:
+                  string_index_list.remove(string_index_list[counter])
+                  string_type_list.remove(string_type_list[counter])
+                  counter+=1
+          except ValueError:
+              pass
+          #Remove everything between the two elements in the lists. I will also put this in a loop later.
+    return important_list
+    #I think the index list will be in numerical order.
+    #Okay, this is what I have so far.
+    #By the way, I will also program this thing to remove comments :)
 def remove_variables():
     'Remove unused variables.'
     file_path=input('Paste a file path here: ')
@@ -89,37 +130,3 @@ def remove_classes():
 def suggestions():
     'Give suggestions.'
     pass
-def find_strings(file_path):
-    'Find strings in a text file. Internal use only. In development.'
-    file_string=open(file_path).read()
-    important_list=[]
-    string_type_list=[]
-    string_index_list=[]
-    file_string=file_string.replace("\\\'", '').replace('\\\"', '')
-    for finder in range(0, len(file_string)):
-        index=file_string.find("'")
-        if index!=-1:
-            string_type_list.append("'")
-            string_index_list.append(index)
-        file_string=file_string.replace("'", ' ', 1)
-    for finder in range(0, len(file_string)):
-        index=file_string.find('"')
-        if index!=-1:
-            string_type_list.append('"')
-            string_index_list.append(index)
-        file_string=file_string.replace('"', ' ', 1)
-    'for adder in range(0, len(string_index_list)):'
-    first_occurrence=min(string_index_list)
-    first_occurrence_type=string_type_list[0]
-    #Alright, so we now have all the information we need of the first occurrence.
-    string_type_list.remove(first_occurrence_type)
-    string_index_list.remove(first_occurrence)
-    magic=string_type_list.index(first_occurrence_type)
-    the_index=string_index_list[magic]
-    important_list.append([first_occurrence, the_index])
-    #Remove everything between the two elements in the lists. I will also put this in a loop later.
-    print(string_index_list)
-    return important_list
-    #I think the index list will be in numerical order.
-    #Okay, this is what I have so far.
-    #By the way, I will also program this thing to remove comments :)
