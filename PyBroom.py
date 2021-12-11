@@ -101,24 +101,24 @@ def find_strings(file_path):
         if index!=-1:
             string_type_list.append("'")
             string_index_list.append(index)
-        file_string=file_string.replace("'", '', 1)
+        file_string=file_string.replace("'", ' ', 1)
     for finder in range(0, len(file_string)):
         index=file_string.find('"')
         if index!=-1:
             string_type_list.append('"')
             string_index_list.append(index)
-        file_string=file_string.replace('"', '', 1)
-    first_occurrence=string_index_list[0]
+        file_string=file_string.replace('"', ' ', 1)
+    'for adder in range(0, len(string_index_list)):'
+    first_occurrence=min(string_index_list)
     first_occurrence_type=string_type_list[0]
     #Alright, so we now have all the information we need of the first occurrence.
     string_type_list.remove(first_occurrence_type)
     string_index_list.remove(first_occurrence)
-    magic=string_type_list.index(first_occurrence_type)+1
+    magic=string_type_list.index(first_occurrence_type)
     the_index=string_index_list[magic]
     important_list.append([first_occurrence, the_index])
+    #Remove everything between the two elements in the lists. I will also put this in a loop later.
     print(string_index_list)
-    print(string_type_list)
-    print(file_string)
     return important_list
     #I think the index list will be in numerical order.
     #Okay, this is what I have so far.
