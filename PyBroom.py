@@ -43,14 +43,23 @@ def find_strings(file_path):
         except IndexError:
             pass
         #Remove everything between the two elements in the lists. I will also put this in a loop later.
+    counter=0
+    the_string=open(file_path).read()
+    for j in range(0, len(important_list)):
+        replace_string=the_string[important_list[counter][0]:important_list[counter][1]+1]
+        new_string=replace_string.replace('\n', '\\n')
+        the_string=the_string.replace(replace_string, new_string)
+        counter+=1
+    new_the_string=open(file_path, 'w')
+    new_the_string.write(the_string)
     return important_list
     #I think the index list will be in numerical order.
     #Okay, this is what I have so far.
     #By the way, I will also program this thing to remove comments :)
-def remove_variables():
+def remove_variables(file_path):
     'Remove unused variables.'
-    file_path=input('Paste a file path here: ')
     file=open(file_path)
+    strings_list=find_strings(file_path)
     text=file.read()
     new_text=text.replace(' =', '=')
     while new_text.count(' =')>=1:
@@ -61,8 +70,23 @@ def remove_variables():
     word_list=[]
     real_word_list=[]
     variable=None
-    for x in range(0, len(the_list)):
-        line=the_list[counter]
+    new_list=the_list.copy()
+    baby_word_string='\n'.join(new_list)
+    counter=0
+    """for m in range(0, len(strings_list)):
+        try:
+            par1=baby_word_string.find(baby_word_string[strings_list[counter][0]])
+            baby_word_string=baby_word_string.replace(baby_word_string[par1], ' ', 1)
+            par2=baby_word_string.find(baby_word_string[strings_list[counter][1]])
+            baby_word_string=baby_word_string.replace(baby_word_string[par2], ' ', 1)
+            baby_word_string=baby_word_string.replace(baby_word_string[par1:par2], ' '*len(baby_word_string[par1:par2]), 1)
+        except IndexError:
+            pass
+        counter+=1"""
+    counter=0
+    the_new_list=baby_word_string.splitlines()
+    for x in range(0, len(the_new_list)):
+        line=the_new_list[counter]
         if line.count('=')>=1:
             new_line=line.replace('    ', '')
             variable=new_line.split('=')[0]
@@ -72,10 +96,8 @@ def remove_variables():
     string_of_variables='\n'.join(variable_list)
     open('%s_PyBroom_all_variables.txt' % file_path.replace('.py', ''), 'w').write(string_of_variables)
     counter=0
-    new_list=the_list.copy()
-    baby_word_string='\n'.join(new_list)
-    word_string=baby_word_string.replace('    ', '').replace('(', ' ').replace(')', ' ').replace('+', ' ').replace('-', ' ').replace('*', ' ').replace('/', ' ').replace('=', ' ').replace('.', ' ').replace(':', ' ').replace(',', ' ').replace('[', ' ').replace(']', ' ').replace('{', ' ').replace('}', ' ')
-    word_list=word_string.split('\n')
+    baby_word_string=baby_word_string.replace('    ', '').replace('(', ' ').replace(')', ' ').replace('+', ' ').replace('-', ' ').replace('*', ' ').replace('/', ' ').replace('=', ' ').replace('.', ' ').replace(':', ' ').replace(',', ' ').replace('[', ' ').replace(']', ' ').replace('{', ' ').replace('}', ' ')
+    word_list=baby_word_string.split('\n')
     for c in range(0, len(word_list)):
         string_list=word_list[counter].split(' ')
         subcounter=0
