@@ -73,16 +73,16 @@ def remove_variables(file_path):
     new_list=the_list.copy()
     baby_word_string='\n'.join(new_list)
     counter=0
-    """for m in range(0, len(strings_list)):
+    '''for m in range(0, len(strings_list)):
         try:
             par1=baby_word_string.find(baby_word_string[strings_list[counter][0]])
             baby_word_string=baby_word_string.replace(baby_word_string[par1], ' ', 1)
             par2=baby_word_string.find(baby_word_string[strings_list[counter][1]])
             baby_word_string=baby_word_string.replace(baby_word_string[par2], ' ', 1)
-            baby_word_string=baby_word_string.replace(baby_word_string[par1:par2], ' '*len(baby_word_string[par1:par2]), 1)
+            baby_word_string=baby_word_string.replace(baby_word_string[par1:par2+1], ' '*len(baby_word_string[par1:par2+1]), 1)
         except IndexError:
             pass
-        counter+=1"""
+        counter+=1'''
     counter=0
     the_new_list=baby_word_string.splitlines()
     for x in range(0, len(the_new_list)):
@@ -97,7 +97,7 @@ def remove_variables(file_path):
     open('%s_PyBroom_all_variables.txt' % file_path.replace('.py', ''), 'w').write(string_of_variables)
     counter=0
     baby_word_string=baby_word_string.replace('    ', '').replace('(', ' ').replace(')', ' ').replace('+', ' ').replace('-', ' ').replace('*', ' ').replace('/', ' ').replace('=', ' ').replace('.', ' ').replace(':', ' ').replace(',', ' ').replace('[', ' ').replace(']', ' ').replace('{', ' ').replace('}', ' ')
-    word_list=baby_word_string.split('\n')
+    word_list=baby_word_string.splitlines()
     for c in range(0, len(word_list)):
         string_list=word_list[counter].split(' ')
         subcounter=0
