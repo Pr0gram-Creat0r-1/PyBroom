@@ -1,8 +1,25 @@
 #I am going to try keeping this file clean
 #Imagine cleaning a code cleaner :)
 import os
+def find_comments(file_path):
+    'Find comments.'
+    file_string=open(file_path).read()
+    text_list=file_string.splitlines()
+    counter=0
+    for x in range(0, len(text_list)):
+        line=text_list[counter].replace('    ', '')
+        try:
+            if line[0]=='#':
+                text_list[counter]=''
+        except IndexError:
+            pass
+        counter+=1
+    string='\n'.join(text_list)
+    file=open(file_path, 'w')
+    file.write(string)
 def find_strings(file_path):
     'Find strings in a text file. Internal use only. In development.'
+    find_comments(file_path)
     file_string=open(file_path).read()
     important_list=[]
     string_type_list=[]
