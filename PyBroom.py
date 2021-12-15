@@ -59,6 +59,7 @@ def find_strings(file_path):
 def remove_variables(file_path):
     'Remove unused variables.'
     file=open(file_path)
+    find_strings(file_path)
     strings_list=find_strings(file_path)
     text=file.read()
     new_text=text.replace(' =', '=')
@@ -73,7 +74,7 @@ def remove_variables(file_path):
     new_list=the_list.copy()
     baby_word_string='\n'.join(new_list)
     counter=0
-    '''for m in range(0, len(strings_list)):
+    for m in range(0, len(strings_list)):
         try:
             par1=baby_word_string.find(baby_word_string[strings_list[counter][0]])
             baby_word_string=baby_word_string.replace(baby_word_string[par1], ' ', 1)
@@ -82,7 +83,7 @@ def remove_variables(file_path):
             baby_word_string=baby_word_string.replace(baby_word_string[par1:par2+1], ' '*len(baby_word_string[par1:par2+1]), 1)
         except IndexError:
             pass
-        counter+=1'''
+        counter+=1
     counter=0
     the_new_list=baby_word_string.splitlines()
     for x in range(0, len(the_new_list)):
