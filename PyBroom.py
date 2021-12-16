@@ -1,25 +1,8 @@
 #I am going to try keeping this file clean
 #Imagine cleaning a code cleaner :)
 import os
-def find_comments(file_path):
-    'Find comments.'
-    file_string=open(file_path).read()
-    text_list=file_string.splitlines()
-    counter=0
-    for x in range(0, len(text_list)):
-        line=text_list[counter].replace('    ', '')
-        try:
-            if line[0]=='#':
-                text_list[counter]=''
-        except IndexError:
-            pass
-        counter+=1
-    string='\n'.join(text_list)
-    file=open(file_path, 'w')
-    file.write(string)
 def find_strings(file_path):
     'Find strings in a text file. Internal use only. In development.'
-    find_comments(file_path)
     file_string=open(file_path).read()
     important_list=[]
     string_type_list=[]
@@ -73,9 +56,51 @@ def find_strings(file_path):
     #I think the index list will be in numerical order.
     #Okay, this is what I have so far.
     #By the way, I will also program this thing to remove comments :)
+def find_comments(file_path):
+    'Find comments.'
+    find_strings(file_path)
+    strings_list=find_strings(file_path)
+    baby_word_string=open(file_path).read()
+    file_list=baby_word_string.splitlines()
+    the_list=baby_word_string.splitlines()
+    counter=0
+    for m in range(0, len(strings_list)):
+        try:
+            par1=baby_word_string.find(baby_word_string[strings_list[counter][0]])
+            baby_word_string=baby_word_string.replace(baby_word_string[par1], ' ', 1)
+            par2=baby_word_string.find(baby_word_string[strings_list[counter][1]])
+            baby_word_string=baby_word_string.replace(baby_word_string[par2], ' ', 1)
+            baby_word_string=baby_word_string.replace(baby_word_string[par1:par2+1], ' '*len(baby_word_string[par1:par2+1]), 1)
+        except IndexError:
+            pass
+        counter+=1
+    counter=0
+    text_list=baby_word_string.splitlines()
+    comment_list=[]
+    counter=0
+    for x in range(0, len(text_list)):
+        line=text_list[counter]
+        try:
+            if line.count('#')>=1:
+                number=line.find('#')
+                comment=['#'+line.split('#')[1], str(counter+1)]
+                file_list[counter]=the_list[counter].split(the_list[counter][number])[0].replace('#'+line.split('#')[1], '', 1)
+                comment_list.append(comment[0])
+                comment_list.append(comment[1])
+        except IndexError:
+            pass
+        counter+=1
+    string='\n'.join(file_list)
+    real_comment_list='\n'.join(comment_list)
+    file=open(file_path, 'w')
+    file.write(string)
+    file_name=file_path.replace('.py', '_comments.py')
+    comment_file=open(file_name, 'w')
+    comment_file.write(real_comment_list)
 def remove_variables(file_path):
     'Remove unused variables.'
     file=open(file_path)
+    find_comments(file_path)
     find_strings(file_path)
     strings_list=find_strings(file_path)
     text=file.read()
