@@ -61,6 +61,7 @@ def find_comments(file_path):
     find_strings(file_path)
     strings_list=find_strings(file_path)
     baby_word_string=open(file_path).read()
+    open(file_path.replace('.py', '_with_comments.py'), 'w').write(baby_word_string)
     file_list=baby_word_string.splitlines()
     the_list=baby_word_string.splitlines()
     counter=0
