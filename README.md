@@ -13,6 +13,9 @@ List of functions:
 2. clean_functions(): will remove unused functions from the specified file. Leave a comment with the function name in your code if you do not want it to be removed. Will save a list of used functions to a different file.
 3. clean_classes():
 
+Notes:
+1. This program is very unfriendly toward comments. By calling a clean_this function it will save the uncleaned file (thus with comments). But it is uncleaned. It will also save a text file of the comments and the line they were found on. But it cannot save the cleaned file, with the comments. Sorry.
+
 Credits:
 
 https://www.geeksforgeeks.org/python-string-find/
