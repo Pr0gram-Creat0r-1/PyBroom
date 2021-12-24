@@ -90,8 +90,19 @@ def find_comments(file_path):
             pass
         counter+=1
     return comment_list
+def find_functions(file_path):
+    'Find functions.'
+    text=open(file_path).read()
+    the_list=text.splitlines()
+    counter=0
+    for x in range(0, len(the_list)):
+        line=the_list[counter]
+        if line.split('def')[0].isspace():    
+            indents=line.split('def')[0].count('    ')
 def remove_variables(file_path):
     'Remove unused variables.'
+    file=open(file_path, 'w')
+    file.write('#PyBroom cleaned this file (remove_variables).\n'+file.read())
     file=open(file_path)
     comment_list=find_comments(file_path)
     find_strings(file_path)
@@ -184,6 +195,7 @@ def remove_variables(file_path):
     open('%s_PyBroom_used_variables.txt' % file_path.replace('.py', ''), 'w').write(string_of_variables)
 def remove_local_variables(file_path):
     'Remove local variables. Use this before cleaning global variables in the remove_variables() function.'
+    comment_list=find_comments(file_path)
     find_strings(file_path)
     string_list=find_strings(file_path)
 def remove_functions():
