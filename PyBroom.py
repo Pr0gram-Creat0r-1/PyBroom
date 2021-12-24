@@ -61,7 +61,6 @@ def find_comments(file_path):
     find_strings(file_path)
     strings_list=find_strings(file_path)
     baby_word_string=open(file_path).read()
-    open(file_path.replace('.py', '_with_comments.py'), 'w').write(baby_word_string)
     file_list=baby_word_string.splitlines()
     the_list=baby_word_string.splitlines()
     counter=0
@@ -84,24 +83,17 @@ def find_comments(file_path):
         try:
             if line.count('#')>=1:
                 number=line.find('#')
-                comment=['#'+line.split('#')[1], str(counter+1)]
-                file_list[counter]=the_list[counter].split(the_list[counter][number])[0].replace('#'+line.split('#')[1], '', 1)
-                comment_list.append(comment[0])
-                comment_list.append(comment[1])
+                comment=[baby_word_string.find('#'+line.split('#')[1]), baby_word_string.find('#'+line.split('#')[1])+len('#'+line.split('#')[1])]
+                file_list[counter]=the_list[counter].split(the_list[counter][number])[0].replace('#'+line.split('#')[1], ' '*len('#'+line.split('#')[1]), 1)
+                comment_list.append(comment)
         except IndexError:
             pass
         counter+=1
-    string='\n'.join(file_list)
-    real_comment_list='\n'.join(comment_list)
-    file=open(file_path, 'w')
-    file.write(string)
-    file_name=file_path.replace('.py', '_comments.py')
-    comment_file=open(file_name, 'w')
-    comment_file.write(real_comment_list)
+    return comment_list
 def remove_variables(file_path):
     'Remove unused variables.'
     file=open(file_path)
-    find_comments(file_path)
+    comment_list=find_comments(file_path)
     find_strings(file_path)
     strings_list=find_strings(file_path)
     text=file.read()
@@ -122,6 +114,17 @@ def remove_variables(file_path):
             par1=baby_word_string.find(baby_word_string[strings_list[counter][0]])
             baby_word_string=baby_word_string.replace(baby_word_string[par1], ' ', 1)
             par2=baby_word_string.find(baby_word_string[strings_list[counter][1]])
+            baby_word_string=baby_word_string.replace(baby_word_string[par2], ' ', 1)
+            baby_word_string=baby_word_string.replace(baby_word_string[par1:par2+1], ' '*len(baby_word_string[par1:par2+1]), 1)
+        except IndexError:
+            pass
+        counter+=1
+    counter=0
+    for m in range(0, len(comment_list)):
+        try:
+            par1=baby_word_string.find(baby_word_string[comment_list[counter][0]])
+            baby_word_string=baby_word_string.replace(baby_word_string[par1], ' ', 1)
+            par2=baby_word_string.find(baby_word_string[comment_list[counter][1]])
             baby_word_string=baby_word_string.replace(baby_word_string[par2], ' ', 1)
             baby_word_string=baby_word_string.replace(baby_word_string[par1:par2+1], ' '*len(baby_word_string[par1:par2+1]), 1)
         except IndexError:
@@ -179,9 +182,10 @@ def remove_variables(file_path):
     new_file.write(string)
     string_of_variables='\n'.join(new_variable_list)
     open('%s_PyBroom_used_variables.txt' % file_path.replace('.py', ''), 'w').write(string_of_variables)
-def remove_local_variables():
+def remove_local_variables(file_path):
     'Remove local variables. Use this before cleaning global variables in the remove_variables() function.'
-    pass
+    find_strings(file_path)
+    string_list=find_strings(file_path)
 def remove_functions():
     'Remove unused functions.'
     pass #For now :)
