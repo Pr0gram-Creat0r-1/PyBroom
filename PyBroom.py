@@ -95,10 +95,23 @@ def find_functions(file_path):
     text=open(file_path).read()
     the_list=text.splitlines()
     counter=0
+    functions_list=[]
     for x in range(0, len(the_list)):
         line=the_list[counter]
-        if line.split('def')[0].isspace():    
+        if line.split('def')[0].isspace()==True or line.split('def')[0]=='':
             indents=line.split('def')[0].count('    ')
+            position=text.find(line)
+            subcounter=counter
+            for y in range(0, len(the_list)-the_list.index(line)):
+                subline=the_list[subcounter]    
+                indents2=subline.replace(subline.lstrip(), '').count('    ')
+                if indents2==indents and text.find(subline)-1>text.find(line):
+                    position2=text.find(subline)-1
+                    break
+                subcounter+=1
+            functions_list.append([position, position2])
+        counter+=1
+    return functions_list
 def remove_variables(file_path):
     'Remove unused variables.'
     file=open(file_path, 'w')
@@ -197,10 +210,44 @@ def remove_local_variables(file_path):
     'Remove local variables. Use this before cleaning global variables in the remove_variables() function.'
     comment_list=find_comments(file_path)
     find_strings(file_path)
-    string_list=find_strings(file_path)
+    strings_list=find_strings(file_path)
+    functions_list=find_functions(file_path)
+    baby_word_string=open(file_path).read()
+    the_list=baby_word_string.splitlines()
+    counter=0
+    for m in range(0, len(strings_list)):
+        try:
+            par1=baby_word_string.find(baby_word_string[strings_list[counter][0]])
+            baby_word_string=baby_word_string.replace(baby_word_string[par1], ' ', 1)
+            par2=baby_word_string.find(baby_word_string[strings_list[counter][1]])
+            baby_word_string=baby_word_string.replace(baby_word_string[par2], ' ', 1)
+            baby_word_string=baby_word_string.replace(baby_word_string[par1:par2+1], ' '*len(baby_word_string[par1:par2+1]), 1)
+        except IndexError:
+            pass
+        counter+=1
+    counter=0
+    for m in range(0, len(comment_list)):
+        try:
+            par1=baby_word_string.find(baby_word_string[comment_list[counter][0]])
+            baby_word_string=baby_word_string.replace(baby_word_string[par1], ' ', 1)
+            par2=baby_word_string.find(baby_word_string[comment_list[counter][1]])
+            baby_word_string=baby_word_string.replace(baby_word_string[par2], ' ', 1)
+            baby_word_string=baby_word_string.replace(baby_word_string[par1:par2+1], ' '*len(baby_word_string[par1:par2+1]), 1)
+        except IndexError:
+            pass
+        counter+=1
+    counter=0
+    function_list=[]
+    for extract in range(0, len(functions_list)):
+        function=baby_word_string[functions_list[counter][0]:functions_list[counter][1]+1]
+        function_list.append(function)
+        counter+=1
+    counter=0
+    for remove in range(0, len(function_list)):
+        pass
 def remove_functions():
     'Remove unused functions.'
-    pass #For now :)
+    pass
 def destroy():
     'Delete the file completely.'
     file_path=input('Paste a file path here: ')
