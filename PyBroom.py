@@ -98,7 +98,7 @@ def find_functions(file_path):
     functions_list=[]
     for x in range(0, len(the_list)):
         line=the_list[counter]
-        if line.split('def')[0].isspace()==True or line.split('def')[0]=='':
+        if (line.split('def')[0].isspace()==True or line.split('def')[0]=='') and line.lstrip()[0:4]=='def ':
             indents=line.split('def')[0].count('    ')
             position=text.find(line)
             subcounter=counter
