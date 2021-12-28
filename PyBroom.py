@@ -108,15 +108,19 @@ def find_functions(file_path):
                 if indents2==indents and text.find(subline)-1>text.find(line):
                     position2=text.find(subline)-1
                     break
+                else:
+                    position2=None
                 subcounter+=1
-            functions_list.append([position, position2])
+            if position2!=None:    
+                functions_list.append([position, position2])
         counter+=1
     return functions_list
 def remove_variables(file_path):
     'Remove unused variables.'
-    file=open(file_path, 'w')
-    file.write('#PyBroom cleaned this file (remove_variables).\n'+file.read())
     file=open(file_path)
+    read_file=open(file_path).read()
+    with_comment='#PyBroom cleaned this file.\n'+read_file
+    open(file_path, 'w').write(with_comment)
     comment_list=find_comments(file_path)
     find_strings(file_path)
     strings_list=find_strings(file_path)
@@ -158,7 +162,7 @@ def remove_variables(file_path):
     the_new_list=baby_word_string.splitlines()
     for x in range(0, len(the_new_list)):
         line=the_new_list[counter]
-        if line.count('=')>=1:
+        if line.count('=')==1:
             new_line=line.replace('    ', '')
             variable=new_line.split('=')[0]
             variable_list.append(variable)
@@ -173,8 +177,8 @@ def remove_variables(file_path):
         string_list=word_list[counter].split(' ')
         subcounter=0
         for b in range(0, len(string_list)):
-          real_word_list.append(string_list[subcounter])
-          subcounter+=1
+            real_word_list.append(string_list[subcounter])
+            subcounter+=1
         counter+=1
     counter=0
     #As of now, we have a list of variables and a list of words. That is what the previous code is attempting to create.
@@ -213,7 +217,7 @@ def remove_local_variables(file_path):
     strings_list=find_strings(file_path)
     functions_list=find_functions(file_path)
     baby_word_string=open(file_path).read()
-    the_list=baby_word_string.splitlines()
+    the_list2=baby_word_string.splitlines()
     counter=0
     for m in range(0, len(strings_list)):
         try:
@@ -243,8 +247,64 @@ def remove_local_variables(file_path):
         function_list.append(function)
         counter+=1
     counter=0
+    main_counter=0
     for remove in range(0, len(function_list)):
-        pass
+        function_text=function_list[main_counter]
+        the_new_list=function_text.splitlines()
+        the_list=function_text.splitlines()
+        variable_list=[]
+        real_word_list=[]
+        for x in range(0, len(the_new_list)):
+            line=the_new_list[counter]
+            if line.count('=')==1:
+                new_line=line.replace('    ', '')
+                variable=new_line.split('=')[0]
+                variable_list.append(variable)
+            counter+=1
+        new_variable_list=variable_list.copy()
+        '''string_of_variables='\n'.join(variable_list)
+        open('%s_PyBroom_all_variables.txt' % file_path.replace('.py', ''), 'w').write(string_of_variables)'''
+        counter=0
+        baby_word_string=function_text.replace('    ', '').replace('(', ' ').replace(')', ' ').replace('+', ' ').replace('-', ' ').replace('*', ' ').replace('/', ' ').replace('=', ' ').replace('.', ' ').replace(':', ' ').replace(',', ' ').replace('[', ' ').replace(']', ' ').replace('{', ' ').replace('}', ' ')
+        word_list=baby_word_string.splitlines()
+        for c in range(0, len(word_list)):
+            string_list=word_list[counter].split(' ')
+            subcounter=0
+            for b in range(0, len(string_list)):
+                real_word_list.append(string_list[subcounter])
+                subcounter+=1
+            counter+=1
+        counter=0
+        #As of now, we have a list of variables and a list of words. That is what the previous code is attempting to create.
+        list_counter1=0
+        list_counter2=0
+        for y in range(0, len(variable_list)):
+            list_counter2=0
+            counted=0
+            for a in range(0, len(real_word_list)):
+                var=variable_list[list_counter1]
+                word=real_word_list[list_counter2]
+                if var==word:
+                    counted+=1
+                list_counter2+=1
+            if counted==1:
+                string='\n'.join(the_list)
+                remove_counter=0
+                for z in range(0, len(the_list)):
+                    line=the_list[remove_counter].split('=')[0].replace('    ', '')
+                    if var==line:  
+                        new=string.replace(the_list[remove_counter], '')
+                        new_list_form=new.splitlines()
+                        new_variable_list.remove(var)
+                        the_list=new.splitlines()
+                        try:
+                            function_list[remove_counter]=new_list_form[remove_counter]
+                        except IndexError:
+                            pass
+                    remove_counter+=1
+            list_counter1+=1
+        main_counter+=1
+    return function_list
 def remove_functions():
     'Remove unused functions.'
     pass
