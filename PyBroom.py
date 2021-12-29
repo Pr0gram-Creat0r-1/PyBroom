@@ -117,13 +117,12 @@ def find_functions(file_path):
     return functions_list
 def remove_variables(file_path):
     'Remove unused variables.'
-    file=open(file_path)
-    read_file=open(file_path).read()
-    with_comment='#PyBroom cleaned this file.\n'+read_file
-    open(file_path, 'w').write(with_comment)
-    comment_list=find_comments(file_path)
-    find_strings(file_path)
-    strings_list=find_strings(file_path)
+    remove_local_variables(file_path)
+    file=open(file_path.replace('.py', '_PyBroom_cleaned.py'))
+    file_path2=file_path.replace('.py', '_PyBroom_cleaned.py')
+    comment_list=find_comments(file_path2)
+    find_strings(file_path2)
+    strings_list=find_strings(file_path2)
     text=file.read()
     new_text=text.replace(' =', '=')
     while new_text.count(' =')>=1:
@@ -199,7 +198,7 @@ def remove_variables(file_path):
             for z in range(0, len(the_list)):
                 line=the_list[remove_counter].split('=')[0].replace('    ', '')
                 if var==line:  
-                    new=string.replace(the_list[remove_counter], '')
+                    new=string.replace(the_list[remove_counter], ' '*len(the_list[remove_counter]))
                     new_variable_list.remove(var)
                     the_list=new.splitlines()
                 remove_counter+=1
@@ -212,12 +211,15 @@ def remove_variables(file_path):
     open('%s_PyBroom_used_variables.txt' % file_path.replace('.py', ''), 'w').write(string_of_variables)
 def remove_local_variables(file_path):
     'Remove local variables. Use this before cleaning global variables in the remove_variables() function.'
+    read_file=open(file_path).read()
+    with_comment='#PyBroom cleaned this file.\n'+read_file
+    open(file_path, 'w').write(with_comment)
     comment_list=find_comments(file_path)
     find_strings(file_path)
     strings_list=find_strings(file_path)
     functions_list=find_functions(file_path)
+    text=open(file_path).read()
     baby_word_string=open(file_path).read()
-    the_list2=baby_word_string.splitlines()
     counter=0
     for m in range(0, len(strings_list)):
         try:
@@ -258,7 +260,7 @@ def remove_local_variables(file_path):
             line=the_new_list[counter]
             if line.count('=')==1:
                 new_line=line.replace('    ', '')
-                variable=new_line.split('=')[0]
+                variable=new_line.split('=')[0].replace(' ', '')
                 variable_list.append(variable)
             counter+=1
         new_variable_list=variable_list.copy()
@@ -293,18 +295,22 @@ def remove_local_variables(file_path):
                 for z in range(0, len(the_list)):
                     line=the_list[remove_counter].split('=')[0].replace('    ', '')
                     if var==line:  
-                        new=string.replace(the_list[remove_counter], '')
-                        new_list_form=new.splitlines()
+                        new=string.replace(the_list[remove_counter], ' '*len(the_list[remove_counter]))
                         new_variable_list.remove(var)
                         the_list=new.splitlines()
                         try:
-                            function_list[remove_counter]=new_list_form[remove_counter]
+                            function_list[main_counter]=new
                         except IndexError:
                             pass
                     remove_counter+=1
             list_counter1+=1
         main_counter+=1
-    return function_list
+    main_counter=0
+    new_text=text.replace(text[functions_list[counter][0]:functions_list[counter][1]], function_list[counter], 1)
+    for edit_original in range(0, len(functions_list)-1):
+        new_text=new_text.replace(new_text[functions_list[counter][0]:functions_list[counter][1]], function_list[counter], 1)
+        counter+=1
+    open(file_path.replace('.py', '_PyBroom_cleaned.py'), 'w').write(new_text)
 def remove_functions():
     'Remove unused functions.'
     pass
