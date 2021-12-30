@@ -9,7 +9,7 @@ This is for a science project. The idea is to make a computer program that clean
 7. Can install system requirements.
 
 List of functions:
-1. clean_variables(): will remove unused variables from the specified file. Will also save a list of used variables to a separate python file. Will save a list of unused variables to a different python file. (Does not work well with multiline strings. Can sometimes work fine with singleline strings. It is recommended that you use "\\n" instead of an actual indent when writing your strings).
+1. clean_variables(): will remove unused variables from the specified file. Will also save a list of used variables to a separate python file. Will save a list of all variables to a different python file.
 2. clean_functions(): will remove unused functions from the specified file. Leave a comment with the function name in your code if you do not want it to be removed. Will save a list of used functions to a different file.
 3. clean_classes():
 
