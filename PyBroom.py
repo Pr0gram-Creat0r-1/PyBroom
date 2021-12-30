@@ -118,105 +118,112 @@ def find_functions(file_path):
 def remove_local_variables(file_path):
     'Remove local variables. Use this before cleaning global variables in the remove_variables() function.'
     read_file=open(file_path).read()
-    with_comment='#PyBroom cleaned this file.\n'+read_file+'\n '
+    with_comment='#PyBroom cleaned this file.\n'+read_file+'\n#https://github.com/Pr0gram-Creat0r-1/PyBroom\n#https://replit.com/@Pr0gram-Creat0r/PyBroom'
     open(file_path, 'w').write(with_comment)
-    comment_list=find_comments(file_path)
-    find_strings(file_path)
-    strings_list=find_strings(file_path)
-    functions_list=find_functions(file_path)
-    text=open(file_path).read()
-    baby_word_string=open(file_path).read()
-    counter=0
-    for m in range(0, len(strings_list)):
-        try:
-            par1=baby_word_string.find(baby_word_string[strings_list[counter][0]])
-            baby_word_string=baby_word_string.replace(baby_word_string[par1], ' ', 1)
-            par2=baby_word_string.find(baby_word_string[strings_list[counter][1]])
-            baby_word_string=baby_word_string.replace(baby_word_string[par2], ' ', 1)
-            baby_word_string=baby_word_string.replace(baby_word_string[par1:par2+1], ' '*len(baby_word_string[par1:par2+1]), 1)
-        except IndexError:
-            pass
-        counter+=1
-    counter=0
-    for m in range(0, len(comment_list)):
-        try:
-            par1=baby_word_string.find(baby_word_string[comment_list[counter][0]])
-            baby_word_string=baby_word_string.replace(baby_word_string[par1], ' ', 1)
-            par2=baby_word_string.find(baby_word_string[comment_list[counter][1]])
-            baby_word_string=baby_word_string.replace(baby_word_string[par2], ' ', 1)
-            baby_word_string=baby_word_string.replace(baby_word_string[par1:par2+1], ' '*len(baby_word_string[par1:par2+1]), 1)
-        except IndexError:
-            pass
-        counter+=1
-    counter=0
-    function_list=[]
-    for extract in range(0, len(functions_list)):
-        function=baby_word_string[functions_list[counter][0]:functions_list[counter][1]+1]
-        function_list.append(function)
-        counter+=1
-    counter=0
-    main_counter=0
-    for remove in range(0, len(function_list)):
-        function_text=function_list[main_counter]
-        the_new_list=function_text.splitlines()
-        the_list=function_text.splitlines()
-        variable_list=[]
-        real_word_list=[]
-        for x in range(0, len(the_new_list)):
-            line=the_new_list[counter]
-            if line.count('=')==1:
-                new_line=line.replace('    ', '')
-                variable=new_line.split('=')[0].replace(' ', '')
-                variable_list.append(variable)
-            counter+=1
-        new_variable_list=variable_list.copy()
-        '''string_of_variables='\n'.join(variable_list)
-        open('%s_PyBroom_all_variables.txt' % file_path.replace('.py', ''), 'w').write(string_of_variables)'''
+    if find_functions(file_path)!=[]:
+        comment_list=find_comments(file_path)
+        find_strings(file_path)
+        strings_list=find_strings(file_path)
+        functions_list=find_functions(file_path)
+        text=open(file_path).read()
+        baby_word_string=open(file_path).read()
         counter=0
-        baby_word_string=function_text.replace('    ', '').replace('(', ' ').replace(')', ' ').replace('+', ' ').replace('-', ' ').replace('*', ' ').replace('/', ' ').replace('=', ' ').replace('.', ' ').replace(':', ' ').replace(',', ' ').replace('[', ' ').replace(']', ' ').replace('{', ' ').replace('}', ' ')
-        word_list=baby_word_string.splitlines()
-        for c in range(0, len(word_list)):
-            string_list=word_list[counter].split(' ')
-            subcounter=0
-            for b in range(0, len(string_list)):
-                real_word_list.append(string_list[subcounter])
-                subcounter+=1
+        for m in range(0, len(strings_list)):
+            try:
+                par1=baby_word_string.find(baby_word_string[strings_list[counter][0]])
+                baby_word_string=baby_word_string.replace(baby_word_string[par1], ' ', 1)
+                par2=baby_word_string.find(baby_word_string[strings_list[counter][1]])
+                baby_word_string=baby_word_string.replace(baby_word_string[par2], ' ', 1)
+                baby_word_string=baby_word_string.replace(baby_word_string[par1:par2+1], ' '*len(baby_word_string[par1:par2+1]), 1)
+            except IndexError:
+                pass
             counter+=1
         counter=0
-        #As of now, we have a list of variables and a list of words. That is what the previous code is attempting to create.
-        list_counter1=0
-        list_counter2=0
-        for y in range(0, len(variable_list)):
+        for m in range(0, len(comment_list)):
+            try:
+                par1=baby_word_string.find(baby_word_string[comment_list[counter][0]])
+                baby_word_string=baby_word_string.replace(baby_word_string[par1], ' ', 1)
+                par2=baby_word_string.find(baby_word_string[comment_list[counter][1]])
+                baby_word_string=baby_word_string.replace(baby_word_string[par2], ' ', 1)
+                baby_word_string=baby_word_string.replace(baby_word_string[par1:par2+1], ' '*len(baby_word_string[par1:par2+1]), 1)
+            except IndexError:
+                pass
+            counter+=1
+        counter=0
+        function_list=[]
+        for extract in range(0, len(functions_list)):
+            function=baby_word_string[functions_list[counter][0]:functions_list[counter][1]+1]
+            function_list.append(function)
+            counter+=1
+        counter=0
+        main_counter=0
+        local_variables_list=[]
+        used_local_variables=[]
+        for remove in range(0, len(function_list)):
+            function_text=function_list[main_counter]
+            the_new_list=function_text.splitlines()
+            the_list=function_text.splitlines()
+            variable_list=[]
+            real_word_list=[]
+            for x in range(0, len(the_new_list)):
+                line=the_new_list[counter]
+                if line.count('=')==1:
+                    new_line=line.replace(' ', '')
+                    variable=new_line.split('=')[0]
+                    variable_list.append(variable)
+                counter+=1
+            new_variable_list=variable_list.copy()
+            string_of_variables=' '.join(variable_list)
+            local_variables_list.append(string_of_variables)
+            local_variables_list=' '.join(local_variables_list)
+            local_variables_list=local_variables_list.split(' ')
+            counter=0
+            baby_word_string=function_text.replace('    ', '').replace('(', ' ').replace(')', ' ').replace('+', ' ').replace('-', ' ').replace('*', ' ').replace('/', ' ').replace('=', ' ').replace('.', ' ').replace(':', ' ').replace(',', ' ').replace('[', ' ').replace(']', ' ').replace('{', ' ').replace('}', ' ')
+            word_list=baby_word_string.splitlines()
+            for c in range(0, len(word_list)):
+                string_list=word_list[counter].split(' ')
+                subcounter=0
+                for b in range(0, len(string_list)):
+                    real_word_list.append(string_list[subcounter])
+                    subcounter+=1
+                counter+=1
+            counter=0
+            #As of now, we have a list of variables and a list of words. That is what the previous code is attempting to create.
+            list_counter1=0
             list_counter2=0
-            counted=0
-            for a in range(0, len(real_word_list)):
-                var=variable_list[list_counter1]
-                word=real_word_list[list_counter2]
-                if var==word:
-                    counted+=1
-                list_counter2+=1
-            if counted==1:
-                string='\n'.join(the_list)
-                remove_counter=0
-                for z in range(0, len(the_list)):
-                    line=the_list[remove_counter].split('=')[0].replace('    ', '')
-                    if var==line:  
-                        new=string.replace(the_list[remove_counter], ' '*len(the_list[remove_counter]))
-                        new_variable_list.remove(var)
-                        the_list=new.splitlines()
-                        try:
-                            function_list[main_counter]=new
-                        except IndexError:
-                            pass
-                    remove_counter+=1
-            list_counter1+=1
-        main_counter+=1
-    main_counter=0
-    new_text=text.replace(text[functions_list[counter][0]:functions_list[counter][1]], function_list[counter], 1)
-    for edit_original in range(0, len(functions_list)-1):
-        new_text=new_text.replace(new_text[functions_list[counter][0]:functions_list[counter][1]], function_list[counter], 1)
-        counter+=1
-    open(file_path, 'w').write(new_text)
+            for y in range(0, len(variable_list)):
+                list_counter2=0
+                counted=0
+                for a in range(0, len(real_word_list)):
+                    var=variable_list[list_counter1]
+                    word=real_word_list[list_counter2]
+                    if var==word:
+                        counted+=1
+                    list_counter2+=1
+                if counted==1:
+                    string='\n'.join(the_list)
+                    remove_counter=0
+                    for z in range(0, len(the_list)):
+                        line=the_list[remove_counter].split('=')[0].replace(' ', '')
+                        if var==line:  
+                            new=string.replace(the_list[remove_counter], ' '*len(the_list[remove_counter]))
+                            new_variable_list.remove(var)
+                            the_list=new.splitlines()
+                            try:
+                                function_list[main_counter]=new
+                            except IndexError:
+                                pass
+                        remove_counter+=1
+                list_counter1+=1
+            main_counter+=1
+        main_counter=0
+        new_text=text.replace(text[functions_list[counter][0]:functions_list[counter][1]], function_list[counter], 1)
+        for edit_original in range(0, len(functions_list)-1):
+            new_text=new_text.replace(new_text[functions_list[counter][0]:functions_list[counter][1]], function_list[counter], 1)
+            counter+=1
+        open(file_path, 'w').write(new_text)
+        local_variables_string='\n'.join(local_variables_list)
+        open(file_path.replace('.py', '_all_local_variables.txt'), 'w').write(local_variables_string)
 def remove_variables(file_path):
     'Remove unused variables.'
     remove_local_variables(file_path)
@@ -225,10 +232,7 @@ def remove_variables(file_path):
     find_strings(file_path)
     strings_list=find_strings(file_path)
     text=file.read()
-    new_text=text.replace(' =', '=')
-    while new_text.count(' =')>=1:
-        new_text.replace(' =', '=')
-    the_list=new_text.splitlines()
+    the_list=text.splitlines()
     counter=0
     variable_list=[]
     word_list=[]
@@ -263,7 +267,7 @@ def remove_variables(file_path):
     for x in range(0, len(the_new_list)):
         line=the_new_list[counter]
         if line.count('=')==1:
-            new_line=line.replace('    ', '')
+            new_line=line.replace(' ', '')
             variable=new_line.split('=')[0]
             variable_list.append(variable)
         counter+=1
@@ -297,7 +301,7 @@ def remove_variables(file_path):
             string='\n'.join(the_list)
             remove_counter=0
             for z in range(0, len(the_list)):
-                line=the_list[remove_counter].split('=')[0].replace('    ', '')
+                line=the_list[remove_counter].split('=')[0].replace(' ', '')
                 if var==line:  
                     new=string.replace(the_list[remove_counter], ' '*len(the_list[remove_counter]))
                     new_variable_list.remove(var)
