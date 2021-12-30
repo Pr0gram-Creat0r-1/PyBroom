@@ -14,7 +14,7 @@ List of functions:
 3. clean_classes():
 
 Notes:
-1. This program is very unfriendly toward comments. By calling a clean_this function it will save the uncleaned file (thus with comments). But it is uncleaned. It will also save a text file of the comments and the line they were found on. But it cannot save the cleaned file, with the comments. Sorry.
+1. If the remove_variables function raises and IndexError: list index out of range, then try removing any whitespace lines in your code, definitely at the end of the text at least.
 
 Credits:
 
