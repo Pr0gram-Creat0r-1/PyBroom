@@ -100,7 +100,7 @@ def find_functions(file_path):
         line=the_list[counter]
         if (line.split('def')[0].isspace()==True or line.split('def')[0]=='') and line.lstrip()[0:4]=='def ':
             indents=line.split('def')[0].count('    ')
-            position=text.find(line)
+            position=text.find(line.lstrip())
             subcounter=counter
             for y in range(0, len(the_list)-the_list.index(line)):
                 subline=the_list[subcounter]    
@@ -115,104 +115,10 @@ def find_functions(file_path):
                 functions_list.append([position, position2])
         counter+=1
     return functions_list
-def remove_variables(file_path):
-    'Remove unused variables.'
-    remove_local_variables(file_path)
-    file=open(file_path.replace('.py', '_PyBroom_cleaned.py'))
-    file_path2=file_path.replace('.py', '_PyBroom_cleaned.py')
-    comment_list=find_comments(file_path2)
-    find_strings(file_path2)
-    strings_list=find_strings(file_path2)
-    text=file.read()
-    new_text=text.replace(' =', '=')
-    while new_text.count(' =')>=1:
-        new_text.replace(' =', '=')
-    the_list=new_text.splitlines()
-    counter=0
-    variable_list=[]
-    word_list=[]
-    real_word_list=[]
-    variable=None
-    new_list=the_list.copy()
-    baby_word_string='\n'.join(new_list)
-    counter=0
-    for m in range(0, len(strings_list)):
-        try:
-            par1=baby_word_string.find(baby_word_string[strings_list[counter][0]])
-            baby_word_string=baby_word_string.replace(baby_word_string[par1], ' ', 1)
-            par2=baby_word_string.find(baby_word_string[strings_list[counter][1]])
-            baby_word_string=baby_word_string.replace(baby_word_string[par2], ' ', 1)
-            baby_word_string=baby_word_string.replace(baby_word_string[par1:par2+1], ' '*len(baby_word_string[par1:par2+1]), 1)
-        except IndexError:
-            pass
-        counter+=1
-    counter=0
-    for m in range(0, len(comment_list)):
-        try:
-            par1=baby_word_string.find(baby_word_string[comment_list[counter][0]])
-            baby_word_string=baby_word_string.replace(baby_word_string[par1], ' ', 1)
-            par2=baby_word_string.find(baby_word_string[comment_list[counter][1]])
-            baby_word_string=baby_word_string.replace(baby_word_string[par2], ' ', 1)
-            baby_word_string=baby_word_string.replace(baby_word_string[par1:par2+1], ' '*len(baby_word_string[par1:par2+1]), 1)
-        except IndexError:
-            pass
-        counter+=1
-    counter=0
-    the_new_list=baby_word_string.splitlines()
-    for x in range(0, len(the_new_list)):
-        line=the_new_list[counter]
-        if line.count('=')==1:
-            new_line=line.replace('    ', '')
-            variable=new_line.split('=')[0]
-            variable_list.append(variable)
-        counter+=1
-    new_variable_list=variable_list.copy()
-    string_of_variables='\n'.join(variable_list)
-    open('%s_PyBroom_all_variables.txt' % file_path.replace('.py', ''), 'w').write(string_of_variables)
-    counter=0
-    baby_word_string=baby_word_string.replace('    ', '').replace('(', ' ').replace(')', ' ').replace('+', ' ').replace('-', ' ').replace('*', ' ').replace('/', ' ').replace('=', ' ').replace('.', ' ').replace(':', ' ').replace(',', ' ').replace('[', ' ').replace(']', ' ').replace('{', ' ').replace('}', ' ')
-    word_list=baby_word_string.splitlines()
-    for c in range(0, len(word_list)):
-        string_list=word_list[counter].split(' ')
-        subcounter=0
-        for b in range(0, len(string_list)):
-            real_word_list.append(string_list[subcounter])
-            subcounter+=1
-        counter+=1
-    counter=0
-    #As of now, we have a list of variables and a list of words. That is what the previous code is attempting to create.
-    list_counter1=0
-    list_counter2=0
-    for y in range(0, len(variable_list)):
-        list_counter2=0
-        counted=0
-        for a in range(0, len(real_word_list)):
-            var=variable_list[list_counter1]
-            word=real_word_list[list_counter2]
-            if var==word:
-                counted+=1
-            list_counter2+=1
-        if counted==1:
-            string='\n'.join(the_list)
-            remove_counter=0
-            for z in range(0, len(the_list)):
-                line=the_list[remove_counter].split('=')[0].replace('    ', '')
-                if var==line:  
-                    new=string.replace(the_list[remove_counter], ' '*len(the_list[remove_counter]))
-                    new_variable_list.remove(var)
-                    the_list=new.splitlines()
-                remove_counter+=1
-        list_counter1+=1
-    string='\n'.join(the_list)
-    new_file_name=file_path.replace('.py', '_PyBroom_cleaned.py')
-    new_file=open(new_file_name, 'w')
-    new_file.write(string)
-    string_of_variables='\n'.join(new_variable_list)
-    open('%s_PyBroom_used_variables.txt' % file_path.replace('.py', ''), 'w').write(string_of_variables)
 def remove_local_variables(file_path):
     'Remove local variables. Use this before cleaning global variables in the remove_variables() function.'
     read_file=open(file_path).read()
-    with_comment='#PyBroom cleaned this file.\n'+read_file
+    with_comment='#PyBroom cleaned this file.\n'+read_file+'\n '
     open(file_path, 'w').write(with_comment)
     comment_list=find_comments(file_path)
     find_strings(file_path)
@@ -310,7 +216,99 @@ def remove_local_variables(file_path):
     for edit_original in range(0, len(functions_list)-1):
         new_text=new_text.replace(new_text[functions_list[counter][0]:functions_list[counter][1]], function_list[counter], 1)
         counter+=1
-    open(file_path.replace('.py', '_PyBroom_cleaned.py'), 'w').write(new_text)
+    open(file_path, 'w').write(new_text)
+def remove_variables(file_path):
+    'Remove unused variables.'
+    remove_local_variables(file_path)
+    file=open(file_path)
+    comment_list=find_comments(file_path)
+    find_strings(file_path)
+    strings_list=find_strings(file_path)
+    text=file.read()
+    new_text=text.replace(' =', '=')
+    while new_text.count(' =')>=1:
+        new_text.replace(' =', '=')
+    the_list=new_text.splitlines()
+    counter=0
+    variable_list=[]
+    word_list=[]
+    real_word_list=[]
+    variable=None
+    new_list=the_list.copy()
+    baby_word_string='\n'.join(new_list)
+    counter=0
+    for m in range(0, len(strings_list)):
+        try:
+            par1=baby_word_string.find(baby_word_string[strings_list[counter][0]])
+            baby_word_string=baby_word_string.replace(baby_word_string[par1], ' ', 1)
+            par2=baby_word_string.find(baby_word_string[strings_list[counter][1]])
+            baby_word_string=baby_word_string.replace(baby_word_string[par2], ' ', 1)
+            baby_word_string=baby_word_string.replace(baby_word_string[par1:par2+1], ' '*len(baby_word_string[par1:par2+1]), 1)
+        except IndexError:
+            pass
+        counter+=1
+    counter=0
+    for m in range(0, len(comment_list)):
+        try:
+            par1=baby_word_string.find(baby_word_string[comment_list[counter][0]])
+            baby_word_string=baby_word_string.replace(baby_word_string[par1], ' ', 1)
+            par2=baby_word_string.find(baby_word_string[comment_list[counter][1]])
+            baby_word_string=baby_word_string.replace(baby_word_string[par2], ' ', 1)
+            baby_word_string=baby_word_string.replace(baby_word_string[par1:par2+1], ' '*len(baby_word_string[par1:par2+1]), 1)
+        except IndexError:
+            pass
+        counter+=1
+    counter=0
+    the_new_list=baby_word_string.splitlines()
+    for x in range(0, len(the_new_list)):
+        line=the_new_list[counter]
+        if line.count('=')==1:
+            new_line=line.replace('    ', '')
+            variable=new_line.split('=')[0]
+            variable_list.append(variable)
+        counter+=1
+    new_variable_list=variable_list.copy()
+    string_of_variables='\n'.join(variable_list)
+    open('%s_PyBroom_all_variables.txt' % file_path.replace('.py', ''), 'w').write(string_of_variables)
+    counter=0
+    baby_word_string=baby_word_string.replace('    ', '').replace('(', ' ').replace(')', ' ').replace('+', ' ').replace('-', ' ').replace('*', ' ').replace('/', ' ').replace('=', ' ').replace('.', ' ').replace(':', ' ').replace(',', ' ').replace('[', ' ').replace(']', ' ').replace('{', ' ').replace('}', ' ')
+    word_list=baby_word_string.splitlines()
+    for c in range(0, len(word_list)):
+        string_list=word_list[counter].split(' ')
+        subcounter=0
+        for b in range(0, len(string_list)):
+            real_word_list.append(string_list[subcounter])
+            subcounter+=1
+        counter+=1
+    counter=0
+    #As of now, we have a list of variables and a list of words. That is what the previous code is attempting to create.
+    list_counter1=0
+    list_counter2=0
+    for y in range(0, len(variable_list)):
+        list_counter2=0
+        counted=0
+        for a in range(0, len(real_word_list)):
+            var=variable_list[list_counter1]
+            word=real_word_list[list_counter2]
+            if var==word:
+                counted+=1
+            list_counter2+=1
+        if counted==1:
+            string='\n'.join(the_list)
+            remove_counter=0
+            for z in range(0, len(the_list)):
+                line=the_list[remove_counter].split('=')[0].replace('    ', '')
+                if var==line:  
+                    new=string.replace(the_list[remove_counter], ' '*len(the_list[remove_counter]))
+                    new_variable_list.remove(var)
+                    the_list=new.splitlines()
+                remove_counter+=1
+        list_counter1+=1
+    string='\n'.join(the_list)
+    new_file=open(file_path, 'w')
+    new_file.write(string)
+    string_of_variables='\n'.join(new_variable_list)
+    open('%s_PyBroom_used_variables.txt' % file_path.replace('.py', ''), 'w').write(string_of_variables)
 def remove_functions():
     'Remove unused functions.'
     pass
