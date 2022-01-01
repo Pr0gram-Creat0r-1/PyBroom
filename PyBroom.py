@@ -215,6 +215,7 @@ def remove_local_variables(file_path):
                                 pass
                         remove_counter+=1
                 list_counter1+=1
+            used_local_variables.append(new_variable_list)
             main_counter+=1
         main_counter=0
         new_text=text.replace(text[functions_list[counter][0]:functions_list[counter][1]], function_list[counter], 1)
@@ -224,6 +225,11 @@ def remove_local_variables(file_path):
         open(file_path, 'w').write(new_text)
         local_variables_string='\n'.join(local_variables_list)
         open(file_path.replace('.py', '_all_local_variables.txt'), 'w').write(local_variables_string)
+        counter=0
+        used_string=''
+        for used in range(0, len(used_local_variables)):
+            used_string=used_string+'\n'.join(used_local_variables[counter])+'\n'
+        open(file_path.replace('.py', '_used_local_variables.txt'), 'w').write(used_string)
 def remove_variables(file_path):
     'Remove unused variables.'
     remove_local_variables(file_path)
