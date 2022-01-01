@@ -16,7 +16,7 @@ List of functions:
 Notes:
 1. If the remove_variables function raises and IndexError: list index out of range, then try removing any whitespace lines in your code, definitely at the end of the text at least.
 2. You should probably make a copy of your file before cleaning.
-3. The annoying comments at the top and the bottom are necessary for the code to work because the program needs the space it provides. So I thought, why not use it as free advertising? But you can delete them if you want.
+3. The annoying comments at the top and the bottom are necessary for the code to work because the program needs the space it provides. So I thought, why not use it as free advertising? But you can delete them if you want (actually, you should, because if you use the program on the same file again it might mess up the formatting of the text).
 
 Credits:
 
