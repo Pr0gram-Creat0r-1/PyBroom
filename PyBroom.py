@@ -236,6 +236,7 @@ def remove_local_variables(file_path):
         used_string=''
         for used in range(0, len(used_local_variables)):
             used_string=used_string+'\n'.join(used_local_variables[counter])+'\n'
+            counter+=1
         open(file_path.replace('.py', '_used_local_variables.txt'), 'w').write(used_string)
 def remove_variables(file_path):
     'Remove unused variables.'
@@ -286,7 +287,7 @@ def remove_variables(file_path):
         counter+=1
     new_variable_list=variable_list.copy()
     string_of_variables='\n'.join(variable_list)
-    open('%s_PyBroom_all_variables.txt' % file_path.replace('.py', ''), 'w').write(string_of_variables)
+    open('%s_all_variables.txt' % file_path.replace('.py', ''), 'w').write(string_of_variables)
     counter=0
     baby_word_string=baby_word_string.replace('    ', '').replace('(', ' ').replace(')', ' ').replace('+', ' ').replace('-', ' ').replace('*', ' ').replace('/', ' ').replace('=', ' ').replace('.', ' ').replace(':', ' ').replace(',', ' ').replace('[', ' ').replace(']', ' ').replace('{', ' ').replace('}', ' ')
     word_list=baby_word_string.splitlines()
@@ -325,10 +326,13 @@ def remove_variables(file_path):
     new_file=open(file_path, 'w')
     new_file.write(string)
     string_of_variables='\n'.join(new_variable_list)
-    open('%s_PyBroom_used_variables.txt' % file_path.replace('.py', ''), 'w').write(string_of_variables)
-def remove_functions():
+    open('%s_used_variables.txt' % file_path.replace('.py', ''), 'w').write(string_of_variables)
+def remove_functions(file_path):
     'Remove unused functions.'
-    pass
+    function_list=find_functions(file_path)
+    find_strings(file_path)
+    comment_list=find_comments(file_path)
+    string_list=find_strings(file_path)
 def destroy():
     'Delete the file completely.'
     file_path=input('Paste a file path here: ')
