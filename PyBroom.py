@@ -127,6 +127,13 @@ def remove_local_variables(file_path):
         functions_list=find_functions(file_path)
         text=open(file_path).read()
         baby_word_string=open(file_path).read()
+        baby_word_string2=open(file_path).read()
+        counter=0
+        function_list=[]
+        for extract in range(0, len(functions_list)):
+            function=baby_word_string2[functions_list[counter][0]:functions_list[counter][1]+1]
+            function_list.append(function)
+            counter+=1
         counter=0
         for m in range(0, len(strings_list)):
             try:
@@ -150,19 +157,19 @@ def remove_local_variables(file_path):
                 pass
             counter+=1
         counter=0
-        function_list=[]
+        function_list2=[]
         for extract in range(0, len(functions_list)):
             function=baby_word_string[functions_list[counter][0]:functions_list[counter][1]+1]
-            function_list.append(function)
+            function_list2.append(function)
             counter+=1
         counter=0
         main_counter=0
         local_variables_list=[]
         used_local_variables=[]
         for remove in range(0, len(function_list)):
-            function_text=function_list[main_counter]
+            function_text=function_list2[main_counter]
             the_new_list=function_text.splitlines()
-            the_list=function_text.splitlines()
+            the_list=function_list[main_counter].splitlines()
             variable_list=[]
             real_word_list=[]
             for x in range(0, len(the_new_list)):
