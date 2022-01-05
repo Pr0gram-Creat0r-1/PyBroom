@@ -1,8 +1,15 @@
 #I am going to try keeping this file clean
 #Imagine cleaning a code cleaner :)
 import os
+import datetime
+history_list=[]
+log_history=1
 def find_strings(file_path):
     'Find strings in a text file. Internal use only. In development.'
+    global history_list
+    global log_history
+    if log_history==1:
+        history_list.append('%s: find_strings(\"%s\")' % (str(datetime.datetime.now()), file_path))
     file_string=open(file_path).read()
     important_list=[]
     string_type_list=[]
@@ -58,6 +65,10 @@ def find_strings(file_path):
     #By the way, I will also program this thing to remove comments :)
 def find_comments(file_path):
     'Find comments.'
+    global history_list
+    global log_history
+    if log_history==1:
+        history_list.append('%s: comments(\"%s\")' % (str(datetime.datetime.now()), file_path))
     find_strings(file_path)
     strings_list=find_strings(file_path)
     baby_word_string=open(file_path).read()
@@ -92,6 +103,9 @@ def find_comments(file_path):
     return comment_list
 def find_functions(file_path):
     'Find functions.'
+    global log_history
+    if log_history==1:
+        history_list.append('%s: find_functions(\"%s\")' % (str(datetime.datetime.now()), file_path))
     text=open(file_path).read()
     the_list=text.splitlines()
     counter=0
@@ -117,6 +131,10 @@ def find_functions(file_path):
     return functions_list
 def remove_local_variables(file_path):
     'Remove local variables. Use this before cleaning global variables in the remove_variables() function.'
+    global history_list
+    global log_history
+    if log_history==1:
+        history_list.append('%s: remove_local_variables(\"%s\")' % (str(datetime.datetime.now()), file_path))
     read_file=open(file_path).read()
     with_comment='#PyBroom cleaned this file.\n'+read_file+'\n#https://github.com/Pr0gram-Creat0r-1/PyBroom\n#https://replit.com/@Pr0gram-Creat0r/PyBroom'
     open(file_path, 'w').write(with_comment)
@@ -240,6 +258,11 @@ def remove_local_variables(file_path):
         open(file_path.replace('.py', '_used_local_variables.txt'), 'w').write(used_string)
 def remove_variables(file_path):
     'Remove unused variables.'
+    global history_list
+    global log_history
+    if log_history==1:
+        history_list.append('%s: remove_variables(\"%s\")' % (str(datetime.datetime.now()), file_path))
+    log_history=0
     remove_local_variables(file_path)
     file=open(file_path)
     comment_list=find_comments(file_path)
@@ -247,7 +270,6 @@ def remove_variables(file_path):
     strings_list=find_strings(file_path)
     text=file.read()
     the_list=text.splitlines()
-    counter=0
     variable_list=[]
     word_list=[]
     real_word_list=[]
@@ -327,12 +349,51 @@ def remove_variables(file_path):
     new_file.write(string)
     string_of_variables='\n'.join(new_variable_list)
     open('%s_used_variables.txt' % file_path.replace('.py', ''), 'w').write(string_of_variables)
+    log_history=1
 def remove_functions(file_path):
     'Remove unused functions.'
+    global history_list
+    global log_history
+    if log_history==1:
+        history_list.append('%s: remove_functions(\"%s\")' % (str(datetime.datetime.now()), file_path))
+    log_history=0
     function_list=find_functions(file_path)
     find_strings(file_path)
     comment_list=find_comments(file_path)
-    string_list=find_strings(file_path)
+    strings_list=find_strings(file_path)
+    the_list=open(file_path).read().splitlines()
+    variable_list=[]
+    word_list=[]
+    real_word_list=[]
+    variable=None
+    new_list=the_list.copy()
+    baby_word_string='\n'.join(new_list)
+    counter=0
+    for m in range(0, len(strings_list)):
+        try:
+            par1=baby_word_string.find(baby_word_string[strings_list[counter][0]])
+            baby_word_string=baby_word_string.replace(baby_word_string[par1], ' ', 1)
+            par2=baby_word_string.find(baby_word_string[strings_list[counter][1]])
+            baby_word_string=baby_word_string.replace(baby_word_string[par2], ' ', 1)
+            baby_word_string=baby_word_string.replace(baby_word_string[par1:par2+1], ' '*len(baby_word_string[par1:par2+1]), 1)
+        except IndexError:
+            pass
+        counter+=1
+    counter=0
+    for m in range(0, len(comment_list)):
+        try:
+            par1=baby_word_string.find(baby_word_string[comment_list[counter][0]])
+            baby_word_string=baby_word_string.replace(baby_word_string[par1], ' ', 1)
+            par2=baby_word_string.find(baby_word_string[comment_list[counter][1]])
+            baby_word_string=baby_word_string.replace(baby_word_string[par2], ' ', 1)
+            baby_word_string=baby_word_string.replace(baby_word_string[par1:par2+1], ' '*len(baby_word_string[par1:par2+1]), 1)
+        except IndexError:
+            pass
+        counter+=1
+    counter=0
+    function_names=[]
+    the_new_list=baby_word_string.splitlines()
+    log_history=1
 def destroy():
     'Delete the file completely.'
     file_path=input('Paste a file path here: ')
@@ -349,3 +410,21 @@ def remove_classes():
 def suggestions():
     'Give suggestions.'
     pass
+def history():
+    'Return a list of the commands you did.'
+    global history_list
+    global log_history
+    if log_history==1:
+        history_list.append('%s: history()' % str(datetime.datetime.now()))
+    return history_list
+def save_history(file_path):
+    global history_list
+    global log_history
+    if log_history==1:
+        history_list.append('%s: save_history(\"%s\")' % (str(datetime.datetime.now()), file_path))
+    if os.path.isfile(file_path)==False:    
+        file=open(file_path, 'x')
+    file=open(file_path)
+    file_text=file.read()
+    new_file_text=file_text+str(datetime.datetime.now())+':'+str(history_list)+'\n'
+    open(file_path, 'w').write(new_file_text)
