@@ -4,6 +4,19 @@ import os
 import datetime
 history_list=[]
 log_history=1
+def rstrip_all(file_path):
+    global history_list
+    global log_history
+    if log_history==1:
+        history_list.append('%s: rstrip_all(\"%s\")' % (str(datetime.datetime.now()), file_path))
+    text=open(file_path).read()
+    the_list=text.splitlines()
+    counter=0
+    for x in range(0, len(the_list)):
+        line=the_list[counter].rstrip()
+        the_list[counter]=line
+    string='\n'.join(the_list)
+    open(file_path, 'w').write(string)
 def find_strings(file_path):
     'Find strings in a text file. Internal use only. In development.'
     global history_list
@@ -135,6 +148,9 @@ def remove_local_variables(file_path):
     global log_history
     if log_history==1:
         history_list.append('%s: remove_local_variables(\"%s\")' % (str(datetime.datetime.now()), file_path))
+    log_history=0
+    rstrip_all(file_path)
+    log_history=1
     read_file=open(file_path).read()
     with_comment='#PyBroom cleaned this file.\n'+read_file+'\n#https://github.com/Pr0gram-Creat0r-1/PyBroom\n#https://replit.com/@Pr0gram-Creat0r/PyBroom'
     open(file_path, 'w').write(with_comment)
@@ -263,6 +279,7 @@ def remove_variables(file_path):
     if log_history==1:
         history_list.append('%s: remove_variables(\"%s\")' % (str(datetime.datetime.now()), file_path))
     log_history=0
+    rstrip_all(file_path)
     remove_local_variables(file_path)
     file=open(file_path)
     comment_list=find_comments(file_path)
