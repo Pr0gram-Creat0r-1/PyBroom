@@ -73,9 +73,6 @@ def find_strings(file_path):
     new_the_string=open(file_path, 'w')
     new_the_string.write(the_string)
     return important_list
-    #I think the index list will be in numerical order.
-    #Okay, this is what I have so far.
-    #By the way, I will also program this thing to remove comments :)
 def find_comments(file_path):
     'Find comments.'
     global history_list
@@ -142,6 +139,52 @@ def find_functions(file_path):
                 functions_list.append([position, position2])
         counter+=1
     return functions_list
+def clear_up_indents(file_path):
+    global history_list
+    global log_history
+    if log_history==1:
+        history_list.append('%s: clear_up_indents(\"%s\")' % (str(datetime.datetime.now()), file_path))
+    find_strings(file_path)
+    strings_list=find_strings(file_path)
+    comment_list=find_comments(file_path)
+    text=open(file_path).read()
+    baby_word_string=open(file_path).read()
+    the_list=text.splitlines()
+    counter=0
+    for m in range(0, len(strings_list)):
+        try:
+            par1=baby_word_string.find(baby_word_string[strings_list[counter][0]])
+            baby_word_string=baby_word_string.replace(baby_word_string[par1], ' ', 1)
+            par2=baby_word_string.find(baby_word_string[strings_list[counter][1]])
+            baby_word_string=baby_word_string.replace(baby_word_string[par2], ' ', 1)
+            baby_word_string=baby_word_string.replace(baby_word_string[par1:par2+1], ' '*len(baby_word_string[par1:par2+1]), 1)
+        except IndexError:
+            pass
+        counter+=1
+    counter=0
+    for m in range(0, len(comment_list)):
+        try:
+            par1=baby_word_string.find(baby_word_string[comment_list[counter][0]])
+            baby_word_string=baby_word_string.replace(baby_word_string[par1], ' ', 1)
+            par2=baby_word_string.find(baby_word_string[comment_list[counter][1]])
+            baby_word_string=baby_word_string.replace(baby_word_string[par2], ' ', 1)
+            baby_word_string=baby_word_string.replace(baby_word_string[par1:par2+1], ' '*len(baby_word_string[par1:par2+1]), 1)
+        except IndexError:
+            pass
+        counter+=1
+    counter=0
+    the_new_list=baby_word_string.splitlines()
+    for x in range(0, len(the_new_list)):
+        line=the_new_list[counter]
+        line2=the_list[counter]
+        for y in range(0, line.count('\\n')):
+            index=line.find('\\n')
+            line=line.replace('\\n', ' ', 1)
+            line2=line2.replace(line2[index:index+2], '\n', 1)
+        the_list[counter]=line2
+        counter+=1
+    string='\n'.join(the_list)
+    open(file_path, 'w').write(string)
 def remove_local_variables(file_path):
     'Remove local variables. Use this before cleaning global variables in the remove_variables() function.'
     global history_list
@@ -272,6 +315,7 @@ def remove_local_variables(file_path):
             used_string=used_string+'\n'.join(used_local_variables[counter])+'\n'
             counter+=1
         open(file_path.replace('.py', '_used_local_variables.txt'), 'w').write(used_string)
+        clear_up_indents(file_path)
 def remove_variables(file_path):
     'Remove unused variables.'
     global history_list
@@ -366,6 +410,7 @@ def remove_variables(file_path):
     new_file.write(string)
     string_of_variables='\n'.join(new_variable_list)
     open('%s_used_variables.txt' % file_path.replace('.py', ''), 'w').write(string_of_variables)
+    clear_up_indents(file_path)
     log_history=1
 def remove_functions(file_path):
     'Remove unused functions.'
