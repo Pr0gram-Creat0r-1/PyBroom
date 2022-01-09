@@ -167,9 +167,7 @@ def remove_local_variables(file_path):
         for m in range(0, len(comment_list)):
             try:
                 par1=baby_word_string.find(baby_word_string[comment_list[counter][0]])
-                baby_word_string=baby_word_string.replace(baby_word_string[par1], ' ', 1)
                 par2=baby_word_string.find(baby_word_string[comment_list[counter][1]])
-                baby_word_string=baby_word_string.replace(baby_word_string[par2], ' ', 1)
                 baby_word_string=baby_word_string.replace(baby_word_string[par1:par2+1], ' '*len(baby_word_string[par1:par2+1]), 1)
             except IndexError:
                 pass
@@ -263,7 +261,6 @@ def remove_variables(file_path):
     if log_history==1:
         history_list.append('%s: remove_variables(\"%s\")' % (str(datetime.datetime.now()), file_path))
     log_history=0
-    remove_local_variables(file_path)
     file=open(file_path)
     comment_list=find_comments(file_path)
     find_strings(file_path)
@@ -291,9 +288,7 @@ def remove_variables(file_path):
     for m in range(0, len(comment_list)):
         try:
             par1=baby_word_string.find(baby_word_string[comment_list[counter][0]])
-            baby_word_string=baby_word_string.replace(baby_word_string[par1], ' ', 1)
             par2=baby_word_string.find(baby_word_string[comment_list[counter][1]])
-            baby_word_string=baby_word_string.replace(baby_word_string[par2], ' ', 1)
             baby_word_string=baby_word_string.replace(baby_word_string[par1:par2+1], ' '*len(baby_word_string[par1:par2+1]), 1)
         except IndexError:
             pass
