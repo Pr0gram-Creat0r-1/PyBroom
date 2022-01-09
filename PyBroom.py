@@ -95,6 +95,7 @@ def find_comments(file_path):
             if line.count('#')>=1:
                 number=line.find('#')
                 comment=[baby_word_string.find('#'+line.split('#')[1]), baby_word_string.find('#'+line.split('#')[1])+len('#'+line.split('#')[1])]
+                baby_word_string=baby_word_string.replace(baby_word_string[comment[0]:comment[1]], ' '*len(baby_word_string[comment[0]:comment[1]]), 1)
                 file_list[counter]=the_list[counter].split(the_list[counter][number])[0].replace('#'+line.split('#')[1], ' '*len('#'+line.split('#')[1]), 1)
                 comment_list.append(comment)
         except IndexError:
