@@ -31,7 +31,6 @@ def find_strings(file_path):
         try:
             first_occurrence=min(string_index_list)
             first_occurrence_type=string_type_list[0]
-            #Alright, so we now have all the information we need of the first occurrence.
             string_type_list.remove(first_occurrence_type)
             string_index_list.remove(first_occurrence)
             magic=string_type_list.index(first_occurrence_type)
@@ -49,20 +48,31 @@ def find_strings(file_path):
             pass
         except IndexError:
             pass
-        #Remove everything between the two elements in the lists. I will also put this in a loop later.
     counter=0
     the_string=open(file_path).read()
     for j in range(0, len(important_list)):
-        replace_string=the_string[important_list[counter][0]:important_list[counter][1]+1]
-        new_string=replace_string.replace('\n', '\\n')
-        the_string=the_string.replace(replace_string, new_string)
+        replace_string=the_string[important_list[counter][0]:important_list[counter][1]]
+        replace_counter=0
+        if replace_string.count('\n')>=1:
+            new_string=replace_string.replace('\n', '\\n', 1)
+            the_string=the_string.replace(replace_string, new_string, 1)
+            replace_counter+=1
+            if new_string.count('\n')>1:
+                for replace in range(0, new_string.count('\n')-1):
+                    new_string=replace_string.replace('\n', '\\n', 1)
+                    the_string=the_string.replace(replace_string, new_string, 1)
+                    replace_counter+=1
+        subcounter=0
+        for k in range(0, len(important_list)):
+            if important_list[subcounter][0]>=important_list[counter][1]:
+                important_list[subcounter][0]+=replace_counter
+            if important_list[subcounter][1]>=important_list[counter][1]:
+                important_list[subcounter][1]+=replace_counter
+            subcounter+=1
         counter+=1
     new_the_string=open(file_path, 'w')
     new_the_string.write(the_string)
     return important_list
-    #I think the index list will be in numerical order.
-    #Okay, this is what I have so far.
-    #By the way, I will also program this thing to remove comments :)
 def find_comments(file_path):
     'Find comments.'
     global history_list
