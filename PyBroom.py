@@ -182,7 +182,7 @@ def remove_local_variables(file_path):
         counter=0
         function_list=[]
         for extract in range(0, len(functions_list)):
-            function=baby_word_string2[functions_list[counter][0]:functions_list[counter][1]+1]
+            function=baby_word_string2[functions_list[counter][0]:functions_list[counter][1]]
             function_list.append(function)
             counter+=1
         counter=0
@@ -208,7 +208,7 @@ def remove_local_variables(file_path):
         counter=0
         function_list2=[]
         for extract in range(0, len(functions_list)):
-            function=baby_word_string[functions_list[counter][0]:functions_list[counter][1]+1]
+            function=baby_word_string[functions_list[counter][0]:functions_list[counter][1]]
             function_list2.append(function)
             counter+=1
         counter=0
