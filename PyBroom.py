@@ -140,6 +140,9 @@ def find_functions(file_path):
     global log_history
     if log_history==1:
         history_list.append('%s: find_functions(\"%s\")' % (str(datetime.datetime.now()), file_path))
+    read_file=open(file_path).read()
+    with_comment='#PyBroom cleaned this file.\n'+read_file+'\n#https://github.com/Pr0gram-Creat0r-1/PyBroom\n#https://replit.com/@Pr0gram-Creat0r/PyBroom'
+    open(file_path, 'w').write(with_comment)
     text=open(file_path).read()
     the_list=text.splitlines()
     counter=0
@@ -417,9 +420,12 @@ def remove_functions(file_path):
     function_names=[]
     the_new_list=baby_word_string.splitlines()
     log_history=1
-def destroy():
+def destroy(file_path):
     'Delete the file completely.'
-    file_path=input('Paste a file path here: ')
+    global history_list
+    global log_history
+    if log_history==1:
+        history_list.append('%s: destroy(\"%s\")' % (str(datetime.datetime.now()), file_path))
     os.remove(file_path)
 def test_for_errors():
     'Test the file for errors.'
