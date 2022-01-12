@@ -80,7 +80,7 @@ def find_strings(file_path):
             pass
     counter=0
     the_string=open(file_path).read()
-    for j in range(0, len(important_list)):
+    """for j in range(0, len(important_list)):
         replace_string=the_string[important_list[counter][0]:important_list[counter][1]]
         replace_counter=replace_string.count('\n')
         if replace_string.count('\n')>=1:
@@ -93,7 +93,7 @@ def find_strings(file_path):
             if important_list[subcounter][1]>=important_list[counter][1]:
                 important_list[subcounter][1]+=replace_counter
             subcounter+=1
-        counter+=1
+        counter+=1"""
     new_the_string=open(file_path, 'w')
     new_the_string.write(the_string)
     return important_list
@@ -103,7 +103,6 @@ def find_comments(file_path):
     global log_history
     if log_history==1:
         history_list.append('%s: comments(\"%s\")' % (str(datetime.datetime.now()), file_path))
-    find_strings(file_path)
     strings_list=find_strings(file_path)
     baby_word_string=open(file_path).read()
     file_list=baby_word_string.splitlines()
@@ -172,7 +171,6 @@ def remove_local_variables(file_path):
         history_list.append('%s: remove_local_variables(\"%s\")' % (str(datetime.datetime.now()), file_path))
     if find_functions(file_path)!=[]:
         comment_list=find_comments(file_path)
-        find_strings(file_path)
         strings_list=find_strings(file_path)
         functions_list=find_functions(file_path)
         text=open(file_path).read()
@@ -295,7 +293,6 @@ def remove_variables(file_path):
     log_history=0
     file=open(file_path)
     comment_list=find_comments(file_path)
-    find_strings(file_path)
     strings_list=find_strings(file_path)
     text=file.read()
     the_list=text.splitlines()
@@ -385,7 +382,6 @@ def remove_functions(file_path):
         history_list.append('%s: remove_functions(\"%s\")' % (str(datetime.datetime.now()), file_path))
     log_history=0
     function_list=find_functions(file_path)
-    find_strings(file_path)
     comment_list=find_comments(file_path)
     strings_list=find_strings(file_path)
     the_list=open(file_path).read().splitlines()
