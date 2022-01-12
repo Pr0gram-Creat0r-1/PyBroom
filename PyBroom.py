@@ -10,11 +10,27 @@ def find_strings(file_path):
     global log_history
     if log_history==1:
         history_list.append('%s: find_strings(\"%s\")' % (str(datetime.datetime.now()), file_path))
+    read_file=open(file_path).read()
+    with_comment='#PyBroom cleaned this file.\n'+read_file+'\n#https://github.com/Pr0gram-Creat0r-1/PyBroom\n#https://replit.com/@Pr0gram-Creat0r/PyBroom'
+    open(file_path, 'w').write(with_comment)
     file_string=open(file_path).read()
+    file_string_copy=open(file_path).read()
     important_list=[]
     string_type_list=[]
     string_index_list=[]
     file_string=file_string.replace("\\\'", '  ').replace('\\\"', '  ')
+    for finder in range(0, len(file_string)):
+        index=file_string.find("'''")
+        if index!=-1:
+            string_type_list.append("'''")
+            string_index_list.append(index)
+        file_string=file_string.replace("'''", '   ', 1)
+    for finder in range(0, len(file_string)):
+        index=file_string.find('"""')
+        if index!=-1:
+            string_type_list.append('"""')
+            string_index_list.append(index)
+        file_string=file_string.replace('"""', '   ', 1)
     for finder in range(0, len(file_string)):
         index=file_string.find("'")
         if index!=-1:
@@ -27,6 +43,20 @@ def find_strings(file_path):
             string_type_list.append('"')
             string_index_list.append(index)
         file_string=file_string.replace('"', ' ', 1)
+    string_index_list.sort()
+    counter=0
+    for sort_types in range(0, len(string_index_list)):
+        string_type=file_string_copy[string_index_list[counter]:string_index_list[counter]+3]
+        if string_type=="""'''""":
+            string_type_list[counter]="""'''"""
+        if string_type=='''"""''':
+            string_type_list[counter]='''"""'''
+        if string_type[0]=="'" and string_type.count("'")!=3:
+            string_type_list[counter]="'"
+        if string_type[0]=='"' and string_type.count('"')!=3:
+            string_type_list[counter]='"'
+        counter+=1
+    counter=0
     while len(string_index_list)>0:
         try:
             first_occurrence=min(string_index_list)
@@ -52,16 +82,10 @@ def find_strings(file_path):
     the_string=open(file_path).read()
     for j in range(0, len(important_list)):
         replace_string=the_string[important_list[counter][0]:important_list[counter][1]]
-        replace_counter=0
+        replace_counter=replace_string.count('\n')
         if replace_string.count('\n')>=1:
-            new_string=replace_string.replace('\n', '\\n', 1)
+            new_string=replace_string.replace('\n', '\\n')
             the_string=the_string.replace(replace_string, new_string, 1)
-            replace_counter+=1
-            if new_string.count('\n')>1:
-                for replace in range(0, new_string.count('\n')-1):
-                    new_string=replace_string.replace('\n', '\\n', 1)
-                    the_string=the_string.replace(replace_string, new_string, 1)
-                    replace_counter+=1
         subcounter=0
         for k in range(0, len(important_list)):
             if important_list[subcounter][0]>=important_list[counter][1]:
@@ -146,9 +170,6 @@ def remove_local_variables(file_path):
     global log_history
     if log_history==1:
         history_list.append('%s: remove_local_variables(\"%s\")' % (str(datetime.datetime.now()), file_path))
-    read_file=open(file_path).read()
-    with_comment='#PyBroom cleaned this file.\n'+read_file+'\n#https://github.com/Pr0gram-Creat0r-1/PyBroom\n#https://replit.com/@Pr0gram-Creat0r/PyBroom'
-    open(file_path, 'w').write(with_comment)
     if find_functions(file_path)!=[]:
         comment_list=find_comments(file_path)
         find_strings(file_path)
