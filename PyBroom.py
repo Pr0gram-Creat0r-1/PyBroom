@@ -224,7 +224,7 @@ def remove_local_variables(file_path):
             for x in range(0, len(the_new_list)):
                 line=the_new_list[counter]
                 if line.count('=')==1:
-                    new_line=line.replace(' ', '')
+                    new_line=line.strip()
                     variable=new_line.split('=')[0]
                     variable_list.append(variable)
                 counter+=1
@@ -260,7 +260,7 @@ def remove_local_variables(file_path):
                     string='\n'.join(the_list)
                     remove_counter=0
                     for z in range(0, len(the_list)):
-                        line=the_list[remove_counter].split('=')[0].replace(' ', '')
+                        line=the_list[remove_counter].split('=')[0].strip()
                         if var==line:  
                             new=string.replace(the_list[remove_counter], ' '*len(the_list[remove_counter]))
                             new_variable_list.remove(var)
@@ -330,7 +330,7 @@ def remove_variables(file_path):
     for x in range(0, len(the_new_list)):
         line=the_new_list[counter]
         if line.count('=')==1:
-            new_line=line.replace(' ', '')
+            new_line=line.strip()
             variable=new_line.split('=')[0]
             variable_list.append(variable)
         counter+=1
@@ -364,7 +364,7 @@ def remove_variables(file_path):
             string='\n'.join(the_list)
             remove_counter=0
             for z in range(0, len(the_list)):
-                line=the_list[remove_counter].split('=')[0].replace(' ', '')
+                line=the_list[remove_counter].split('=')[0].strip()
                 if var==line:  
                     new=string.replace(the_list[remove_counter], ' '*len(the_list[remove_counter]))
                     new_variable_list.remove(var)
@@ -384,9 +384,10 @@ def remove_functions(file_path):
     if log_history==1:
         history_list.append('%s: remove_functions(\"%s\")' % (str(datetime.datetime.now()), file_path))
     log_history=0
-    function_list=find_functions(file_path)
     comment_list=find_comments(file_path)
     strings_list=find_strings(file_path)
+    function_list=find_functions(file_path)
+    text=open(file_path).read()
     the_list=open(file_path).read().splitlines()
     variable_list=[]
     word_list=[]
@@ -419,7 +420,17 @@ def remove_functions(file_path):
     counter=0
     function_names=[]
     the_new_list=baby_word_string.splitlines()
+    for name_functions in range(0, len(function_list)):
+        try:
+            function_text=text[function_list[counter][0]:function_list[counter][1]]
+            function_text_list=function_text.splitlines()
+            name=function_text_list[0].split('def ')[1].split('(')[0].strip()
+            function_names.append(name)
+        except IndexError:
+            print(counter)
+        counter+=1
     log_history=1
+    return function_names
 def destroy(file_path):
     'Delete the file completely.'
     global history_list
@@ -427,17 +438,19 @@ def destroy(file_path):
     if log_history==1:
         history_list.append('%s: destroy(\"%s\")' % (str(datetime.datetime.now()), file_path))
     os.remove(file_path)
-def test_for_errors():
+def test_for_errors(file_path):
     'Test the file for errors.'
     pass
-def install_system_requirements():
+def install_system_requirements(file_path):
     'Install the python modules needed; uses pip.'
     pass
-def remove_classes():
+def remove_classes(file_path):
     'Removes unused classes.'
     pass
-def suggestions():
+def suggestions(file_path):
     'Give suggestions.'
+    pass
+def beautify(file_path):
     pass
 def history():
     'Return a list of the commands you did.'
