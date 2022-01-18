@@ -1,7 +1,10 @@
 #I am going to try keeping this file clean
 #Imagine cleaning a code cleaner :)
 import os
+import sys
+import subprocess
 import datetime
+from english_words import english_words_set as english_list
 history_list=[]
 log_history=1
 def find_strings(file_path):
@@ -150,8 +153,9 @@ def find_functions(file_path):
     for x in range(0, len(the_list)):
         line=the_list[counter]
         if (line.split('def')[0].isspace()==True or line.split('def')[0]=='') and line.lstrip()[0:4]=='def ':
-            indents=line.split('def')[0].count('    ')
+            indents=line.split('def')[0].count('    ')  
             position=text.find(line.lstrip())
+            text=text.replace(line, ' '*len(line), 1)
             subcounter=counter
             for y in range(0, len(the_list)-the_list.index(line)):
                 subline=the_list[subcounter]    
@@ -377,7 +381,7 @@ def remove_variables(file_path):
     string_of_variables='\n'.join(new_variable_list)
     open('%s_used_variables.txt' % file_path.replace('.py', ''), 'w').write(string_of_variables)
     log_history=1
-def remove_functions(file_path):
+"""def remove_functions(file_path):
     'Remove unused functions.'
     global history_list
     global log_history
@@ -389,10 +393,8 @@ def remove_functions(file_path):
     function_list=find_functions(file_path)
     text=open(file_path).read()
     the_list=open(file_path).read().splitlines()
-    variable_list=[]
     word_list=[]
     real_word_list=[]
-    variable=None
     new_list=the_list.copy()
     baby_word_string='\n'.join(new_list)
     counter=0
@@ -410,16 +412,14 @@ def remove_functions(file_path):
     for m in range(0, len(comment_list)):
         try:
             par1=baby_word_string.find(baby_word_string[comment_list[counter][0]])
-            baby_word_string=baby_word_string.replace(baby_word_string[par1], ' ', 1)
             par2=baby_word_string.find(baby_word_string[comment_list[counter][1]])
-            baby_word_string=baby_word_string.replace(baby_word_string[par2], ' ', 1)
             baby_word_string=baby_word_string.replace(baby_word_string[par1:par2+1], ' '*len(baby_word_string[par1:par2+1]), 1)
         except IndexError:
             pass
         counter+=1
     counter=0
     function_names=[]
-    the_new_list=baby_word_string.splitlines()
+    print(baby_word_string)
     for name_functions in range(0, len(function_list)):
         try:
             function_text=text[function_list[counter][0]:function_list[counter][1]]
@@ -427,10 +427,41 @@ def remove_functions(file_path):
             name=function_text_list[0].split('def ')[1].split('(')[0].strip()
             function_names.append(name)
         except IndexError:
-            print(counter)
+            pass
         counter+=1
+    counter=0
+    print(function_names)
+    function_names_copy=function_names.copy()
+    baby_word_string=baby_word_string.replace('    ', '').replace('(', ' ').replace(')', ' ').replace('+', ' ').replace('-', ' ').replace('*', ' ').replace('/', ' ').replace('=', ' ').replace('.', ' ').replace(':', ' ').replace(',', ' ').replace('[', ' ').replace(']', ' ').replace('{', ' ').replace('}', ' ')
+    word_list=baby_word_string.splitlines()
+    for c in range(0, len(word_list)):
+        string_list=word_list[counter].split(' ')
+        subcounter=0
+        for b in range(0, len(string_list)):
+            real_word_list.append(string_list[subcounter])
+            subcounter+=1
+        counter+=1
+    counter=0
+    list_counter1=0
+    list_counter2=0
+    print(real_word_list)
+    for y in range(0, len(function_names)):
+        list_counter2=0
+        counted=0
+        for a in range(0, len(real_word_list)):
+            func=function_names[list_counter1]
+            word=real_word_list[list_counter2]
+            if func==word:
+                counted+=1
+            list_counter2+=1
+        if counted==1:
+            text=text.replace(text[function_list[list_counter1][0]:function_list[list_counter1][1]], ' '*len(text[function_list[list_counter1][0]:function_list[list_counter1][1]]), 1)
+            function_names_copy.remove(func)
+        list_counter1+=1
+    string=text
+    open(file_path, 'w').write(string)
     log_history=1
-    return function_names
+    print(function_names_copy)"""
 def destroy(file_path):
     'Delete the file completely.'
     global history_list
@@ -438,15 +469,27 @@ def destroy(file_path):
     if log_history==1:
         history_list.append('%s: destroy(\"%s\")' % (str(datetime.datetime.now()), file_path))
     os.remove(file_path)
-def test_for_errors(file_path):
-    'Test the file for errors.'
-    pass
 def install_system_requirements(file_path):
-    'Install the python modules needed; uses pip.'
-    pass
-def remove_classes(file_path):
+    'Install the python modules needed; uses pip. Put a comment like this: #PyBroom.install_system_requirements: [package1, package2, package3 etc]. No string quotes anywhere. I only added this because I thought it would be simple and fun to make, and besides, some IDEs do not automatically install packages like replit.'
+    text_list=open(file_path).read().splitlines()
+    counter=0
+    for x in range(0, len(text_list)):    
+        line=text_list[counter]
+        if '#PyBroom.install_system_requirements: [' in line:
+            break
+        counter+=1
+    list_part=line.strip().split(' ', 1)[1].split(']')[0]+']'
+    empty_list=[]
+    counter=0
+    list_part=list_part.replace('[', '').replace(']', '').replace(' ', '').split(',')
+    for y in range(0, len(list_part)):
+        subprocess.check_call([sys.executable, '-m', 'pip', 'install', list_part[counter]])
+        counter+=1
+"""def remove_classes(file_path):
     'Removes unused classes.'
-    pass
+    pass"""
+"""def remove_modules(file_path):
+    pass #might do this..."""
 def suggestions(file_path):
     'Give suggestions.'
     pass
