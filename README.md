@@ -26,3 +26,4 @@ https://www.programiz.com/python-programming/methods/list/remove
 
 https://programiz.com/python-programming/methods/list/copy
 
+https://www.programiz.com/python-programming/methods/string/count
