@@ -4,7 +4,7 @@ import os
 import sys
 import subprocess
 import datetime
-from english_words import english_words_set as english_list
+'from english_words import english_words_set as english_list'
 history_list=[]
 log_history=1
 def find_strings(file_path):
@@ -14,7 +14,7 @@ def find_strings(file_path):
     if log_history==1:
         history_list.append('%s: find_strings(\"%s\")' % (str(datetime.datetime.now()), file_path))
     read_file=open(file_path).read()
-    if read_file[0]!='#' and read_file.splitlines()[-1][0]!='#':
+    if read_file[0]!='#' or read_file.splitlines()[-1][0]!='#':
         with_comment='#PyBroom cleaned this file.\n'+read_file+'\n#https://github.com/Pr0gram-Creat0r-1/PyBroom\n#https://replit.com/@Pr0gram-Creat0r/PyBroom'
         open(file_path, 'w').write(with_comment)
     file_string=open(file_path).read()
@@ -147,7 +147,7 @@ def find_functions(file_path):
     if log_history==1:
         history_list.append('%s: find_functions(\"%s\")' % (str(datetime.datetime.now()), file_path))
     read_file=open(file_path).read()
-    if read_file[0]!='#' and read_file.splitlines()[-1][0]!='#':
+    if read_file[0]!='#' or read_file.splitlines()[-1][0]!='#':
         with_comment='#PyBroom cleaned this file.\n'+read_file+'\n#https://github.com/Pr0gram-Creat0r-1/PyBroom\n#https://replit.com/@Pr0gram-Creat0r/PyBroom'
         open(file_path, 'w').write(with_comment)
     text=open(file_path).read()
@@ -242,7 +242,7 @@ def remove_local_variables(file_path):
             local_variables_list=' '.join(local_variables_list)
             local_variables_list=local_variables_list.split(' ')
             counter=0
-            baby_word_string=function_text.replace('    ', '').replace('(', ' ').replace(')', ' ').replace('+', ' ').replace('-', ' ').replace('*', ' ').replace('/', ' ').replace('=', ' ').replace('.', ' ').replace(':', ' ').replace(',', ' ').replace('[', ' ').replace(']', ' ').replace('{', ' ').replace('}', ' ')
+            baby_word_string=function_text.replace('    ', '').replace('(', ' ').replace(')', ' ').replace('+', ' ').replace('-', ' ').replace('*', ' ').replace('/', ' ').replace('=', ' ').replace('.', ' ').replace(':', ' ').replace(',', ' ').replace('[', ' ').replace(']', ' ').replace('{', ' ').replace('}', ' ').replace('<', ' ').replace('>', ' ')
             word_list=baby_word_string.splitlines()
             for c in range(0, len(word_list)):
                 string_list=word_list[counter].split(' ')
@@ -280,17 +280,17 @@ def remove_local_variables(file_path):
                                     string_check_list.append(finding2)
                                 minimum=min(string_check_list)
                                 minimum_type=string_check[minimum:minimum+3]
-                                the_list[remove_counter]=''
+                                the_list[remove_counter]=' '*len(the_list)[remove_counter]
                                 subcounter=remove_counter+1
                                 for x in range(0, len(the_list)-remove_counter-1):
                                     line=the_list[subcounter]
                                     if line.count(minimum_type)==0 or line.count(minimum_type)==1:
-                                        the_list[subcounter]=''
+                                        the_list[subcounter]=' '*len(the_list[subcounter])
                                         if line.count(minimum_type)==1:
                                             break
                                     subcounter+=1
                             else:
-                                the_list[remove_counter]=''
+                                the_list[remove_counter]=' '*len(the_list[remove_counter])
                             try:
                                 function_list[main_counter]='\n'.join(the_list)
                             except IndexError:
@@ -365,7 +365,7 @@ def remove_variables(file_path):
     string_of_variables='\n'.join(variable_list)
     open('%s_all_variables.txt' % file_path.replace('.py', ''), 'w').write(string_of_variables)
     counter=0
-    baby_word_string=baby_word_string.replace('    ', '').replace('(', ' ').replace(')', ' ').replace('+', ' ').replace('-', ' ').replace('*', ' ').replace('/', ' ').replace('=', ' ').replace('.', ' ').replace(':', ' ').replace(',', ' ').replace('[', ' ').replace(']', ' ').replace('{', ' ').replace('}', ' ')
+    baby_word_string=baby_word_string.replace('    ', '').replace('(', ' ').replace(')', ' ').replace('+', ' ').replace('-', ' ').replace('*', ' ').replace('/', ' ').replace('=', ' ').replace('.', ' ').replace(':', ' ').replace(',', ' ').replace('[', ' ').replace(']', ' ').replace('{', ' ').replace('}', ' ').replace('<', ' ').replace('>', ' ')
     word_list=baby_word_string.splitlines()
     for c in range(0, len(word_list)):
         string_list=word_list[counter].split(' ')
@@ -403,17 +403,17 @@ def remove_variables(file_path):
                             string_check_list.append(finding2)
                         minimum=min(string_check_list)
                         minimum_type=string_check[minimum:minimum+3]
-                        the_list[remove_counter]=''
+                        the_list[remove_counter]=' '*len(the_list[remove_counter])
                         subcounter=remove_counter+1
                         for x in range(0, len(the_list)-remove_counter-1):
                             line=the_list[subcounter]
                             if line.count(minimum_type)==0 or line.count(minimum_type)==1:
-                                the_list[subcounter]=''
+                                the_list[subcounter]=' '*len(the_list[subcounter])
                                 if line.count(minimum_type)==1:
                                     break
                             subcounter+=1
                     else:
-                        the_list[remove_counter]=''
+                        the_list[remove_counter]=' '*len(the_list[remove_counter])
                     new_variable_list.remove(var)
                 remove_counter+=1
         list_counter1+=1
