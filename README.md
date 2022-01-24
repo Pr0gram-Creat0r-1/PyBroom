@@ -9,6 +9,7 @@ This is for a science project. The idea is to make a computer program that clean
 List of functions:
 1. remove_variables(file_path): will remove unused variables from the specified file. Will also save a list of used variables to a separate python file. Will save a list of all variables to a different python file.
 2. remove_local_variables(file_path): removes unused local variables
+3. beautify(file_path): Inproves code readability. Should only be used when you are absolutely desperate, since it affects strings and comments as well as the actual code (if you have a sensitive string that needs to be a certain way, then this function may cause it to cease to work).
 
 Notes:
 1. It is HIGHLY recommended that you create a copy of your uncleaned file before using PyBroom.
