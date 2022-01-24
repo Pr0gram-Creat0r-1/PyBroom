@@ -242,7 +242,7 @@ def remove_local_variables(file_path):
             local_variables_list=' '.join(local_variables_list)
             local_variables_list=local_variables_list.split(' ')
             counter=0
-            baby_word_string=function_text.replace('    ', '').replace('(', ' ').replace(')', ' ').replace('+', ' ').replace('-', ' ').replace('*', ' ').replace('/', ' ').replace('=', ' ').replace('.', ' ').replace(':', ' ').replace(',', ' ').replace('[', ' ').replace(']', ' ').replace('{', ' ').replace('}', ' ').replace('<', ' ').replace('>', ' ')
+            baby_word_string=function_text.replace('    ', '').replace('(', ' ').replace(')', ' ').replace('+', ' ').replace('-', ' ').replace('*', ' ').replace('/', ' ').replace('=', ' ').replace('.', ' ').replace(':', ' ').replace(',', ' ').replace('[', ' ').replace(']', ' ').replace('{', ' ').replace('}', ' ')
             word_list=baby_word_string.splitlines()
             for c in range(0, len(word_list)):
                 string_list=word_list[counter].split(' ')
@@ -365,7 +365,7 @@ def remove_variables(file_path):
     string_of_variables='\n'.join(variable_list)
     open('%s_all_variables.txt' % file_path.replace('.py', ''), 'w').write(string_of_variables)
     counter=0
-    baby_word_string=baby_word_string.replace('    ', '').replace('(', ' ').replace(')', ' ').replace('+', ' ').replace('-', ' ').replace('*', ' ').replace('/', ' ').replace('=', ' ').replace('.', ' ').replace(':', ' ').replace(',', ' ').replace('[', ' ').replace(']', ' ').replace('{', ' ').replace('}', ' ').replace('<', ' ').replace('>', ' ')
+    baby_word_string=baby_word_string.replace('    ', '').replace('(', ' ').replace(')', ' ').replace('+', ' ').replace('-', ' ').replace('*', ' ').replace('/', ' ').replace('=', ' ').replace('.', ' ').replace(':', ' ').replace(',', ' ').replace('[', ' ').replace(']', ' ').replace('{', ' ').replace('}', ' ')
     word_list=baby_word_string.splitlines()
     for c in range(0, len(word_list)):
         string_list=word_list[counter].split(' ')
