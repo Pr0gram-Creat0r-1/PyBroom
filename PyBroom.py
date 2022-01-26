@@ -52,10 +52,10 @@ def find_strings(file_path):
     counter=0
     for sort_types in range(0, len(string_index_list)):
         string_type=file_string_copy[string_index_list[counter]:string_index_list[counter]+3]
-        if string_type=="""'''""":
-            string_type_list[counter]="""'''"""
-        if string_type=='''"""''':
-            string_type_list[counter]='''"""'''
+        if string_type=="'''":
+            string_type_list[counter]="'''"
+        if string_type=='"""':
+            string_type_list[counter]='"""'
         if string_type[0]=="'" and string_type.count("'")!=3:
             string_type_list[counter]="'"
         if string_type[0]=='"' and string_type.count('"')!=3:
@@ -64,7 +64,7 @@ def find_strings(file_path):
     counter=0
     while len(string_index_list)>0:
         try:
-            first_occurrence=min(string_index_list)
+            first_occurrence=string_index_list[0]
             first_occurrence_type=string_type_list[0]
             important_list2.append([first_occurrence_type, first_occurrence_type])
             string_type_list.remove(first_occurrence_type)
@@ -74,32 +74,16 @@ def find_strings(file_path):
             important_list.append([first_occurrence, the_index])
         except ValueError:
             pass
-        counter=0
         try:
-            while min(string_index_list)<=the_index:
-                string_index_list.remove(string_index_list[counter])
-                string_type_list.remove(string_type_list[counter])
-                counter+=1
+            while string_index_list[0]<=the_index:
+                string_index_list.remove(string_index_list[0])
+                string_type_list.remove(string_type_list[0])
         except ValueError:
             pass
         except IndexError:
             pass
     counter=0
     the_string=open(file_path).read()
-    """for j in range(0, len(important_list)):
-        replace_string=the_string[important_list[counter][0]:important_list[counter][1]]
-        replace_counter=replace_string.count('\n')
-        if replace_string.count('\n')>=1:
-            new_string=replace_string.replace('\n', '\\n')
-            the_string=the_string.replace(replace_string, new_string, 1)
-        subcounter=0
-        for k in range(0, len(important_list)):
-            if important_list[subcounter][0]>=important_list[counter][1]:
-                important_list[subcounter][0]+=replace_counter
-            if important_list[subcounter][1]>=important_list[counter][1]:
-                important_list[subcounter][1]+=replace_counter
-            subcounter+=1
-        counter+=1"""
     new_the_string=open(file_path, 'w')
     new_the_string.write(the_string)
     return important_list2
@@ -118,9 +102,9 @@ def find_comments(file_path):
         try:
             par1=baby_word_string.find(strings_list[counter][0])
             baby_word_string=baby_word_string.replace(strings_list[counter][0], ' '*len(strings_list[counter][0]), 1)
-            par2=baby_word_string.find(strings_list[counter][1])+len(strings_list[counter][1])-1
+            par2=baby_word_string.find(strings_list[counter][1])+len(strings_list[counter][1])
             baby_word_string=baby_word_string.replace(strings_list[counter][1], ' '*len(strings_list[counter][1]), 1)
-            baby_word_string=baby_word_string.replace(baby_word_string[par1:par2+1], ' '*len(baby_word_string[par1:par2+1]), 1)
+            baby_word_string=baby_word_string.replace(baby_word_string[par1:par2], ' '*len(baby_word_string[par1:par2]), 1)
         except IndexError:
             pass
         counter+=1
@@ -198,9 +182,9 @@ def remove_local_variables(file_path):
             try:
                 par1=baby_word_string.find(strings_list[counter][0])
                 baby_word_string=baby_word_string.replace(strings_list[counter][0], ' '*len(strings_list[counter][0]), 1)
-                par2=baby_word_string.find(strings_list[counter][1])+len(strings_list[counter][1])-1
+                par2=baby_word_string.find(strings_list[counter][1])+len(strings_list[counter][1])
                 baby_word_string=baby_word_string.replace(strings_list[counter][1], ' '*len(strings_list[counter][1]), 1)
-                baby_word_string=baby_word_string.replace(baby_word_string[par1:par2+1], ' '*len(baby_word_string[par1:par2+1]), 1)
+                baby_word_string=baby_word_string.replace(baby_word_string[par1:par2], ' '*len(baby_word_string[par1:par2]), 1)
             except IndexError:
                 pass
             counter+=1
@@ -242,7 +226,7 @@ def remove_local_variables(file_path):
             local_variables_list=' '.join(local_variables_list)
             local_variables_list=local_variables_list.split(' ')
             counter=0
-            baby_word_string=function_text.replace('    ', '').replace('(', ' ').replace(')', ' ').replace('+', ' ').replace('-', ' ').replace('*', ' ').replace('/', ' ').replace('=', ' ').replace('.', ' ').replace(':', ' ').replace(',', ' ').replace('[', ' ').replace(']', ' ').replace('{', ' ').replace('}', ' ')
+            baby_word_string=function_text.replace('(', ' ').replace(')', ' ').replace('+', ' ').replace('-', ' ').replace('*', ' ').replace('/', ' ').replace('=', ' ').replace('.', ' ').replace(':', ' ').replace(',', ' ').replace('[', ' ').replace(']', ' ').replace('{', ' ').replace('}', ' ').replace('<', ' ').replace('>', ' ').replace('%', ' ')
             word_list=baby_word_string.splitlines()
             for c in range(0, len(word_list)):
                 string_list=word_list[counter].split(' ')
@@ -280,15 +264,18 @@ def remove_local_variables(file_path):
                                     string_check_list.append(finding2)
                                 minimum=min(string_check_list)
                                 minimum_type=string_check[minimum:minimum+3]
-                                the_list[remove_counter]=' '*len(the_list)[remove_counter]
-                                subcounter=remove_counter+1
-                                for x in range(0, len(the_list)-remove_counter-1):
-                                    line=the_list[subcounter]
-                                    if line.count(minimum_type)==0 or line.count(minimum_type)==1:
-                                        the_list[subcounter]=' '*len(the_list[subcounter])
-                                        if line.count(minimum_type)==1:
-                                            break
-                                    subcounter+=1
+                                if string_check.count(minimum_type)==1:
+                                    the_list[remove_counter]=' '*len(the_list)[remove_counter]
+                                    subcounter=remove_counter+1
+                                    for x in range(0, len(the_list)-remove_counter-1):
+                                        line=the_list[subcounter]
+                                        if line.count(minimum_type)==0 or line.count(minimum_type)==1:
+                                            the_list[subcounter]=' '*len(the_list[subcounter])
+                                            if line.count(minimum_type)==1:
+                                                break
+                                        subcounter+=1
+                                else:
+                                    the_list[remove_counter]=' '*len(the_list[remove_counter])
                             else:
                                 the_list[remove_counter]=' '*len(the_list[remove_counter])
                             try:
@@ -337,9 +324,9 @@ def remove_variables(file_path):
         try:
             par1=baby_word_string.find(strings_list[counter][0])
             baby_word_string=baby_word_string.replace(strings_list[counter][0], ' '*len(strings_list[counter][0]), 1)
-            par2=baby_word_string.find(strings_list[counter][1])+len(strings_list[counter][1])-1
+            par2=baby_word_string.find(strings_list[counter][1])+len(strings_list[counter][1])
             baby_word_string=baby_word_string.replace(strings_list[counter][1], ' '*len(strings_list[counter][1]), 1)
-            baby_word_string=baby_word_string.replace(baby_word_string[par1:par2+1], ' '*len(baby_word_string[par1:par2+1]), 1)
+            baby_word_string=baby_word_string.replace(baby_word_string[par1:par2], ' '*len(baby_word_string[par1:par2]), 1)
         except IndexError:
             pass
         counter+=1
@@ -365,7 +352,7 @@ def remove_variables(file_path):
     string_of_variables='\n'.join(variable_list)
     open('%s_all_variables.txt' % file_path.replace('.py', ''), 'w').write(string_of_variables)
     counter=0
-    baby_word_string=baby_word_string.replace('    ', '').replace('(', ' ').replace(')', ' ').replace('+', ' ').replace('-', ' ').replace('*', ' ').replace('/', ' ').replace('=', ' ').replace('.', ' ').replace(':', ' ').replace(',', ' ').replace('[', ' ').replace(']', ' ').replace('{', ' ').replace('}', ' ')
+    baby_word_string=baby_word_string.replace('(', ' ').replace(')', ' ').replace('+', ' ').replace('-', ' ').replace('*', ' ').replace('/', ' ').replace('=', ' ').replace('.', ' ').replace(':', ' ').replace(',', ' ').replace('[', ' ').replace(']', ' ').replace('{', ' ').replace('}', ' ').replace('<', ' ').replace('>', ' ').replace('%', ' ')
     word_list=baby_word_string.splitlines()
     for c in range(0, len(word_list)):
         string_list=word_list[counter].split(' ')
@@ -401,17 +388,23 @@ def remove_variables(file_path):
                             string_check_list.append(finding)
                         if finding2!=-1:
                             string_check_list.append(finding2)
+                        if finding<finding2:
+                            if string_check.count("'''")>1:
+                                the_list[remove_counter]=' '*len(the_list[remove_counter])
                         minimum=min(string_check_list)
                         minimum_type=string_check[minimum:minimum+3]
-                        the_list[remove_counter]=' '*len(the_list[remove_counter])
-                        subcounter=remove_counter+1
-                        for x in range(0, len(the_list)-remove_counter-1):
-                            line=the_list[subcounter]
-                            if line.count(minimum_type)==0 or line.count(minimum_type)==1:
-                                the_list[subcounter]=' '*len(the_list[subcounter])
-                                if line.count(minimum_type)==1:
-                                    break
-                            subcounter+=1
+                        if string_check.count(minimum_type)==1:
+                            the_list[remove_counter]=' '*len(the_list[remove_counter])
+                            subcounter=remove_counter+1
+                            for x in range(0, len(the_list)-remove_counter-1):
+                                line=the_list[subcounter]
+                                if line.count(minimum_type)==0 or line.count(minimum_type)==1:
+                                    the_list[subcounter]=' '*len(the_list[subcounter])
+                                    if line.count(minimum_type)==1:
+                                        break
+                                subcounter+=1
+                        else:
+                            the_list[remove_counter]=' '*len(the_list[remove_counter])
                     else:
                         the_list[remove_counter]=' '*len(the_list[remove_counter])
                     new_variable_list.remove(var)
@@ -515,17 +508,20 @@ def install_system_requirements(file_path):
     'Install the python modules needed; uses pip. Put a comment like this: #PyBroom.install_system_requirements: [package1, package2, package3 etc]. No string quotes anywhere. I only added this because I thought it would be simple and fun to make, and besides, some IDEs do not automatically install packages like replit.'
     text_list=open(file_path).read().splitlines()
     counter=0
+    check_for_line=0
     for x in range(0, len(text_list)):    
         line=text_list[counter]
         if '#PyBroom.install_system_requirements: [' in line:
+            check_for_line=1
             break
         counter+=1
-    list_part=line.strip().split(' ', 1)[1].split(']')[0]+']'
-    counter=0
-    list_part=list_part.replace('[', '').replace(']', '').replace(' ', '').split(',')
-    for y in range(0, len(list_part)):
-        subprocess.check_call([sys.executable, '-m', 'pip', 'install', list_part[counter]])
-        counter+=1
+    if check_for_line==1:
+        list_part=line.strip().split(' ', 1)[1].split(']')[0]+']'
+        counter=0
+        list_part=list_part.replace('[', '').replace(']', '').replace(' ', '').split(',')
+        for y in range(0, len(list_part)):
+            subprocess.check_call([sys.executable, '-m', 'pip', 'install', list_part[counter]])
+            counter+=1
 """def remove_classes(file_path):
     'Removes unused classes.'
     pass"""
@@ -535,7 +531,147 @@ def suggestions(file_path):
     'Give suggestions.'
     pass
 def beautify(file_path):
-    pass
+    file=open(file_path).read()
+    text_list=file.splitlines()
+    counter=0
+    for x in range(0, len(text_list)):
+        try:    
+            line=text_list[counter]
+        except IndexError:
+            pass
+        try:    
+            line2=text_list[counter]
+        except IndexError:
+            pass
+        try:
+            if line2.split('==', 1)[0].rstrip()==line2.split('==', 1)[0] or line2.split('==', 1)[1].lstrip()==line2.split('==', 1)[1]:
+                line=line.replace('==', ' == ', 1)
+                text_list[counter]=line
+                line2=line2.replace('==', '  ', 1)
+        except IndexError:
+            pass
+        try:
+            if line2.split('+=', 1)[0].rstrip()==line2.split('+=', 1)[0] or line2.split('+=', 1)[1].lstrip()==line2.split('+=', 1)[1]:
+                line=line.replace('+=', ' += ', 1)
+                text_list[counter]=line
+                line2=line2.replace('+=', '  ', 1)
+        except IndexError:
+            pass
+        try:
+            if line2.split('-=', 1)[0].rstrip()==line2.split('-=', 1)[0] or line2.split('-=', 1)[1].lstrip()==line2.split('-=', 1)[1]:
+                line=line.replace('-=', ' -= ', 1)
+                text_list[counter]=line
+                line2=line2.replace('-=', '  ', 1)
+        except IndexError:
+            pass
+        try:
+            if line2.split('*=', 1)[0].rstrip()==line2.split('*=', 1)[0] or line2.split('*=', 1)[1].lstrip()==line2.split('*=', 1)[1]:
+                line=line.replace('*=', ' *= ', 1)
+                text_list[counter]=line
+                line2=line2.replace('*=', '  ', 1)
+        except IndexError:
+            pass
+        try:
+            if line2.split('/=', 1)[0].rstrip()==line2.split('/=', 1)[0] or line2.split('/=', 1)[1].lstrip()==line2.split('/=', 1)[1]:
+                line=line.replace('/=', ' /= ', 1)
+                text_list[counter]=line
+                line2=line2.replace('/=', '  ', 1)
+        except IndexError:
+            pass
+        try:
+            if line2.split('!=', 1)[0].rstrip()==line2.split('!=', 1)[0] or line2.split('!=', 1)[1].lstrip()==line2.split('!=', 1)[1]:
+                line=line.replace('!=', ' != ', 1)
+                text_list[counter]=line
+                line2=line2.replace('!=', '  ', 1)
+        except IndexError:
+            pass
+        try:
+            if line2.split('>=', 1)[0].rstrip()==line2.split('>=', 1)[0] or line2.split('>=', 1)[1].lstrip()==line2.split('>=', 1)[1]:
+                line=line.replace('>=', ' >= ', 1)
+                text_list[counter]=line
+                line2=line2.replace('>=', '  ', 1)
+        except IndexError:
+            pass
+        try:
+            if line2.split('<=', 1)[0].rstrip()==line2.split('<=', 1)[0] or line2.split('<=', 1)[1].lstrip()==line2.split('<=', 1)[1]:
+                line=line.replace('<=', ' <= ', 1)
+                text_list[counter]=line
+                line2=line2.replace('<=', '  ', 1)
+        except IndexError:
+            pass
+        try:
+            if line2.split('**', 1)[0].rstrip()==line2.split('**', 1)[0] or line2.split('**', 1)[1].lstrip()==line2.split('**', 1)[1]:
+                line=line.replace('**', ' ** ', 1)
+                text_list[counter]=line
+                line2=line2.replace('**', '  ', 1)
+        except IndexError:
+            pass
+        try:
+            if line2.split('//', 1)[0].rstrip()==line2.split('//', 1)[0] or line2.split('//', 1)[1].lstrip()==line2.split('//', 1)[1]:
+                line=line.replace('//', ' // ', 1)
+                text_list[counter]=line
+                line2=line2.replace('//', '  ', 1)
+        except IndexError:
+            pass
+        try:
+            if line2.split('=', 1)[0].rstrip()==line2.split('=', 1)[0] or line2.split('=', 1)[1].lstrip()==line2.split('=', 1)[1]:
+                line=line.replace('=', ' = ', 1)
+                text_list[counter]=line
+                line2=line2.replace('=', ' ', 1)
+        except IndexError:
+            pass
+        try:
+            if line2.split('+', 1)[0].rstrip()==line2.split('+', 1)[0] or line2.split('+', 1)[1].lstrip()==line2.split('+', 1)[1]:
+                line=line.replace('+', ' + ', 1)
+                text_list[counter]=line
+                line2=line2.replace('+', ' ', 1)
+        except IndexError:
+            pass
+        try:
+            if line2.split('-', 1)[0].rstrip()==line2.split('-', 1)[0] or line2.split('-', 1)[1].lstrip()==line2.split('-', 1)[1]:
+                line=line.replace('-', ' - ', 1)
+                text_list[counter]=line
+                line2=line2.replace('-', ' ', 1)
+        except IndexError:
+            pass
+        try:
+            if line2.split('*', 1)[0].rstrip()==line2.split('*', 1)[0] or line2.split('*', 1)[1].lstrip()==line2.split('*', 1)[1]:
+                line=line.replace('*', ' * ', 1)
+                text_list[counter]=line
+                line2=line2.replace('*', ' ', 1)
+        except IndexError:
+            pass
+        try:
+            if line2.split('/', 1)[0].rstrip()==line2.split('/', 1)[0] or line2.split('/', 1)[1].lstrip()==line2.split('/', 1)[1]:
+                line=line.replace('/', ' / ', 1)
+                text_list[counter]=line
+                line2=line2.replace('/', ' ', 1)
+        except IndexError:
+            pass
+        try:
+            if line2.split('<', 1)[0].rstrip()==line2.split('<', 1)[0] or line2.split('<', 1)[1].lstrip()==line2.split('<', 1)[1]:
+                line=line.replace('<', ' < ', 1)
+                text_list[counter]=line
+                line2=line2.replace('<', ' ', 1)
+        except IndexError:
+            pass
+        try:
+            if line2.split('>', 1)[0].rstrip()==line2.split('>', 1)[0] or line2.split('>', 1)[1].lstrip()==line2.split('>', 1)[1]:
+                line=line.replace('>', ' > ', 1)
+                text_list[counter]=line
+                line2=line2.replace('>', ' ', 1)
+        except IndexError:
+            pass
+        try:
+            if line2.split('%', 1)[0].rstrip()==line2.split('%', 1)[0] or line2.split('%', 1)[1].lstrip()==line2.split('%', 1)[1]:
+                line=line.replace('%', ' % ', 1)
+                text_list[counter]=line
+                line2=line2.replace('%', ' ', 1)
+        except IndexError:
+            pass
+        counter+=1
+    string='\n'.join(text_list)
+    open(file_path, 'w').write(string)
 def history():
     'Return a list of the commands you did.'
     global history_list
