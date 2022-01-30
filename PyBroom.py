@@ -552,7 +552,7 @@ def beautify(file_path):
                     line_list[index+1]='= '
                     line=''.join(line_list)
                     text_list[counter]=line
-                    line2=line2.replace('==', '  ', 1)
+                    line2=line2.replace('==', '    ', 1)
             except IndexError:
                 pass
         for x in range(0, line.count('+=')):
@@ -564,7 +564,7 @@ def beautify(file_path):
                     line_list[index+1]='= '
                     line=''.join(line_list)
                     text_list[counter]=line
-                    line2=line2.replace('+=', '  ', 1)
+                    line2=line2.replace('+=', '    ', 1)
             except IndexError:
                 pass
         for x in range(0, line.count('-=')):
@@ -576,7 +576,7 @@ def beautify(file_path):
                     line_list[index+1]='= '
                     line=''.join(line_list)
                     text_list[counter]=line
-                    line2=line2.replace('-=', '  ', 1)
+                    line2=line2.replace('-=', '    ', 1)
             except IndexError:
                 pass
         for x in range(0, line.count('*=')):
@@ -588,7 +588,7 @@ def beautify(file_path):
                     line_list[index+1]='= '
                     line=''.join(line_list)
                     text_list[counter]=line
-                    line2=line2.replace('*=', '  ', 1)
+                    line2=line2.replace('*=', '    ', 1)
             except IndexError:
                 pass
         for x in range(0, line.count('/=')):
@@ -600,7 +600,7 @@ def beautify(file_path):
                     line_list[index+1]='= '
                     line=''.join(line_list)
                     text_list[counter]=line
-                    line2=line2.replace('/=', '  ', 1)
+                    line2=line2.replace('/=', '    ', 1)
             except IndexError:
                 pass
         for x in range(0, line.count('!=')):
@@ -612,7 +612,7 @@ def beautify(file_path):
                     line_list[index+1]='= '
                     line=''.join(line_list)
                     text_list[counter]=line
-                    line2=line2.replace('!=', '  ', 1)
+                    line2=line2.replace('!=', '    ', 1)
             except IndexError:
                 pass
         for x in range(0, line.count('>=')):
@@ -624,7 +624,7 @@ def beautify(file_path):
                     line_list[index+1]='= '
                     line=''.join(line_list)
                     text_list[counter]=line
-                    line2=line2.replace('>=', '  ', 1)
+                    line2=line2.replace('>=', '    ', 1)
             except IndexError:
                 pass
         for x in range(0, line.count('<=')):
@@ -636,7 +636,7 @@ def beautify(file_path):
                     line_list[index+1]='= '
                     line=''.join(line_list)
                     text_list[counter]=line
-                    line2=line2.replace('<=', '  ', 1)
+                    line2=line2.replace('<=', '    ', 1)
             except IndexError:
                 pass
         for x in range(0, line.count('%=')):
@@ -648,7 +648,7 @@ def beautify(file_path):
                     line_list[index+1]='= '
                     line=''.join(line_list)
                     text_list[counter]=line
-                    line2=line2.replace('%=', '  ', 1)
+                    line2=line2.replace('%=', '    ', 1)
             except IndexError:
                 pass
         for x in range(0, line.count('**')):
@@ -660,7 +660,7 @@ def beautify(file_path):
                     line_list[index+1]='* '
                     line=''.join(line_list)
                     text_list[counter]=line
-                    line2=line2.replace('**', '  ', 1)
+                    line2=line2.replace('**', '    ', 1)
             except IndexError:
                 pass
         for x in range(0, line.count('//')):
@@ -672,7 +672,7 @@ def beautify(file_path):
                     line_list[index+1]='/ '
                     line=''.join(line_list)
                     text_list[counter]=line
-                    line2=line2.replace('//', '  ', 1)
+                    line2=line2.replace('//', '    ', 1)
             except IndexError:
                 pass
         for x in range(0, line.count('=')):
@@ -683,7 +683,7 @@ def beautify(file_path):
                     line_list[index]=' = '
                     line=''.join(line_list)
                     text_list[counter]=line
-                    line2=line2.replace('=', ' ', 1)
+                    line2=line2.replace('=', '   ', 1)
             except IndexError:
                 pass
         for x in range(0, line.count('+')):
@@ -694,7 +694,7 @@ def beautify(file_path):
                     line_list[index]=' + '
                     line=''.join(line_list)
                     text_list[counter]=line
-                    line2=line2.replace('+', ' ', 1)
+                    line2=line2.replace('+', '   ', 1)
             except IndexError:
                 pass
         for x in range(0, line.count('-')):
@@ -705,7 +705,7 @@ def beautify(file_path):
                     line_list[index]=' - '
                     line=''.join(line_list)
                     text_list[counter]=line
-                    line2=line2.replace('-', ' ', 1)
+                    line2=line2.replace('-', '   ', 1)
             except IndexError:
                 pass
         for x in range(0, line.count('*')):
@@ -716,7 +716,7 @@ def beautify(file_path):
                     line_list[index]=' * '
                     line=''.join(line_list)
                     text_list[counter]=line
-                    line2=line2.replace('*', ' ', 1)
+                    line2=line2.replace('*', '   ', 1)
             except IndexError:
                 pass
         for x in range(0, line.count('/')):
@@ -727,7 +727,7 @@ def beautify(file_path):
                     line_list[index]=' / '
                     line=''.join(line_list)
                     text_list[counter]=line
-                    line2=line2.replace('/', ' ', 1)
+                    line2=line2.replace('/', '   ', 1)
             except IndexError:
                 pass
         for x in range(0, line.count('<')):
@@ -738,7 +738,7 @@ def beautify(file_path):
                     line_list[index]=' < '
                     line=''.join(line_list)
                     text_list[counter]=line
-                    line2=line2.replace('<', ' ', 1)
+                    line2=line2.replace('<', '   ', 1)
             except IndexError:
                 pass
         for x in range(0, line.count('>')):
@@ -749,7 +749,7 @@ def beautify(file_path):
                     line_list[index]=' > '
                     line=''.join(line_list)
                     text_list[counter]=line
-                    line2=line2.replace('>', ' ', 1)
+                    line2=line2.replace('>', '   ', 1)
             except IndexError:
                 pass
         for x in range(0, line.count('%')):
@@ -760,7 +760,7 @@ def beautify(file_path):
                     line_list[index]=' % '
                     line=''.join(line_list)
                     text_list[counter]=line
-                    line2=line2.replace('%', ' ', 1)
+                    line2=line2.replace('%', '   ', 1)
             except IndexError:
                 pass
         counter+=1
