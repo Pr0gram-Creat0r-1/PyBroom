@@ -546,7 +546,11 @@ def beautify(file_path):
         for x in range(0, line.count('==')):
             try:
                 if line2.split('==', 1)[0].rstrip()==line2.split('==', 1)[0] or line2.split('==', 1)[1].lstrip()==line2.split('==', 1)[1]:
-                    line=line.replace('==', ' == ', 1)
+                    index=line2.find('==')
+                    line_list=list(line)
+                    line_list[index]=' ='
+                    line_list[index+1]='= '
+                    line=''.join(line_list)
                     text_list[counter]=line
                     line2=line2.replace('==', '  ', 1)
             except IndexError:
@@ -554,7 +558,11 @@ def beautify(file_path):
         for x in range(0, line.count('+=')):
             try:
                 if line2.split('+=', 1)[0].rstrip()==line2.split('+=', 1)[0] or line2.split('+=', 1)[1].lstrip()==line2.split('+=', 1)[1]:
-                    line=line.replace('+=', ' += ', 1)
+                    index=line2.find('+=')
+                    line_list=list(line)
+                    line_list[index]=' +'
+                    line_list[index+1]='= '
+                    line=''.join(line_list)
                     text_list[counter]=line
                     line2=line2.replace('+=', '  ', 1)
             except IndexError:
@@ -562,7 +570,11 @@ def beautify(file_path):
         for x in range(0, line.count('-=')):
             try:
                 if line2.split('-=', 1)[0].rstrip()==line2.split('-=', 1)[0] or line2.split('-=', 1)[1].lstrip()==line2.split('-=', 1)[1]:
-                    line=line.replace('-=', ' -= ', 1)
+                    index=line2.find('-=')
+                    line_list=list(line)
+                    line_list[index]=' -'
+                    line_list[index+1]='= '
+                    line=''.join(line_list)
                     text_list[counter]=line
                     line2=line2.replace('-=', '  ', 1)
             except IndexError:
@@ -570,7 +582,11 @@ def beautify(file_path):
         for x in range(0, line.count('*=')):
             try:
                 if line2.split('*=', 1)[0].rstrip()==line2.split('*=', 1)[0] or line2.split('*=', 1)[1].lstrip()==line2.split('*=', 1)[1]:
-                    line=line.replace('*=', ' *= ', 1)
+                    index=line2.find('*=')
+                    line_list=list(line)
+                    line_list[index]=' *'
+                    line_list[index+1]='= '
+                    line=''.join(line_list)
                     text_list[counter]=line
                     line2=line2.replace('*=', '  ', 1)
             except IndexError:
@@ -578,7 +594,11 @@ def beautify(file_path):
         for x in range(0, line.count('/=')):
             try:
                 if line2.split('/=', 1)[0].rstrip()==line2.split('/=', 1)[0] or line2.split('/=', 1)[1].lstrip()==line2.split('/=', 1)[1]:
-                    line=line.replace('/=', ' /= ', 1)
+                    index=line2.find('/=')
+                    line_list=list(line)
+                    line_list[index]=' /'
+                    line_list[index+1]='= '
+                    line=''.join(line_list)
                     text_list[counter]=line
                     line2=line2.replace('/=', '  ', 1)
             except IndexError:
@@ -586,7 +606,11 @@ def beautify(file_path):
         for x in range(0, line.count('!=')):
             try:
                 if line2.split('!=', 1)[0].rstrip()==line2.split('!=', 1)[0] or line2.split('!=', 1)[1].lstrip()==line2.split('!=', 1)[1]:
-                    line=line.replace('!=', ' != ', 1)
+                    index=line2.find('!=')
+                    line_list=list(line)
+                    line_list[index]=' !'
+                    line_list[index+1]='= '
+                    line=''.join(line_list)
                     text_list[counter]=line
                     line2=line2.replace('!=', '  ', 1)
             except IndexError:
@@ -594,7 +618,11 @@ def beautify(file_path):
         for x in range(0, line.count('>=')):
             try:
                 if line2.split('>=', 1)[0].rstrip()==line2.split('>=', 1)[0] or line2.split('>=', 1)[1].lstrip()==line2.split('>=', 1)[1]:
-                    line=line.replace('>=', ' >= ', 1)
+                    index=line2.find('>=')
+                    line_list=list(line)
+                    line_list[index]=' >'
+                    line_list[index+1]='= '
+                    line=''.join(line_list)
                     text_list[counter]=line
                     line2=line2.replace('>=', '  ', 1)
             except IndexError:
@@ -602,15 +630,35 @@ def beautify(file_path):
         for x in range(0, line.count('<=')):
             try:
                 if line2.split('<=', 1)[0].rstrip()==line2.split('<=', 1)[0] or line2.split('<=', 1)[1].lstrip()==line2.split('<=', 1)[1]:
-                    line=line.replace('<=', ' <= ', 1)
+                    index=line2.find('<=')
+                    line_list=list(line)
+                    line_list[index]=' <'
+                    line_list[index+1]='= '
+                    line=''.join(line_list)
                     text_list[counter]=line
                     line2=line2.replace('<=', '  ', 1)
+            except IndexError:
+                pass
+        for x in range(0, line.count('%=')):
+            try:
+                if line2.split('%=', 1)[0].rstrip()==line2.split('%=', 1)[0] or line2.split('%=', 1)[1].lstrip()==line2.split('%=', 1)[1]:
+                    index=line2.find('%=')
+                    line_list=list(line)
+                    line_list[index]=' %'
+                    line_list[index+1]='= '
+                    line=''.join(line_list)
+                    text_list[counter]=line
+                    line2=line2.replace('%=', '  ', 1)
             except IndexError:
                 pass
         for x in range(0, line.count('**')):
             try:
                 if line2.split('**', 1)[0].rstrip()==line2.split('**', 1)[0] or line2.split('**', 1)[1].lstrip()==line2.split('**', 1)[1]:
-                    line=line.replace('**', ' ** ', 1)
+                    index=line2.find('**')
+                    line_list=list(line)
+                    line_list[index]=' *'
+                    line_list[index+1]='* '
+                    line=''.join(line_list)
                     text_list[counter]=line
                     line2=line2.replace('**', '  ', 1)
             except IndexError:
@@ -618,72 +666,99 @@ def beautify(file_path):
         for x in range(0, line.count('//')):
             try:
                 if line2.split('//', 1)[0].rstrip()==line2.split('//', 1)[0] or line2.split('//', 1)[1].lstrip()==line2.split('//', 1)[1]:
-                    line=line.replace('//', ' // ', 1)
+                    index=line2.find('//')
+                    line_list=list(line)
+                    line_list[index]=' /'
+                    line_list[index+1]='/ '
+                    line=''.join(line_list)
                     text_list[counter]=line
                     line2=line2.replace('//', '  ', 1)
             except IndexError:
                 pass
         for x in range(0, line.count('=')):
             try:
-                if (line2.split('=', 1)[0].rstrip()==line2.split('=', 1)[0] or line2.split('=', 1)[1].lstrip()==line2.split('=', 1)[1]) and (line2[line2.find('=')+1] not in ['+', '-', '*', '/', '=', '%', '>', '<'] and line2[line2.find('=')-1] not in ['+', '-', '*', '/', '=', '%', '>', '<']):
-                    print(line2[line2.find('=')-1:line2.find('=')+2])
-                    line=line.replace('=', ' = ', 1)
+                if (line2.split('=', 1)[0].rstrip()==line2.split('=', 1)[0] or line2.split('=', 1)[1].lstrip()==line2.split('=', 1)[1]) and (line2[line2.find('=')+1] not in ['+', '-', '*', '/', '=', '%', '>', '<'] and line2[line2.find('=')-1] not in ['+', '-', '*', '/', '=', '%', '>', '<']) and line2.find('=')!=-1:
+                    index=line2.find('=')
+                    line_list=list(line)
+                    line_list[index]=' = '
+                    line=''.join(line_list)
                     text_list[counter]=line
                     line2=line2.replace('=', ' ', 1)
             except IndexError:
                 pass
         for x in range(0, line.count('+')):
             try:
-                if line2.split('+', 1)[0].rstrip()==line2.split('+', 1)[0] or line2.split('+', 1)[1].lstrip()==line2.split('+', 1)[1] and line2[line2.find('+')+1] not in ['+', '-', '*', '/', '=', '%', '>', '<'] and line2[line2.find('+')-1] not in ['+', '-', '*', '/', '=', '%', '>', '<']:
-                    line=line.replace('+', ' + ', 1)
+                if (line2.split('+', 1)[0].rstrip()==line2.split('+', 1)[0] or line2.split('+', 1)[1].lstrip()==line2.split('+', 1)[1]) and (line2[line2.find('+')+1] not in ['+', '-', '*', '/', '=', '%', '>', '<'] and line2[line2.find('+')-1] not in ['+', '-', '*', '/', '=', '%', '>', '<']) and line2.find('+')!=-1:
+                    index=line2.find('+')
+                    line_list=list(line)
+                    line_list[index]=' + '
+                    line=''.join(line_list)
                     text_list[counter]=line
                     line2=line2.replace('+', ' ', 1)
             except IndexError:
                 pass
         for x in range(0, line.count('-')):
             try:
-                if line2.split('-', 1)[0].rstrip()==line2.split('-', 1)[0] or line2.split('-', 1)[1].lstrip()==line2.split('-', 1)[1] and line2[line2.find('-')+1] not in ['+', '-', '*', '/', '=', '%', '>', '<'] and line2[line2.find('-')-1] not in ['+', '-', '*', '/', '=', '%', '>', '<']:
-                    line=line.replace('-', ' - ', 1)
+                if (line2.split('-', 1)[0].rstrip()==line2.split('-', 1)[0] or line2.split('-', 1)[1].lstrip()==line2.split('-', 1)[1]) and (line2[line2.find('-')+1] not in ['+', '-', '*', '/', '=', '%', '>', '<'] and line2[line2.find('-')-1] not in ['+', '-', '*', '/', '=', '%', '>', '<']) and line2.find('-')!=-1:
+                    index=line2.find('-')
+                    line_list=list(line)
+                    line_list[index]=' - '
+                    line=''.join(line_list)
                     text_list[counter]=line
                     line2=line2.replace('-', ' ', 1)
             except IndexError:
                 pass
         for x in range(0, line.count('*')):
             try:
-                if line2.split('*', 1)[0].rstrip()==line2.split('*', 1)[0] or line2.split('*', 1)[1].lstrip()==line2.split('*', 1)[1] and line2[line2.find('*')+1] not in ['+', '-', '*', '/', '=', '%', '>', '<'] and line2[line2.find('*')-1] not in ['+', '-', '*', '/', '=', '%', '>', '<']:
-                    line=line.replace('*', ' * ', 1)
+                if (line2.split('*', 1)[0].rstrip()==line2.split('*', 1)[0] or line2.split('*', 1)[1].lstrip()==line2.split('*', 1)[1]) and (line2[line2.find('*')+1] not in ['+', '-', '*', '/', '=', '%', '>', '<'] and line2[line2.find('*')-1] not in ['+', '-', '*', '/', '=', '%', '>', '<']) and line2.find('*')!=-1:
+                    index=line2.find('*')
+                    line_list=list(line)
+                    line_list[index]=' * '
+                    line=''.join(line_list)
                     text_list[counter]=line
                     line2=line2.replace('*', ' ', 1)
             except IndexError:
                 pass
         for x in range(0, line.count('/')):
             try:
-                if line2.split('/', 1)[0].rstrip()==line2.split('/', 1)[0] or line2.split('/', 1)[1].lstrip()==line2.split('/', 1)[1] and line2[line2.find('/')+1] not in ['+', '-', '*', '/', '=', '%', '>', '<'] and line2[line2.find('/')-1] not in ['+', '-', '*', '/', '=', '%', '>', '<']:
-                    line=line.replace('/', ' / ', 1)
+                if (line2.split('/', 1)[0].rstrip()==line2.split('/', 1)[0] or line2.split('/', 1)[1].lstrip()==line2.split('/', 1)[1]) and (line2[line2.find('/')+1] not in ['+', '-', '*', '/', '=', '%', '>', '<'] and line2[line2.find('/')-1] not in ['+', '-', '*', '/', '=', '%', '>', '<']) and line2.find('/')!=-1:
+                    index=line2.find('/')
+                    line_list=list(line)
+                    line_list[index]=' / '
+                    line=''.join(line_list)
                     text_list[counter]=line
                     line2=line2.replace('/', ' ', 1)
             except IndexError:
                 pass
         for x in range(0, line.count('<')):
             try:
-                if line2.split('<', 1)[0].rstrip()==line2.split('<', 1)[0] or line2.split('<', 1)[1].lstrip()==line2.split('<', 1)[1] and line2[line2.find('<')+1] not in ['+', '-', '*', '/', '=', '%', '>', '<'] and line2[line2.find('<')-1] not in ['+', '-', '*', '/', '=', '%', '>', '<']:
-                    line=line.replace('<', ' < ', 1)
+                if (line2.split('<', 1)[0].rstrip()==line2.split('<', 1)[0] or line2.split('<', 1)[1].lstrip()==line2.split('<', 1)[1]) and (line2[line2.find('<')+1] not in ['+', '-', '*', '/', '=', '%', '>', '<'] and line2[line2.find('<')-1] not in ['+', '-', '*', '/', '=', '%', '>', '<']) and line2.find('<')!=-1:
+                    index=line2.find('<')
+                    line_list=list(line)
+                    line_list[index]=' < '
+                    line=''.join(line_list)
                     text_list[counter]=line
                     line2=line2.replace('<', ' ', 1)
             except IndexError:
                 pass
         for x in range(0, line.count('>')):
             try:
-                if line2.split('>', 1)[0].rstrip()==line2.split('>', 1)[0] or line2.split('>', 1)[1].lstrip()==line2.split('>', 1)[1] and line2[line2.find('>')+1] not in ['+', '-', '*', '/', '=', '%', '>', '<'] and line2[line2.find('>')-1] not in ['+', '-', '*', '/', '=', '%', '>', '<']:
-                    line=line.replace('>', ' > ', 1)
+                if (line2.split('>', 1)[0].rstrip()==line2.split('>', 1)[0] or line2.split('>', 1)[1].lstrip()==line2.split('>', 1)[1]) and (line2[line2.find('>')+1] not in ['+', '-', '*', '/', '=', '%', '>', '<'] and line2[line2.find('>')-1] not in ['+', '-', '*', '/', '=', '%', '>', '<']) and line2.find('>')!=-1:
+                    index=line2.find('>')
+                    line_list=list(line)
+                    line_list[index]=' > '
+                    line=''.join(line_list)
                     text_list[counter]=line
                     line2=line2.replace('>', ' ', 1)
             except IndexError:
                 pass
         for x in range(0, line.count('%')):
             try:
-                if line2.split('%', 1)[0].rstrip()==line2.split('%', 1)[0] or line2.split('%', 1)[1].lstrip()==line2.split('%', 1)[1] and line2[line2.find('%')+1] not in ['+', '-', '*', '/', '=', '%', '>', '<'] and line2[line2.find('%')-1] not in ['+', '-', '*', '/', '=', '%', '>', '<']:
-                    line=line.replace('%', ' % ', 1)
+                if (line2.split('%', 1)[0].rstrip()==line2.split('%', 1)[0] or line2.split('%', 1)[1].lstrip()==line2.split('%', 1)[1]) and (line2[line2.find('%')+1] not in ['+', '-', '*', '/', '=', '%', '>', '<'] and line2[line2.find('%')-1] not in ['+', '-', '*', '/', '=', '%', '>', '<']) and line2.find('%')!=-1:
+                    index=line2.find('%')
+                    line_list=list(line)
+                    line_list[index]=' % '
+                    line=''.join(line_list)
                     text_list[counter]=line
                     line2=line2.replace('%', ' ', 1)
             except IndexError:
