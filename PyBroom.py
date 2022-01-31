@@ -124,6 +124,7 @@ def find_comments(file_path):
         except IndexError:
             pass
         counter+=1
+    counter=0
     return comment_list
 def find_functions(file_path):
     'Find functions.'
@@ -545,7 +546,7 @@ def beautify(file_path):
             pass
         for x in range(0, line.count('==')):
             try:
-                if line2.split('==', 1)[0].rstrip()==line2.split('==', 1)[0] or line2.split('==', 1)[1].lstrip()==line2.split('==', 1)[1]:
+                if (line2.split('==', 1)[0].rstrip()==line2.split('==', 1)[0] or line2.split('==', 1)[1].lstrip()==line2.split('==', 1)[1]) and line2.find('==')!=-1:
                     index=line2.find('==')
                     line_list=list(line)
                     line_list[index]=' ='
@@ -557,7 +558,7 @@ def beautify(file_path):
                 pass
         for x in range(0, line.count('+=')):
             try:
-                if line2.split('+=', 1)[0].rstrip()==line2.split('+=', 1)[0] or line2.split('+=', 1)[1].lstrip()==line2.split('+=', 1)[1]:
+                if (line2.split('+=', 1)[0].rstrip()==line2.split('+=', 1)[0] or line2.split('+=', 1)[1].lstrip()==line2.split('+=', 1)[1]) and line2.find('+=')!=-1:
                     index=line2.find('+=')
                     line_list=list(line)
                     line_list[index]=' +'
@@ -569,7 +570,7 @@ def beautify(file_path):
                 pass
         for x in range(0, line.count('-=')):
             try:
-                if line2.split('-=', 1)[0].rstrip()==line2.split('-=', 1)[0] or line2.split('-=', 1)[1].lstrip()==line2.split('-=', 1)[1]:
+                if (line2.split('-=', 1)[0].rstrip()==line2.split('-=', 1)[0] or line2.split('-=', 1)[1].lstrip()==line2.split('-=', 1)[1]) and line2.find('-=')!=-1:
                     index=line2.find('-=')
                     line_list=list(line)
                     line_list[index]=' -'
@@ -581,7 +582,7 @@ def beautify(file_path):
                 pass
         for x in range(0, line.count('*=')):
             try:
-                if line2.split('*=', 1)[0].rstrip()==line2.split('*=', 1)[0] or line2.split('*=', 1)[1].lstrip()==line2.split('*=', 1)[1]:
+                if (line2.split('*=', 1)[0].rstrip()==line2.split('*=', 1)[0] or line2.split('*=', 1)[1].lstrip()==line2.split('*=', 1)[1]) and line2.find('*=')!=-1:
                     index=line2.find('*=')
                     line_list=list(line)
                     line_list[index]=' *'
@@ -593,7 +594,7 @@ def beautify(file_path):
                 pass
         for x in range(0, line.count('/=')):
             try:
-                if line2.split('/=', 1)[0].rstrip()==line2.split('/=', 1)[0] or line2.split('/=', 1)[1].lstrip()==line2.split('/=', 1)[1]:
+                if (line2.split('/=', 1)[0].rstrip()==line2.split('/=', 1)[0] or line2.split('/=', 1)[1].lstrip()==line2.split('/=', 1)[1]) and line2.find('/=')!=-1:
                     index=line2.find('/=')
                     line_list=list(line)
                     line_list[index]=' /'
@@ -605,7 +606,7 @@ def beautify(file_path):
                 pass
         for x in range(0, line.count('!=')):
             try:
-                if line2.split('!=', 1)[0].rstrip()==line2.split('!=', 1)[0] or line2.split('!=', 1)[1].lstrip()==line2.split('!=', 1)[1]:
+                if (line2.split('!=', 1)[0].rstrip()==line2.split('!=', 1)[0] or line2.split('!=', 1)[1].lstrip()==line2.split('!=', 1)[1]) and line2.find('!=')!=-1:
                     index=line2.find('!=')
                     line_list=list(line)
                     line_list[index]=' !'
@@ -617,7 +618,7 @@ def beautify(file_path):
                 pass
         for x in range(0, line.count('>=')):
             try:
-                if line2.split('>=', 1)[0].rstrip()==line2.split('>=', 1)[0] or line2.split('>=', 1)[1].lstrip()==line2.split('>=', 1)[1]:
+                if (line2.split('>=', 1)[0].rstrip()==line2.split('>=', 1)[0] or line2.split('>=', 1)[1].lstrip()==line2.split('>=', 1)[1]) and line2.find('>=')!=-1:
                     index=line2.find('>=')
                     line_list=list(line)
                     line_list[index]=' >'
@@ -629,7 +630,7 @@ def beautify(file_path):
                 pass
         for x in range(0, line.count('<=')):
             try:
-                if line2.split('<=', 1)[0].rstrip()==line2.split('<=', 1)[0] or line2.split('<=', 1)[1].lstrip()==line2.split('<=', 1)[1]:
+                if (line2.split('<=', 1)[0].rstrip()==line2.split('<=', 1)[0] or line2.split('<=', 1)[1].lstrip()==line2.split('<=', 1)[1]) and line2.find('<=')!=-1:
                     index=line2.find('<=')
                     line_list=list(line)
                     line_list[index]=' <'
@@ -641,7 +642,7 @@ def beautify(file_path):
                 pass
         for x in range(0, line.count('%=')):
             try:
-                if line2.split('%=', 1)[0].rstrip()==line2.split('%=', 1)[0] or line2.split('%=', 1)[1].lstrip()==line2.split('%=', 1)[1]:
+                if (line2.split('%=', 1)[0].rstrip()==line2.split('%=', 1)[0] or line2.split('%=', 1)[1].lstrip()==line2.split('%=', 1)[1]) and line2.find('%=')!=-1:
                     index=line2.find('%=')
                     line_list=list(line)
                     line_list[index]=' %'
@@ -653,7 +654,7 @@ def beautify(file_path):
                 pass
         for x in range(0, line.count('**')):
             try:
-                if line2.split('**', 1)[0].rstrip()==line2.split('**', 1)[0] or line2.split('**', 1)[1].lstrip()==line2.split('**', 1)[1]:
+                if (line2.split('**', 1)[0].rstrip()==line2.split('**', 1)[0] or line2.split('**', 1)[1].lstrip()==line2.split('**', 1)[1]) and line2.find('**')!=-1:
                     index=line2.find('**')
                     line_list=list(line)
                     line_list[index]=' *'
@@ -665,7 +666,7 @@ def beautify(file_path):
                 pass
         for x in range(0, line.count('//')):
             try:
-                if line2.split('//', 1)[0].rstrip()==line2.split('//', 1)[0] or line2.split('//', 1)[1].lstrip()==line2.split('//', 1)[1]:
+                if (line2.split('//', 1)[0].rstrip()==line2.split('//', 1)[0] or line2.split('//', 1)[1].lstrip()==line2.split('//', 1)[1]) and line2.find('//')!=-1:
                     index=line2.find('//')
                     line_list=list(line)
                     line_list[index]=' /'
@@ -761,6 +762,17 @@ def beautify(file_path):
                     line=''.join(line_list)
                     text_list[counter]=line
                     line2=line2.replace('%', '   ', 1)
+            except IndexError:
+                pass
+        for x in range(0, line.count(',')):
+            try:
+                if (line2.split(',', 1)[0].rstrip()==line2.split(',', 1)[0] or line2.split(',', 1)[1].lstrip()==line2.split(',', 1)[1]) and (line2[line2.find(',')+1] not in ['+', '-', '*', '/', '=', '%', '>', '<'] and line2[line2.find(',')-1] not in ['+', '-', '*', '/', '=', '%', '>', '<']) and line2.find(',')!=-1:
+                    index=line2.find(',')
+                    line_list=list(line)
+                    line_list[index]=', '
+                    line=''.join(line_list)
+                    text_list[counter]=line
+                    line2=line2.replace(',', '  ', 1)
             except IndexError:
                 pass
         counter+=1
