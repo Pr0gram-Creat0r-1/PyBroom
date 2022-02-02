@@ -251,7 +251,7 @@ def remove_local_variables(file_path):
                 line=the_new_list[counter]
                 if line.count('=')==1:
                     new_line=line.strip()
-                    variable=new_line.split('=')[0]
+                    variable=new_line.split('=')[0].strip()
                     variable_list.append(variable)
                 counter+=1
             new_variable_list=variable_list.copy()
@@ -379,7 +379,7 @@ def remove_variables(file_path):
         line=the_new_list[counter]
         if line.count('=')==1:
             new_line=line.strip()
-            variable=new_line.split('=')[0]
+            variable=new_line.split('=')[0].strip()
             variable_list.append(variable)
         counter+=1
     new_variable_list=variable_list.copy()
