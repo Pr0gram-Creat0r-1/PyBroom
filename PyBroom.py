@@ -1,10 +1,13 @@
 #I am going to try keeping this file clean
 #Imagine cleaning a code cleaner :)
+#PyBroom.install_system_requirements: [english-words]
 import os
 import sys
 import subprocess
 import datetime
-'from english_words import english_words_set as english_list'
+from english_words import english_words_set
+english_list=list(english_words_set)
+english_list.append('')
 history_list=[]
 log_history=1
 def find_strings(file_path):
@@ -227,7 +230,7 @@ def remove_local_variables(file_path):
             try:
                 par1=baby_word_string.find(baby_word_string[comment_list[counter][0]])
                 par2=baby_word_string.find(baby_word_string[comment_list[counter][1]])
-                baby_word_string=baby_word_string.replace(baby_word_string[par1:par2+1], ' '*len(baby_word_string[par1:par2+1]), 1)
+                baby_word_string=baby_word_string.replace(baby_word_string[par1:par2], ' '*len(baby_word_string[par1:par2]), 1)
             except IndexError:
                 pass
             counter+=1
@@ -249,10 +252,11 @@ def remove_local_variables(file_path):
             real_word_list=[]
             for x in range(0, len(the_new_list)):
                 line=the_new_list[counter]
-                if line.count('=')==1:
+                if line.count('=')==1 and line.split('=')[0].count('+')==0 and line.split('=')[0].count('-')==0 and line.split('=')[0].count('*')==0 and line.split('=')[0].count('/')==0 and line.split('=')[0].count('%')==0 and line.split('=')[0].count('<')==0 and line.split('=')[0].count('>')==0 and line.split('=')[0].count('!')==0:
                     new_line=line.strip()
                     variable=new_line.split('=')[0].strip()
-                    variable_list.append(variable)
+                    if variable not in variable_list:
+                        variable_list.append(variable)
                 counter+=1
             new_variable_list=variable_list.copy()
             string_of_variables=' '.join(variable_list)
@@ -260,7 +264,7 @@ def remove_local_variables(file_path):
             local_variables_list=' '.join(local_variables_list)
             local_variables_list=local_variables_list.split(' ')
             counter=0
-            baby_word_string=function_text.replace('(', ' ').replace(')', ' ').replace('+', ' ').replace('-', ' ').replace('*', ' ').replace('/', ' ').replace('=', ' ').replace('.', ' ').replace(':', ' ').replace(',', ' ').replace('[', ' ').replace(']', ' ').replace('{', ' ').replace('}', ' ').replace('<', ' ').replace('>', ' ').replace('%', ' ')
+            baby_word_string=function_text.replace('(', ' ').replace(')', ' ').replace('+', ' ').replace('-', ' ').replace('*', ' ').replace('/', ' ').replace('=', ' ').replace('.', ' ').replace(':', ' ').replace(',', ' ').replace('[', ' ').replace(']', ' ').replace('{', ' ').replace('}', ' ').replace('<', ' ').replace('>', ' ').replace('%', ' ').replace('!', ' ')
             word_list=baby_word_string.splitlines()
             for c in range(0, len(word_list)):
                 string_list=word_list[counter].split(' ')
@@ -369,7 +373,7 @@ def remove_variables(file_path):
         try:
             par1=baby_word_string.find(baby_word_string[comment_list[counter][0]])
             par2=baby_word_string.find(baby_word_string[comment_list[counter][1]])
-            baby_word_string=baby_word_string.replace(baby_word_string[par1:par2+1], ' '*len(baby_word_string[par1:par2+1]), 1)
+            baby_word_string=baby_word_string.replace(baby_word_string[par1:par2], ' '*len(baby_word_string[par1:par2]), 1)
         except IndexError:
             pass
         counter+=1
@@ -377,16 +381,17 @@ def remove_variables(file_path):
     the_new_list=baby_word_string.splitlines()
     for x in range(0, len(the_new_list)):
         line=the_new_list[counter]
-        if line.count('=')==1:
+        if line.count('=')==1 and line.split('=')[0].count('+')==0 and line.split('=')[0].count('-')==0 and line.split('=')[0].count('*')==0 and line.split('=')[0].count('/')==0 and line.split('=')[0].count('%')==0 and line.split('=')[0].count('<')==0 and line.split('=')[0].count('>')==0 and line.split('=')[0].count('!')==0:
             new_line=line.strip()
             variable=new_line.split('=')[0].strip()
-            variable_list.append(variable)
+            if variable not in variable_list:
+                variable_list.append(variable)
         counter+=1
     new_variable_list=variable_list.copy()
     string_of_variables='\n'.join(variable_list)
     open('%s_all_variables.txt' % file_path.replace('.py', ''), 'w').write(string_of_variables)
     counter=0
-    baby_word_string=baby_word_string.replace('(', ' ').replace(')', ' ').replace('+', ' ').replace('-', ' ').replace('*', ' ').replace('/', ' ').replace('=', ' ').replace('.', ' ').replace(':', ' ').replace(',', ' ').replace('[', ' ').replace(']', ' ').replace('{', ' ').replace('}', ' ').replace('<', ' ').replace('>', ' ').replace('%', ' ')
+    baby_word_string=baby_word_string.replace('(', ' ').replace(')', ' ').replace('+', ' ').replace('-', ' ').replace('*', ' ').replace('/', ' ').replace('=', ' ').replace('.', ' ').replace(':', ' ').replace(',', ' ').replace('[', ' ').replace(']', ' ').replace('{', ' ').replace('}', ' ').replace('<', ' ').replace('>', ' ').replace('%', ' ').replace('!', ' ')
     word_list=baby_word_string.splitlines()
     for c in range(0, len(word_list)):
         string_list=word_list[counter].split(' ')
@@ -585,7 +590,7 @@ def suggestions(file_path):
         try:
             par1=baby_word_string.find(baby_word_string[comment_list[counter][0]])
             par2=baby_word_string.find(baby_word_string[comment_list[counter][1]])
-            baby_word_string=baby_word_string.replace(baby_word_string[par1:par2+1], ' '*len(baby_word_string[par1:par2+1]), 1)
+            baby_word_string=baby_word_string.replace(baby_word_string[par1:par2], ' '*len(baby_word_string[par1:par2]), 1)
         except IndexError:
             pass
         counter+=1
@@ -594,21 +599,24 @@ def suggestions(file_path):
     complex_list=[]
     for x in range(0, len(the_new_list)):
         line=the_new_list[counter]
-        if line.count('(((')>=1:
-            pass
-        counter+=1
-    """variable_list=[]
-    real_word_list=[]
-    function_names=[]
-    for x in range(0, len(the_new_list)):
-        line=the_new_list[counter]
-        if line.count('=')==1:
-            new_line=line.strip()
-            variable=new_line.split('=')[0]
-            variable_list.append(variable)
+        if line.count('(((')>=1 or line.count('    ')>=5 or len(line)>=200:
+            complex_list.append(counter+1)
         counter+=1
     counter=0
-    baby_word_string=baby_word_string.replace('(', ' ').replace(')', ' ').replace('+', ' ').replace('-', ' ').replace('*', ' ').replace('/', ' ').replace('=', ' ').replace('.', ' ').replace(':', ' ').replace(',', ' ').replace('[', ' ').replace(']', ' ').replace('{', ' ').replace('}', ' ').replace('<', ' ').replace('>', ' ').replace('%', ' ')
+    variable_list=[]
+    real_word_list=[]
+    function_names=[]
+    class_names=[]
+    for x in range(0, len(the_new_list)):
+        line=the_new_list[counter]
+        if line.count('=')==1 and line.split('=')[0].count('+')==0 and line.split('=')[0].count('-')==0 and line.split('=')[0].count('*')==0 and line.split('=')[0].count('/')==0 and line.split('=')[0].count('%')==0 and line.split('=')[0].count('<')==0 and line.split('=')[0].count('>')==0 and line.split('=')[0].count('!')==0:
+            new_line=line.strip()
+            variable=new_line.split('=')[0].strip()
+            if variable not in variable_list:
+                variable_list.append(variable)
+        counter+=1
+    counter=0
+    baby_word_string=baby_word_string.replace('(', ' ').replace(')', ' ').replace('+', ' ').replace('-', ' ').replace('*', ' ').replace('/', ' ').replace('=', ' ').replace('.', ' ').replace(':', ' ').replace(',', ' ').replace('[', ' ').replace(']', ' ').replace('{', ' ').replace('}', ' ').replace('<', ' ').replace('>', ' ').replace('%', ' ').replace('!', ' ')
     word_list=baby_word_string.splitlines()
     for c in range(0, len(word_list)):
         string_list=word_list[counter].split(' ')
@@ -627,11 +635,123 @@ def suggestions(file_path):
         except IndexError:
             pass
         counter+=1
-    counter=0"""
+    counter=0
+    for name_classes in range(0, len(class_list)):
+        try:
+            class_text=text[class_list[counter][0]:class_list[counter][1]]
+            class_text_list=class_text.splitlines()
+            name=class_text_list[0].split('class ')[1].split(':')[0].split('(')[0].strip()
+            class_names.append(name)
+        except IndexError:
+            pass
+        counter+=1
+    counter=0
+    vars_not_word=[]
+    funcs_not_word=[]
+    classes_not_word=[]
+    for x in range(0, len(variable_list)):
+        var_words=variable_list[counter].replace('_', ' ').replace(',', ' ').replace('[', ' ').replace(']', ' ').replace('(', ' ').replace(')', ' ').replace('1', ' ').replace('2', ' ').replace('3', ' ').replace('4', ' ').replace('5', ' ').replace('6', ' ').replace('7', ' ').replace('8', ' ').replace('9', ' ').replace('0', ' ').split(' ')
+        subcounter=0
+        for y in range(0, len(var_words)):
+            var=var_words[subcounter]
+            if var not in english_list:
+                vars_not_word.append(variable_list[counter])
+                break
+            subcounter+=1
+        counter+=1
+    counter=0
+    for x in range(0, len(function_names)):
+        func_words=function_names[counter].replace('_', ' ').replace(',', ' ').replace('[', ' ').replace(']', ' ').replace('(', ' ').replace(')', ' ').replace('1', ' ').replace('2', ' ').replace('3', ' ').replace('4', ' ').replace('5', ' ').replace('6', ' ').replace('7', ' ').replace('8', ' ').replace('9', ' ').replace('0', ' ').split(' ')
+        subcounter=0
+        for y in range(0, len(func_words)):
+            func=func_words[subcounter]
+            if func not in english_list:
+                funcs_not_word.append(function_names[counter])
+                break
+            subcounter+=1
+        counter+=1
+    counter=0
+    for x in range(0, len(class_names)):
+        class_words=class_names[counter].replace('_', ' ').replace(',', ' ').replace('[', ' ').replace(']', ' ').replace('(', ' ').replace(')', ' ').replace('1', ' ').replace('2', ' ').replace('3', ' ').replace('4', ' ').replace('5', ' ').replace('6', ' ').replace('7', ' ').replace('8', ' ').replace('9', ' ').replace('0', ' ').split(' ')
+        subcounter=0
+        for y in range(0, len(class_words)):
+            _class=class_words[subcounter]
+            if _class not in english_list:
+                classes_not_word.append(class_names[counter])
+                break
+            subcounter+=1
+        counter+=1
+    counter=0
+    similar_list_var=[]
+    similar_list_func=[]
+    similar_list_class=[]
+    for similarities_var in range(0, len(variable_list)):
+        var=variable_list[counter]
+        #Start with variable you want to compare
+        subcounter=0
+        for z in range(0, len(variable_list)):
+            var2=variable_list[subcounter]
+            common_letters=list(set(var) & set(var2))
+            if len(common_letters)>=max([len(set(var)), len(set(var2))])*0.9 and var!=var2 and [var, var2] not in similar_list_var and [var2, var] not in similar_list_var:   
+                similar_list_var.append([var, var2])
+            subcounter+=1
+        counter+=1
+    counter=0
+    for similarities_var in range(0, len(function_names)):
+        func=function_names[counter]
+        #Start with variable you want to compare
+        subcounter=0
+        for z in range(0, len(function_names)):
+            func2=function_names[subcounter]
+            common_letters=list(set(func) & set(func2))
+            if len(common_letters)>=max([len(set(func)), len(set(func2))])*0.9 and func!=func2 and [func, func2] not in similar_list_func and [func2, func] not in similar_list_func:   
+                similar_list_func.append([func, func2])
+            subcounter+=1
+        counter+=1
+    counter=0
+    for similarities_var in range(0, len(class_names)):
+        _class=class_names[counter]
+        #Start with variable you want to compare
+        subcounter=0
+        for z in range(0, len(class_names)):
+            class2=class_names[subcounter]
+            common_letters=list(set(_class) & set(class2))
+            if len(common_letters)>=max([len(set(_class)), len(set(class2))])*0.9 and _class!=class2 and [_class, class2] not in similar_list_class and [class2, _class] not in similar_list_class:   
+                similar_list_class.append([_class, class2])
+            subcounter+=1
+        counter+=1
+    counter=0
+    suggestions_file=open(file_path.replace('.py', '_suggestions.txt'), 'w')
+    write_string='This is a file of variables, functions, and classes that are not word according to https://pypi.org/project/english-words/. It also contains variable, function, and class names that have been identified as similar. Lastly, this file contains lines that have been identified as hard to understand, that may require a comment stating its purpose.\n\n'+'Names that are not in the english-words list:\n\n'+'Variables: %s\n\n' % str(vars_not_word)+'Functions: %s\n\n' % str(funcs_not_word)+'Classes: %s\n\n' % str(classes_not_word)+'Similar names:\n\n'+'Variables: %s\n\n' % str(similar_list_var)+'Functions: %s\n\n' % str(similar_list_func)+'Classes: %s\n\n' % str(similar_list_class)+'Complex lines:\n\n%s' % str(complex_list)
+    suggestions_file.write(write_string)
 def beautify(file_path):
+    strings_list=find_strings(file_path)
+    comment_list=find_comments(file_path)
+    baby_word_string=open(file_path).read()
     file=open(file_path).read()
     text_list=file.splitlines()
     counter=0
+    for m in range(0, len(strings_list)):
+        try:
+            par1=baby_word_string.find(strings_list[counter][0])
+            baby_word_string=baby_word_string.replace(strings_list[counter][0], ' '*len(strings_list[counter][0]), 1)
+            par2=baby_word_string.find(strings_list[counter][1])+len(strings_list[counter][1])
+            baby_word_string=baby_word_string.replace(strings_list[counter][1], ' '*len(strings_list[counter][1]), 1)
+            baby_word_string=baby_word_string.replace(baby_word_string[par1:par2], ' '*len(baby_word_string[par1:par2]), 1)
+        except IndexError:
+            pass
+        counter+=1
+    counter=0
+    for m in range(0, len(comment_list)):
+        try:
+            par1=baby_word_string.find(baby_word_string[comment_list[counter][0]])
+            par2=baby_word_string.find(baby_word_string[comment_list[counter][1]])
+            baby_word_string=baby_word_string.replace(baby_word_string[par1:par2], ' '*len(baby_word_string[par1:par2]), 1)
+        except IndexError:
+            pass
+        counter+=1
+    counter=0
+    the_new_list=baby_word_string.splitlines()
     for x in range(0, len(text_list)):
         try:    
             line=text_list[counter]
@@ -641,6 +761,82 @@ def beautify(file_path):
             line2=text_list[counter]
         except IndexError:
             pass
+        for x in range(0, line.count('>>=')):
+            try:
+                if (line2.split('>>=', 1)[0].rstrip()==line2.split('>>=', 1)[0] and line2.split('>>=', 1)[1].lstrip()==line2.split('>>=', 1)[1]) and line2.find('>>=')!=-1:
+                    index=line2.find('>>=')
+                    line_list=list(line)
+                    line_list[index]=' >'
+                    line_list[index+1]='>'
+                    line_list[index+2]='= '
+                    line=''.join(line_list)
+                    text_list[counter]=line
+                    line2=line2.replace('>>=', '     ', 1)
+            except IndexError:
+                pass
+        for x in range(0, line.count('<<=')):
+            try:
+                if (line2.split('<<=', 1)[0].rstrip()==line2.split('<<=', 1)[0] and line2.split('<<=', 1)[1].lstrip()==line2.split('<<=', 1)[1]) and line2.find('<<=')!=-1:
+                    index=line2.find('<<=')
+                    line_list=list(line)
+                    line_list[index]=' <'
+                    line_list[index+1]='<'
+                    line_list[index+2]='= '
+                    line=''.join(line_list)
+                    text_list[counter]=line
+                    line2=line2.replace('<<=', '     ', 1)
+            except IndexError:
+                pass
+        for x in range(0, line.count('**=')):
+            try:
+                if (line2.split('**=', 1)[0].rstrip()==line2.split('**=', 1)[0] and line2.split('**=', 1)[1].lstrip()==line2.split('**=', 1)[1]) and line2.find('**=')!=-1:
+                    index=line2.find('**=')
+                    line_list=list(line)
+                    line_list[index]=' *'
+                    line_list[index+1]='*'
+                    line_list[index+2]='= '
+                    line=''.join(line_list)
+                    text_list[counter]=line
+                    line2=line2.replace('**=', '     ', 1)
+            except IndexError:
+                pass
+        for x in range(0, line.count('//=')):
+            try:
+                if (line2.split('//=', 1)[0].rstrip()==line2.split('//=', 1)[0] and line2.split('//=', 1)[1].lstrip()==line2.split('//=', 1)[1]) and line2.find('//=')!=-1:
+                    index=line2.find('//=')
+                    line_list=list(line)
+                    line_list[index]=' /'
+                    line_list[index+1]='/'
+                    line_list[index+2]='= '
+                    line=''.join(line_list)
+                    text_list[counter]=line
+                    line2=line2.replace('//=', '     ', 1)
+            except IndexError:
+                pass
+        for x in range(0, line.count('>>')):
+            try:
+                if (line2.split('>>', 1)[0].rstrip()==line2.split('>>', 1)[0] and line2.split('>>', 1)[1].lstrip()==line2.split('>>', 1)[1]) and (line[line2.find('>>')+1] not in ['+', '-', '*', '/', '=', '%', '>', '<', '&', '^', '~', '|']) and line2.find('>>')!=-1:
+                    index=line2.find('>>')
+                    line_list=list(line)
+                    line_list[index]=' >'
+                    line_list[index+1]='> '
+                    line=''.join(line_list)
+                    text_list[counter]=line
+                    line2=line2.replace('>>', '    ', 1)
+            except IndexError:
+                pass
+        for x in range(0, line.count('<<')):
+            try:
+                if (line2.split('<<', 1)[0].rstrip()==line2.split('<<', 1)[0] and line2.split('<<', 1)[1].lstrip()==line2.split('<<', 1)[1]) and (line[line2.find('<<')+1] not in ['+', '-', '*', '/', '=', '%', '>', '<', '&', '^', '~', '|']) and line2.find('<<')!=-1:
+                    index=line2.find('<<')
+                    line_list=list(line)
+                    line_list[index]=' <'
+                    line_list[index+1]='< '
+                    line=''.join(line_list)
+                    text_list[counter]=line
+                    line2=line2.replace('<<', '    ', 1)
+            except IndexError:
+                pass
         for x in range(0, line.count('==')):
             try:
                 if (line2.split('==', 1)[0].rstrip()==line2.split('==', 1)[0] and line2.split('==', 1)[1].lstrip()==line2.split('==', 1)[1]) and line2.find('==')!=-1:
@@ -751,7 +947,7 @@ def beautify(file_path):
                 pass
         for x in range(0, line.count('**')):
             try:
-                if (line2.split('**', 1)[0].rstrip()==line2.split('**', 1)[0] and line2.split('**', 1)[1].lstrip()==line2.split('**', 1)[1]) and line2.find('**')!=-1:
+                if (line2.split('**', 1)[0].rstrip()==line2.split('**', 1)[0] and line2.split('**', 1)[1].lstrip()==line2.split('**', 1)[1]) and (line[line2.find('**')+1] not in ['+', '-', '*', '/', '=', '%', '>', '<', '&', '^', '~', '|']) and line2.find('**')!=-1:
                     index=line2.find('**')
                     line_list=list(line)
                     line_list[index]=' *'
@@ -763,7 +959,7 @@ def beautify(file_path):
                 pass
         for x in range(0, line.count('//')):
             try:
-                if (line2.split('//', 1)[0].rstrip()==line2.split('//', 1)[0] and line2.split('//', 1)[1].lstrip()==line2.split('//', 1)[1]) and line2.find('//')!=-1:
+                if (line2.split('//', 1)[0].rstrip()==line2.split('//', 1)[0] and line2.split('//', 1)[1].lstrip()==line2.split('//', 1)[1]) and (line[line2.find('//')+1] not in ['+', '-', '*', '/', '=', '%', '>', '<', '&', '^', '~', '|']) and line2.find('//')!=-1:
                     index=line2.find('//')
                     line_list=list(line)
                     line_list[index]=' /'
@@ -773,9 +969,45 @@ def beautify(file_path):
                     line2=line2.replace('//', '    ', 1)
             except IndexError:
                 pass
+        for x in range(0, line.count('&=')):
+            try:
+                if (line2.split('&=', 1)[0].rstrip()==line2.split('&=', 1)[0] and line2.split('&=', 1)[1].lstrip()==line2.split('&=', 1)[1]) and line2.find('&=')!=-1:
+                    index=line2.find('&=')
+                    line_list=list(line)
+                    line_list[index]=' &'
+                    line_list[index+1]='= '
+                    line=''.join(line_list)
+                    text_list[counter]=line
+                    line2=line2.replace('&=', '    ', 1)
+            except IndexError:
+                pass
+        for x in range(0, line.count('|=')):
+            try:
+                if (line2.split('|=', 1)[0].rstrip()==line2.split('|=', 1)[0] and line2.split('|=', 1)[1].lstrip()==line2.split('|=', 1)[1]) and line2.find('|=')!=-1:
+                    index=line2.find('|=')
+                    line_list=list(line)
+                    line_list[index]=' |'
+                    line_list[index+1]='= '
+                    line=''.join(line_list)
+                    text_list[counter]=line
+                    line2=line2.replace('|=', '    ', 1)
+            except IndexError:
+                pass
+        for x in range(0, line.count('^=')):
+            try:
+                if (line2.split('^=', 1)[0].rstrip()==line2.split('^=', 1)[0] and line2.split('^=', 1)[1].lstrip()==line2.split('^=', 1)[1]) and line2.find('^=')!=-1:
+                    index=line2.find('^=')
+                    line_list=list(line)
+                    line_list[index]=' ^'
+                    line_list[index+1]='= '
+                    line=''.join(line_list)
+                    text_list[counter]=line
+                    line2=line2.replace('^=', '    ', 1)
+            except IndexError:
+                pass
         for x in range(0, line.count('=')):
             try:
-                if (line2.split('=', 1)[0].rstrip()==line2.split('=', 1)[0] or line2.split('=', 1)[1].lstrip()==line2.split('=', 1)[1]) and (line2[line2.find('=')-1] not in ['+', '-', '*', '/', '=', '%', '>', '<']) and line2.find('=')!=-1:
+                if (line2.split('=', 1)[0].rstrip()==line2.split('=', 1)[0] or line2.split('=', 1)[1].lstrip()==line2.split('=', 1)[1]) and (line[line2.find('=')-1] not in ['+', '-', '*', '/', '=', '%', '>', '<', '&', '^', '~', '|']) and line2.find('=')!=-1:
                     index=line2.find('=')
                     line_list=list(line)
                     line_list[index]=' = '
@@ -786,7 +1018,7 @@ def beautify(file_path):
                 pass
         for x in range(0, line.count('+')):
             try:
-                if (line2.split('+', 1)[0].rstrip()==line2.split('+', 1)[0] and line2.split('+', 1)[1].lstrip()==line2.split('+', 1)[1]) and (line2[line2.find('+')+1] not in ['+', '-', '*', '/', '=', '%', '>', '<'] and line2[line2.find('+')-1] not in ['+', '-', '*', '/', '=', '%', '>', '<']) and line2.find('+')!=-1:
+                if (line2.split('+', 1)[0].rstrip()==line2.split('+', 1)[0] and line2.split('+', 1)[1].lstrip()==line2.split('+', 1)[1]) and (line[line2.find('+')+1] not in ['+', '-', '*', '/', '=', '%', '>', '<'] and line[line2.find('+')-1] not in ['+', '-', '*', '/', '=', '%', '>', '<', '&', '^', '~', '|']) and line2.find('+')!=-1:
                     index=line2.find('+')
                     line_list=list(line)
                     line_list[index]=' + '
@@ -797,7 +1029,7 @@ def beautify(file_path):
                 pass
         for x in range(0, line.count('-')):
             try:
-                if (line2.split('-', 1)[0].rstrip()==line2.split('-', 1)[0] and line2.split('-', 1)[1].lstrip()==line2.split('-', 1)[1]) and (line2[line2.find('-')+1] not in ['+', '-', '*', '/', '=', '%', '>', '<'] and line2[line2.find('-')-1] not in ['+', '-', '*', '/', '=', '%', '>', '<']) and line2.find('-')!=-1:
+                if (line2.split('-', 1)[0].rstrip()==line2.split('-', 1)[0] and line2.split('-', 1)[1].lstrip()==line2.split('-', 1)[1]) and (line[line2.find('-')+1] not in ['+', '-', '*', '/', '=', '%', '>', '<'] and line[line2.find('-')-1] not in ['+', '-', '*', '/', '=', '%', '>', '<', '&', '^', '~', '|']) and line2.find('-')!=-1:
                     index=line2.find('-')
                     line_list=list(line)
                     line_list[index]=' - '
@@ -808,7 +1040,7 @@ def beautify(file_path):
                 pass
         for x in range(0, line.count('*')):
             try:
-                if (line2.split('*', 1)[0].rstrip()==line2.split('*', 1)[0] and line2.split('*', 1)[1].lstrip()==line2.split('*', 1)[1]) and (line2[line2.find('*')+1] not in ['+', '-', '*', '/', '=', '%', '>', '<'] and line2[line2.find('*')-1] not in ['+', '-', '*', '/', '=', '%', '>', '<']) and line2.find('*')!=-1:
+                if (line2.split('*', 1)[0].rstrip()==line2.split('*', 1)[0] and line2.split('*', 1)[1].lstrip()==line2.split('*', 1)[1]) and (line[line2.find('*')+1] not in ['+', '-', '*', '/', '=', '%', '>', '<'] and line[line2.find('*')-1] not in ['+', '-', '*', '/', '=', '%', '>', '<', '&', '^', '~', '|']) and line2.find('*')!=-1:
                     index=line2.find('*')
                     line_list=list(line)
                     line_list[index]=' * '
@@ -819,7 +1051,7 @@ def beautify(file_path):
                 pass
         for x in range(0, line.count('/')):
             try:
-                if (line2.split('/', 1)[0].rstrip()==line2.split('/', 1)[0] and line2.split('/', 1)[1].lstrip()==line2.split('/', 1)[1]) and (line2[line2.find('/')+1] not in ['+', '-', '*', '/', '=', '%', '>', '<'] and line2[line2.find('/')-1] not in ['+', '-', '*', '/', '=', '%', '>', '<']) and line2.find('/')!=-1:
+                if (line2.split('/', 1)[0].rstrip()==line2.split('/', 1)[0] and line2.split('/', 1)[1].lstrip()==line2.split('/', 1)[1]) and (line[line2.find('/')+1] not in ['+', '-', '*', '/', '=', '%', '>', '<'] and line[line2.find('/')-1] not in ['+', '-', '*', '/', '=', '%', '>', '<', '&', '^', '~', '|']) and line2.find('/')!=-1:
                     index=line2.find('/')
                     line_list=list(line)
                     line_list[index]=' / '
@@ -830,7 +1062,7 @@ def beautify(file_path):
                 pass
         for x in range(0, line.count('<')):
             try:
-                if (line2.split('<', 1)[0].rstrip()==line2.split('<', 1)[0] and line2.split('<', 1)[1].lstrip()==line2.split('<', 1)[1]) and (line2[line2.find('<')+1] not in ['+', '-', '*', '/', '=', '%', '>', '<'] and line2[line2.find('<')-1] not in ['+', '-', '*', '/', '=', '%', '>', '<']) and line2.find('<')!=-1:
+                if (line2.split('<', 1)[0].rstrip()==line2.split('<', 1)[0] and line2.split('<', 1)[1].lstrip()==line2.split('<', 1)[1]) and (line[line2.find('<')+1] not in ['+', '-', '*', '/', '=', '%', '>', '<'] and line[line2.find('<')-1] not in ['+', '-', '*', '/', '=', '%', '>', '<', '&', '^', '~', '|']) and line2.find('<')!=-1:
                     index=line2.find('<')
                     line_list=list(line)
                     line_list[index]=' < '
@@ -841,7 +1073,7 @@ def beautify(file_path):
                 pass
         for x in range(0, line.count('>')):
             try:
-                if (line2.split('>', 1)[0].rstrip()==line2.split('>', 1)[0] and line2.split('>', 1)[1].lstrip()==line2.split('>', 1)[1]) and (line2[line2.find('>')+1] not in ['+', '-', '*', '/', '=', '%', '>', '<'] and line2[line2.find('>')-1] not in ['+', '-', '*', '/', '=', '%', '>', '<']) and line2.find('>')!=-1:
+                if (line2.split('>', 1)[0].rstrip()==line2.split('>', 1)[0] and line2.split('>', 1)[1].lstrip()==line2.split('>', 1)[1]) and (line[line2.find('>')+1] not in ['+', '-', '*', '/', '=', '%', '>', '<'] and line[line2.find('>')-1] not in ['+', '-', '*', '/', '=', '%', '>', '<', '&', '^', '~', '|']) and line2.find('>')!=-1:
                     index=line2.find('>')
                     line_list=list(line)
                     line_list[index]=' > '
@@ -852,7 +1084,7 @@ def beautify(file_path):
                 pass
         for x in range(0, line.count('%')):
             try:
-                if (line2.split('%', 1)[0].rstrip()==line2.split('%', 1)[0] and line2.split('%', 1)[1].lstrip()==line2.split('%', 1)[1]) and (line2[line2.find('%')+1] not in ['+', '-', '*', '/', '=', '%', '>', '<'] and line2[line2.find('%')-1] not in ['+', '-', '*', '/', '=', '%', '>', '<']) and line2.find('%')!=-1:
+                if (line2.split('%', 1)[0].rstrip()==line2.split('%', 1)[0] and line2.split('%', 1)[1].lstrip()==line2.split('%', 1)[1]) and (line[line2.find('%')+1] not in ['+', '-', '*', '/', '=', '%', '>', '<'] and line[line2.find('%')-1] not in ['+', '-', '*', '/', '=', '%', '>', '<', '&', '^', '~', '|']) and line2.find('%')!=-1:
                     index=line2.find('%')
                     line_list=list(line)
                     line_list[index]=' % '
@@ -863,13 +1095,57 @@ def beautify(file_path):
                 pass
         for x in range(0, line.count(',')):
             try:
-                if (line2.split(',', 1)[0].rstrip()==line2.split(',', 1)[0] and line2.split(',', 1)[1].lstrip()==line2.split(',', 1)[1]) and (line2[line2.find(',')+1] not in ['+', '-', '*', '/', '=', '%', '>', '<'] and line2[line2.find(',')-1] not in ['+', '-', '*', '/', '=', '%', '>', '<']) and line2.find(',')!=-1:
+                if (line2.split(',', 1)[0].rstrip()==line2.split(',', 1)[0] and line2.split(',', 1)[1].lstrip()==line2.split(',', 1)[1]) and (line[line2.find(',')+1] not in ['+', '-', '*', '/', '=', '%', '>', '<'] and line[line2.find(',')-1] not in ['+', '-', '*', '/', '=', '%', '>', '<', '&', '^', '~', '|']) and line2.find(',')!=-1:
                     index=line2.find(',')
                     line_list=list(line)
                     line_list[index]=', '
                     line=''.join(line_list)
                     text_list[counter]=line
                     line2=line2.replace(',', '  ', 1)
+            except IndexError:
+                pass
+        for x in range(0, line.count('&')):
+            try:
+                if (line2.split('&', 1)[0].rstrip()==line2.split('&', 1)[0] and line2.split('&', 1)[1].lstrip()==line2.split('&', 1)[1]) and (line[line2.find('&')+1] not in ['+', '-', '*', '/', '=', '%', '>', '<'] and line[line2.find('&')-1] not in ['+', '-', '*', '/', '=', '%', '>', '<', '&', '^', '~', '|']) and line2.find('&')!=-1:
+                    index=line2.find('&')
+                    line_list=list(line)
+                    line_list[index]=' & '
+                    line=''.join(line_list)
+                    text_list[counter]=line
+                    line2=line2.replace('&', '   ', 1)
+            except IndexError:
+                pass
+        for x in range(0, line.count('|')):
+            try:
+                if (line2.split('|', 1)[0].rstrip()==line2.split('|', 1)[0] and line2.split('|', 1)[1].lstrip()==line2.split('|', 1)[1]) and (line[line2.find('|')+1] not in ['+', '-', '*', '/', '=', '%', '>', '<'] and line[line2.find('|')-1] not in ['+', '-', '*', '/', '=', '%', '>', '<', '&', '^', '~', '|']) and line2.find('|')!=-1:
+                    index=line2.find('|')
+                    line_list=list(line)
+                    line_list[index]=' | '
+                    line=''.join(line_list)
+                    text_list[counter]=line
+                    line2=line2.replace('|', '   ', 1)
+            except IndexError:
+                pass
+        for x in range(0, line.count('^')):
+            try:
+                if (line2.split('^', 1)[0].rstrip()==line2.split('^', 1)[0] and line2.split('^', 1)[1].lstrip()==line2.split('^', 1)[1]) and (line[line2.find('^')+1] not in ['+', '-', '*', '/', '=', '%', '>', '<'] and line[line2.find('^')-1] not in ['+', '-', '*', '/', '=', '%', '>', '<', '&', '^', '~', '|']) and line2.find('^')!=-1:
+                    index=line2.find('^')
+                    line_list=list(line)
+                    line_list[index]=' ^ '
+                    line=''.join(line_list)
+                    text_list[counter]=line
+                    line2=line2.replace('^', '   ', 1)
+            except IndexError:
+                pass
+        for x in range(0, line.count('~')):
+            try:
+                if (line2.split('~', 1)[0].rstrip()==line2.split('~', 1)[0] and line2.split('~', 1)[1].lstrip()==line2.split('~', 1)[1]) and (line[line2.find('~')+1] not in ['+', '-', '*', '/', '=', '%', '>', '<'] and line[line2.find('~')-1] not in ['+', '-', '*', '/', '=', '%', '>', '<', '&', '^', '~', '|']) and line2.find('~')!=-1:
+                    index=line2.find('~')
+                    line_list=list(line)
+                    line_list[index]=' ~ '
+                    line=''.join(line_list)
+                    text_list[counter]=line
+                    line2=line2.replace('~', '   ', 1)
             except IndexError:
                 pass
         counter+=1
