@@ -545,10 +545,14 @@ def destroy(file_path):
     os.remove(file_path)
 def install_system_requirements(file_path):
     'Install the python modules needed; uses pip. Put a comment like this: #PyBroom.install_system_requirements: [package1, package2, package3 etc]. No string quotes anywhere. I only added this because I thought it would be simple and fun to make, and besides, some IDEs do not automatically install packages like replit.'
+    global history_list
+    global log_history
+    if log_history==1:
+        history_list.append('%s: install_system_requirements(\"%s\")' % (str(datetime.datetime.now()), file_path))
     text_list=open(file_path).read().splitlines()
     counter=0
     check_for_line=0
-    for x in range(0, len(text_list)):    
+    for x in range(0, len(text_list)):
         line=text_list[counter]
         if '#PyBroom.install_system_requirements: [' in line:
             check_for_line=1
@@ -568,6 +572,11 @@ def install_system_requirements(file_path):
     pass #might do this..."""
 def suggestions(file_path):
     'Give suggestions.'
+    global history_list
+    global log_history
+    if log_history==1:
+        history_list.append('%s: suggestions(\"%s\")' % (str(datetime.datetime.now()), file_path))
+    log_history=0
     text=open(file_path).read()
     comment_list=find_comments(file_path)
     strings_list=find_strings(file_path)
@@ -724,7 +733,13 @@ def suggestions(file_path):
     suggestions_file=open(file_path.replace('.py', '_suggestions.txt'), 'w')
     write_string='This is a file of variables, functions, and classes that are not word according to https://pypi.org/project/english-words/. It also contains variable, function, and class names that have been identified as similar. Lastly, this file contains lines that have been identified as hard to understand, that may require a comment stating its purpose.\n\n'+'Names that are not in the english-words list:\n\n'+'Variables: %s\n\n' % str(vars_not_word)+'Functions: %s\n\n' % str(funcs_not_word)+'Classes: %s\n\n' % str(classes_not_word)+'Similar names:\n\n'+'Variables: %s\n\n' % str(similar_list_var)+'Functions: %s\n\n' % str(similar_list_func)+'Classes: %s\n\n' % str(similar_list_class)+'Complex lines:\n\n%s' % str(complex_list)
     suggestions_file.write(write_string)
+    log_history=1
 def beautify(file_path):
+    global history_list
+    global log_history
+    if log_history==1:
+        history_list.append('%s: beautify(\"%s\")' % (str(datetime.datetime.now()), file_path))
+    log_history=0
     strings_list=find_strings(file_path)
     comment_list=find_comments(file_path)
     baby_word_string=open(file_path).read()
@@ -1151,6 +1166,7 @@ def beautify(file_path):
         counter+=1
     string='\n'.join(text_list)
     open(file_path, 'w').write(string)
+    log_history=1
 def history():
     'Return a list of the commands you did.'
     global history_list
