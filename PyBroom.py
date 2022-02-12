@@ -138,9 +138,22 @@ def find_functions(file_path):
     if read_file[0]!='#' or read_file.splitlines()[-1][0]!='#':
         with_comment='#PyBroom cleaned this file.\n'+read_file+'\n#https://github.com/Pr0gram-Creat0r-1/PyBroom\n#https://replit.com/@Pr0gram-Creat0r/PyBroom'
         open(file_path, 'w').write(with_comment)
-    text=open(file_path).read()
-    the_list=text.splitlines()
+    strings_list=find_strings(file_path)
+    baby_word_string=open(file_path).read()
     counter=0
+    for m in range(0, len(strings_list)):
+        try:
+            par1=baby_word_string.find(strings_list[counter][0])
+            baby_word_string=baby_word_string.replace(strings_list[counter][0], ' '*len(strings_list[counter][0]), 1)
+            par2=baby_word_string.find(strings_list[counter][1])+len(strings_list[counter][1])
+            baby_word_string=baby_word_string.replace(strings_list[counter][1], ' '*len(strings_list[counter][1]), 1)
+            baby_word_string=baby_word_string.replace(baby_word_string[par1:par2], ' '*len(baby_word_string[par1:par2]), 1)
+        except IndexError:
+            pass
+        counter+=1
+    counter=0
+    text=baby_word_string
+    the_list=baby_word_string.splitlines()
     functions_list=[]
     for x in range(0, len(the_list)):
         line=the_list[counter]
@@ -171,9 +184,22 @@ def find_classes(file_path):
     if read_file[0]!='#' or read_file.splitlines()[-1][0]!='#':
         with_comment='#PyBroom cleaned this file.\n'+read_file+'\n#https://github.com/Pr0gram-Creat0r-1/PyBroom\n#https://replit.com/@Pr0gram-Creat0r/PyBroom'
         open(file_path, 'w').write(with_comment)
-    text=open(file_path).read()
-    the_list=text.splitlines()
+    strings_list=find_strings(file_path)
+    baby_word_string=open(file_path).read()
     counter=0
+    for m in range(0, len(strings_list)):
+        try:
+            par1=baby_word_string.find(strings_list[counter][0])
+            baby_word_string=baby_word_string.replace(strings_list[counter][0], ' '*len(strings_list[counter][0]), 1)
+            par2=baby_word_string.find(strings_list[counter][1])+len(strings_list[counter][1])
+            baby_word_string=baby_word_string.replace(strings_list[counter][1], ' '*len(strings_list[counter][1]), 1)
+            baby_word_string=baby_word_string.replace(baby_word_string[par1:par2], ' '*len(baby_word_string[par1:par2]), 1)
+        except IndexError:
+            pass
+        counter+=1
+    counter=0
+    text=baby_word_string
+    the_list=baby_word_string.splitlines()
     classes_list=[]
     for x in range(0, len(the_list)):
         line=the_list[counter]
@@ -228,8 +254,8 @@ def remove_local_variables(file_path):
         counter=0
         for m in range(0, len(comment_list)):
             try:
-                par1=baby_word_string.find(baby_word_string[comment_list[counter][0]])
-                par2=baby_word_string.find(baby_word_string[comment_list[counter][1]])
+                par1=comment_list[counter][0]
+                par2=comment_list[counter][1]
                 baby_word_string=baby_word_string.replace(baby_word_string[par1:par2], ' '*len(baby_word_string[par1:par2]), 1)
             except IndexError:
                 pass
@@ -245,6 +271,7 @@ def remove_local_variables(file_path):
         local_variables_list=[]
         used_local_variables=[]
         for remove in range(0, len(function_list)):
+            counter=0
             function_text=function_list2[main_counter]
             the_new_list=function_text.splitlines()
             the_list=function_list[main_counter].splitlines()
@@ -303,7 +330,7 @@ def remove_local_variables(file_path):
                                 minimum=min(string_check_list)
                                 minimum_type=string_check[minimum:minimum+3]
                                 if string_check.count(minimum_type)==1:
-                                    the_list[remove_counter]=' '*len(the_list)[remove_counter]
+                                    the_list[remove_counter]=' '*len(the_list[remove_counter])
                                     subcounter=remove_counter+1
                                     for x in range(0, len(the_list)-remove_counter-1):
                                         line=the_list[subcounter]
@@ -326,7 +353,9 @@ def remove_local_variables(file_path):
             used_local_variables.append(new_variable_list)
             main_counter+=1
         main_counter=0
+        counter=0
         new_text=text.replace(text[functions_list[counter][0]:functions_list[counter][1]], function_list[counter], 1)
+        counter=1
         for edit_original in range(0, len(functions_list)-1):
             new_text=new_text.replace(new_text[functions_list[counter][0]:functions_list[counter][1]], function_list[counter], 1)
             counter+=1
@@ -371,8 +400,8 @@ def remove_variables(file_path):
     counter=0
     for m in range(0, len(comment_list)):
         try:
-            par1=baby_word_string.find(baby_word_string[comment_list[counter][0]])
-            par2=baby_word_string.find(baby_word_string[comment_list[counter][1]])
+            par1=comment_list[counter][0]
+            par2=comment_list[counter][1]
             baby_word_string=baby_word_string.replace(baby_word_string[par1:par2], ' '*len(baby_word_string[par1:par2]), 1)
         except IndexError:
             pass
@@ -597,8 +626,8 @@ def suggestions(file_path):
     counter=0
     for m in range(0, len(comment_list)):
         try:
-            par1=baby_word_string.find(baby_word_string[comment_list[counter][0]])
-            par2=baby_word_string.find(baby_word_string[comment_list[counter][1]])
+            par1=comment_list[counter][0]
+            par2=comment_list[counter][1]
             baby_word_string=baby_word_string.replace(baby_word_string[par1:par2], ' '*len(baby_word_string[par1:par2]), 1)
         except IndexError:
             pass
@@ -759,8 +788,8 @@ def beautify(file_path):
     counter=0
     for m in range(0, len(comment_list)):
         try:
-            par1=baby_word_string.find(baby_word_string[comment_list[counter][0]])
-            par2=baby_word_string.find(baby_word_string[comment_list[counter][1]])
+            par1=comment_list[counter][0]
+            par2=comment_list[counter][1]
             baby_word_string=baby_word_string.replace(baby_word_string[par1:par2], ' '*len(baby_word_string[par1:par2]), 1)
         except IndexError:
             pass
