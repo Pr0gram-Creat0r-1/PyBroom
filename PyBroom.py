@@ -635,8 +635,9 @@ def suggestions(file_path):
     counter=0
     the_new_list=baby_word_string.splitlines()
     complex_list=[]
-    for x in range(0, len(the_new_list)):
-        line=the_new_list[counter]
+    complex_list_text=open(file_path).read().splitlines()
+    for x in range(0, len(complex_list_text)):
+        line=complex_list_text[counter]
         if line.count('(((')>=1 or line.count('    ')>=5 or len(line)>=200:
             complex_list.append(counter+1)
         counter+=1
