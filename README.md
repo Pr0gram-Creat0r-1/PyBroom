@@ -1,19 +1,15 @@
 # PyBroom
-This is for a science project. The idea is to make a computer program that cleans up your code. It is supposed to be able to:
-1. Remove variables that are never used. The user can add a comment with the variable name somewhere if he doesn't want it to be removed. But anyway the changes will be saved to a different file so.... Also if there is an unused local variable with the same name I will try to make it be able to remove that.
-3. Might be able to clean up indents
-5. Can delete the file entirely.
-6. Can offer advice to add comments to your code.
-7. Can install system requirements.
-
 List of functions:
 1. remove_variables(file_path): will remove unused variables from the specified file. Will also save a list of used variables to a separate python file. Will save a list of all variables to a different python file.
 2. remove_local_variables(file_path): removes unused local variables
-3. beautify(file_path): Inproves code readability. Should only be used when you are absolutely desperate, since it affects strings and comments as well as the actual code (if you have a sensitive string that needs to be a certain way, then this function may cause it to cease to work).
+3. beautify(file_path): Improves code readability. Should only be used when you are absolutely desperate, since it affects strings and comments as well as the actual code (if you have a sensitive string that needs to be a certain way, then this function may cause it to cease to work).
+4. suggestions(file_path): Offers "suggestions" for cleaner code. Like when it encounters a complex or hard-to-read line, or when it finds a variable, function, or class name that is not in the english dictionary (list of english words from https://pypi.org/project/english-words)
+PyBroom also records the commands you entered into a list, which you can get with the history() command, and you can save the list into a file with save_history(file_path).
 
 Notes:
 1. It is HIGHLY recommended that you create a copy of your uncleaned file before using PyBroom.
-4. The annoying comments at the top and the bottom are necessary for the code to work because the program needs the space it provides.
+2. The annoying comments at the top and the bottom are necessary for the code to work because the program needs the space it provides.
+3. PyBroom is not a finished product and is still in development.
 
 Credits:
 
@@ -28,3 +24,5 @@ https://www.programiz.com/python-programming/methods/list/remove
 https://programiz.com/python-programming/methods/list/copy
 
 https://www.programiz.com/python-programming/methods/string/count
+
+https://stackoverflow.com/questions/12332975/installing-python-module-within-code
