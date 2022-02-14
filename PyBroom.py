@@ -129,6 +129,46 @@ def find_comments(file_path):
         counter+=1
     counter=0
     return comment_list
+def rstrip_all(file_path):
+    global history_list
+    global log_history
+    if log_history==1:
+        history_list.append('%s: rstrip_all(\"%s\")' % (str(datetime.datetime.now()), file_path))
+    strings_list=find_strings(file_path)
+    comment_list=find_comments(file_path)
+    baby_word_string=open(file_path).read()
+    file=open(file_path).read()
+    the_list=file.splitlines()
+    counter=0
+    for m in range(0, len(strings_list)):
+        try:
+            par1=baby_word_string.find(strings_list[counter][0])
+            baby_word_string=baby_word_string.replace(strings_list[counter][0], 'p'*len(strings_list[counter][0]), 1)
+            par2=baby_word_string.find(strings_list[counter][1])+len(strings_list[counter][1])
+            baby_word_string=baby_word_string.replace(strings_list[counter][1], 'p'*len(strings_list[counter][1]), 1)
+            counts=baby_word_string[par1:par2].count('\n')
+            baby_word_string=baby_word_string.replace(baby_word_string[par1:par2], 'p'*(len(baby_word_string[par1:par2])-counts)+'\n'*counts, 1)
+        except IndexError:
+            pass
+        counter+=1
+    counter=0
+    for m in range(0, len(comment_list)):
+        try:
+            par1=comment_list[counter][0]
+            par2=comment_list[counter][1]
+            baby_word_string=baby_word_string.replace(baby_word_string[par1:par2], 'p'*len(baby_word_string[par1:par2]), 1)
+        except IndexError:
+            pass
+        counter+=1
+    counter=0
+    the_new_list=baby_word_string.splitlines()
+    for x in range(0, len(the_list)):
+        line=the_list[counter]
+        line2=the_new_list[counter]
+        if line2.rstrip()!=line2:
+            the_list[counter]=line.rstrip()
+        counter+=1
+    open(file_path, 'w').write('\n'.join(the_list))
 def find_functions(file_path):
     'Find functions.'
     global log_history
@@ -227,6 +267,7 @@ def remove_local_variables(file_path):
     global log_history
     if log_history==1:
         history_list.append('%s: remove_local_variables(\"%s\")' % (str(datetime.datetime.now()), file_path))
+    log_history=0
     if find_functions(file_path)!=[]:
         comment_list=find_comments(file_path)
         strings_list=find_strings(file_path)
@@ -368,6 +409,7 @@ def remove_local_variables(file_path):
             used_string=used_string+'\n'.join(used_local_variables[counter])+'\n'
             counter+=1
         open(file_path.replace('.py', '_used_local_variables.txt'), 'w').write(used_string)
+    log_history=1
 def remove_variables(file_path):
     'Remove unused variables.'
     global history_list
