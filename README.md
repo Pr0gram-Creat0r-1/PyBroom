@@ -13,6 +13,8 @@ Notes:
 
 Credits:
 
+Made in collaboration with @d10smaradona :)
+
 https://www.geeksforgeeks.org/python-string-find/
 
 https://stackoverflow.com/questions/15422144/how-to-read-a-long-multiline-string-line-by-line-in-python/15422155
