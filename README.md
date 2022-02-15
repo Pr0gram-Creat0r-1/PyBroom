@@ -28,3 +28,5 @@ https://programiz.com/python-programming/methods/list/copy
 https://www.programiz.com/python-programming/methods/string/count
 
 https://stackoverflow.com/questions/12332975/installing-python-module-within-code
+
+https://www.sanfoundry.com/python-program-check-common-letters-string/
