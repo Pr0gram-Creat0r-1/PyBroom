@@ -821,10 +821,11 @@ def beautify(file_path):
     for m in range(0, len(strings_list)):
         try:
             par1=baby_word_string.find(strings_list[counter][0])
-            baby_word_string=baby_word_string.replace(strings_list[counter][0], ' '*len(strings_list[counter][0]), 1)
+            baby_word_string=baby_word_string.replace(strings_list[counter][0], 'p'*len(strings_list[counter][0]), 1)
             par2=baby_word_string.find(strings_list[counter][1])+len(strings_list[counter][1])
-            baby_word_string=baby_word_string.replace(strings_list[counter][1], ' '*len(strings_list[counter][1]), 1)
-            baby_word_string=baby_word_string.replace(baby_word_string[par1:par2], ' '*len(baby_word_string[par1:par2]), 1)
+            baby_word_string=baby_word_string.replace(strings_list[counter][1], 'p'*len(strings_list[counter][1]), 1)
+            counts=baby_word_string[par1:par2].count('\n')
+            baby_word_string=baby_word_string.replace(baby_word_string[par1:par2], 'p'*(len(baby_word_string[par1:par2])-counts)+'\n'*counts, 1)
         except IndexError:
             pass
         counter+=1
@@ -833,7 +834,7 @@ def beautify(file_path):
         try:
             par1=comment_list[counter][0]
             par2=comment_list[counter][1]
-            baby_word_string=baby_word_string.replace(baby_word_string[par1:par2], ' '*len(baby_word_string[par1:par2]), 1)
+            baby_word_string=baby_word_string.replace(baby_word_string[par1:par2], 'p'*len(baby_word_string[par1:par2]), 1)
         except IndexError:
             pass
         counter+=1
@@ -845,7 +846,7 @@ def beautify(file_path):
         except IndexError:
             pass
         try:    
-            line2=text_list[counter]
+            line2=the_new_list[counter]
         except IndexError:
             pass
         for x in range(0, line.count('>>=')):
