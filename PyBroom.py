@@ -107,7 +107,8 @@ def find_comments(file_path):
             baby_word_string=baby_word_string.replace(strings_list[counter][0], ' '*len(strings_list[counter][0]), 1)
             par2=baby_word_string.find(strings_list[counter][1])+len(strings_list[counter][1])
             baby_word_string=baby_word_string.replace(strings_list[counter][1], ' '*len(strings_list[counter][1]), 1)
-            baby_word_string=baby_word_string.replace(baby_word_string[par1:par2], ' '*len(baby_word_string[par1:par2]), 1)
+            counts=baby_word_string[par1:par2].count('\n')
+            baby_word_string=baby_word_string.replace(baby_word_string[par1:par2], ' '*(len(baby_word_string[par1:par2])-counts)+'\n'*counts, 1)
         except IndexError:
             pass
         counter+=1
@@ -187,7 +188,8 @@ def find_functions(file_path):
             baby_word_string=baby_word_string.replace(strings_list[counter][0], ' '*len(strings_list[counter][0]), 1)
             par2=baby_word_string.find(strings_list[counter][1])+len(strings_list[counter][1])
             baby_word_string=baby_word_string.replace(strings_list[counter][1], ' '*len(strings_list[counter][1]), 1)
-            baby_word_string=baby_word_string.replace(baby_word_string[par1:par2], ' '*len(baby_word_string[par1:par2]), 1)
+            counts=baby_word_string[par1:par2].count('\n')
+            baby_word_string=baby_word_string.replace(baby_word_string[par1:par2], ' '*(len(baby_word_string[par1:par2])-counts)+'\n'*counts, 1)
         except IndexError:
             pass
         counter+=1
@@ -205,7 +207,7 @@ def find_functions(file_path):
             for y in range(0, len(the_list)-the_list.index(line)):
                 subline=the_list[subcounter]    
                 indents2=subline.replace(subline.lstrip(), '').count('    ')
-                if indents2==indents and text.find(subline)-1>text.find(line):
+                if indents2<=indents and text.find(subline)-1>text.find(line):
                     position2=text.find(subline)-1
                     break
                 else:
@@ -233,7 +235,8 @@ def find_classes(file_path):
             baby_word_string=baby_word_string.replace(strings_list[counter][0], ' '*len(strings_list[counter][0]), 1)
             par2=baby_word_string.find(strings_list[counter][1])+len(strings_list[counter][1])
             baby_word_string=baby_word_string.replace(strings_list[counter][1], ' '*len(strings_list[counter][1]), 1)
-            baby_word_string=baby_word_string.replace(baby_word_string[par1:par2], ' '*len(baby_word_string[par1:par2]), 1)
+            counts=baby_word_string[par1:par2].count('\n')
+            baby_word_string=baby_word_string.replace(baby_word_string[par1:par2], ' '*(len(baby_word_string[par1:par2])-counts)+'\n'*counts, 1)
         except IndexError:
             pass
         counter+=1
@@ -251,7 +254,7 @@ def find_classes(file_path):
             for y in range(0, len(the_list)-the_list.index(line)):
                 subline=the_list[subcounter]    
                 indents2=subline.replace(subline.lstrip(), '').count('    ')
-                if indents2==indents and text.find(subline)-1>text.find(line):
+                if indents2<=indents and text.find(subline)-1>text.find(line):
                     position2=text.find(subline)-1
                     break
                 else:
@@ -273,7 +276,7 @@ def remove_local_variables(file_path):
         strings_list=find_strings(file_path)
         functions_list=find_functions(file_path)
         text=open(file_path).read()
-        baby_word_string=open(file_path).read()
+        baby_word_string=open(file_path).read().replace('\\\'', '  ').replace('\\\"', '  ')
         baby_word_string2=open(file_path).read()
         counter=0
         function_list=[]
@@ -288,7 +291,8 @@ def remove_local_variables(file_path):
                 baby_word_string=baby_word_string.replace(strings_list[counter][0], ' '*len(strings_list[counter][0]), 1)
                 par2=baby_word_string.find(strings_list[counter][1])+len(strings_list[counter][1])
                 baby_word_string=baby_word_string.replace(strings_list[counter][1], ' '*len(strings_list[counter][1]), 1)
-                baby_word_string=baby_word_string.replace(baby_word_string[par1:par2], ' '*len(baby_word_string[par1:par2]), 1)
+                counts=baby_word_string[par1:par2].count('\n')
+                baby_word_string=baby_word_string.replace(baby_word_string[par1:par2], ' '*(len(baby_word_string[par1:par2])-counts)+'\n'*counts, 1)
             except IndexError:
                 pass
             counter+=1
@@ -426,8 +430,7 @@ def remove_variables(file_path):
     word_list=[]
     real_word_list=[]
     variable=None
-    new_list=the_list.copy()
-    baby_word_string='\n'.join(new_list)
+    baby_word_string=open(file_path).read().replace('\\\'', '  ').replace('\\\"', '  ')
     counter=0
     for m in range(0, len(strings_list)):
         try:
@@ -435,7 +438,8 @@ def remove_variables(file_path):
             baby_word_string=baby_word_string.replace(strings_list[counter][0], ' '*len(strings_list[counter][0]), 1)
             par2=baby_word_string.find(strings_list[counter][1])+len(strings_list[counter][1])
             baby_word_string=baby_word_string.replace(strings_list[counter][1], ' '*len(strings_list[counter][1]), 1)
-            baby_word_string=baby_word_string.replace(baby_word_string[par1:par2], ' '*len(baby_word_string[par1:par2]), 1)
+            counts=baby_word_string[par1:par2].count('\n')
+            baby_word_string=baby_word_string.replace(baby_word_string[par1:par2], ' '*(len(baby_word_string[par1:par2])-counts)+'\n'*counts, 1)
         except IndexError:
             pass
         counter+=1
@@ -661,7 +665,8 @@ def suggestions(file_path):
             baby_word_string=baby_word_string.replace(strings_list[counter][0], ' '*len(strings_list[counter][0]), 1)
             par2=baby_word_string.find(strings_list[counter][1])+len(strings_list[counter][1])
             baby_word_string=baby_word_string.replace(strings_list[counter][1], ' '*len(strings_list[counter][1]), 1)
-            baby_word_string=baby_word_string.replace(baby_word_string[par1:par2], ' '*len(baby_word_string[par1:par2]), 1)
+            counts=baby_word_string[par1:par2].count('\n')
+            baby_word_string=baby_word_string.replace(baby_word_string[par1:par2], ' '*(len(baby_word_string[par1:par2])-counts)+'\n'*counts, 1)
         except IndexError:
             pass
         counter+=1
