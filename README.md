@@ -11,6 +11,7 @@ Notes:
 2. The annoying comments at the top and the bottom are necessary for the code to work because the program needs the space it provides.
 3. PyBroom is not a finished product and is still in development.
 4. The code for removing variables replaces the lines with spaces. If you don't want that, call rstrip_all(file_path) to get rid of the spaces PyBroom left.
+5. Very slow with large files, so be patient...
 
 Credits:
 
