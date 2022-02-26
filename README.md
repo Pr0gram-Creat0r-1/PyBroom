@@ -2,7 +2,7 @@
 List of functions:
 1. remove_variables(file_path): will remove unused variables from the specified file. Will also save a list of used variables to a separate python file. Will save a list of all variables to a different python file.
 2. remove_local_variables(file_path): removes unused local variables
-3. beautify(file_path): Improves code readability. Should only be used when you are absolutely desperate, since it affects strings and comments as well as the actual code (if you have a sensitive string that needs to be a certain way, then this function may cause it to cease to work).
+3. beautify(file_path): Improves code readability (for now, just basically putting spaces next to operators).
 4. suggestions(file_path): Offers "suggestions" for cleaner code. Like when it encounters a complex or hard-to-read line, or when it finds a variable, function, or class name that is not in the english dictionary (list of english words from https://pypi.org/project/english-words)
 PyBroom also records the commands you entered into a list, which you can get with the history() command, and you can save the list into a file with save_history(file_path).
 
