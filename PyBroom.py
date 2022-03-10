@@ -1224,19 +1224,6 @@ def beautify(file_path):
                     line2=line2.replace('+', ' ', 1)
             except IndexError:
                 pass
-        while line2.count('-')>0:
-            try:
-                if (line2.split('-', 1)[0].rstrip()==line2.split('-', 1)[0] and line2.split('-', 1)[1].lstrip()==line2.split('-', 1)[1]) and line2.find('-')!=-1 and line[line2.find('-')-1] not in ['(', '[', '{']:
-                    index=line2.find('-')
-                    line_list=list(line)
-                    line_list[index]=' - '
-                    line=''.join(line_list)
-                    text_list[counter]=line
-                    line2=line2.replace('-', '   ', 1)
-                else:
-                    line2=line2.replace('-', ' ', 1)
-            except IndexError:
-                pass
         while line2.count('*')>0:
             try:
                 if (line2.split('*', 1)[0].rstrip()==line2.split('*', 1)[0] and line2.split('*', 1)[1].lstrip()==line2.split('*', 1)[1]) and line2.find('*')!=-1:
@@ -1365,6 +1352,19 @@ def beautify(file_path):
                     line2=line2.replace('~', '   ', 1)
                 else:
                     line2=line2.replace('~', ' ', 1)
+            except IndexError:
+                pass
+        while line2.count('-')>0:
+            try:
+                if (line2.split('-', 1)[0].rstrip()==line2.split('-', 1)[0] and line2.split('-', 1)[1].lstrip()==line2.split('-', 1)[1]) and line2.find('-')!=-1 and line[line2.find('-')-1] not in ['(', '[', '{']:
+                    index=line2.find('-')
+                    line_list=list(line)
+                    line_list[index]=' - '
+                    line=''.join(line_list)
+                    text_list[counter]=line
+                    line2=line2.replace('-', '   ', 1)
+                else:
+                    line2=line2.replace('-', ' ', 1)
             except IndexError:
                 pass
         counter+=1
