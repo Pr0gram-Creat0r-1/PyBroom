@@ -359,7 +359,7 @@ def remove_local_variables(file_path):
             real_word_list=[]
             for x in range(0, len(the_new_list)):
                 line=the_new_list[counter]
-                if line.count('=')==1 and line.split('=')[0].count('+')==0 and line.split('=')[0].count('-')==0 and line.split('=')[0].count('*')==0 and line.split('=')[0].count('/')==0 and line.split('=')[0].count('%')==0 and line.split('=')[0].count('<')==0 and line.split('=')[0].count('>')==0 and line.split('=')[0].count('!')==0:
+                if line.count('=')==1 and line.split('=')[0].count('+')==0 and line.split('=')[0].count('-')==0 and line.split('=')[0].count('*')==0 and line.split('=')[0].count('/')==0 and line.split('=')[0].count('%')==0 and line.split('=')[0].count('<')==0 and line.split('=')[0].count('>')==0 and line.split('=')[0].count('!')==0 and line.split('=')[0].count('|')==0 and line.split('=')[0].count('~')==0 and line.split('=')[0].count('&')==0 and line.split('=')[0].count('^')==0:
                     new_line=line.strip()
                     variable=new_line.split('=')[0].strip()
                     if variable not in variable_list:
@@ -371,7 +371,7 @@ def remove_local_variables(file_path):
             local_variables_list=' '.join(local_variables_list)
             local_variables_list=local_variables_list.split(' ')
             counter=0
-            baby_word_string=function_text.replace('(', ' ').replace(')', ' ').replace('+', ' ').replace('-', ' ').replace('*', ' ').replace('/', ' ').replace('=', ' ').replace('.', ' ').replace(':', ' ').replace(',', ' ').replace('[', ' ').replace(']', ' ').replace('{', ' ').replace('}', ' ').replace('<', ' ').replace('>', ' ').replace('%', ' ').replace('!', ' ')
+            baby_word_string=function_text.replace('(', ' ').replace(')', ' ').replace('+', ' ').replace('-', ' ').replace('*', ' ').replace('/', ' ').replace('=', ' ').replace('.', ' ').replace(':', ' ').replace(',', ' ').replace('[', ' ').replace(']', ' ').replace('{', ' ').replace('}', ' ').replace('<', ' ').replace('>', ' ').replace('%', ' ').replace('!', ' ').replace(';', ' ').replace('~', ' ').replace('|', ' ').replace('&', ' ').replace('^', ' ')
             word_list=baby_word_string.splitlines()
             for c in range(0, len(word_list)):
                 string_list=word_list[counter].split(' ')
@@ -501,7 +501,7 @@ def remove_variables(file_path):
     the_new_list=baby_word_string.splitlines()
     for x in range(0, len(the_new_list)):
         line=the_new_list[counter]
-        if line.count('=')==1 and line.split('=')[0].count('+')==0 and line.split('=')[0].count('-')==0 and line.split('=')[0].count('*')==0 and line.split('=')[0].count('/')==0 and line.split('=')[0].count('%')==0 and line.split('=')[0].count('<')==0 and line.split('=')[0].count('>')==0 and line.split('=')[0].count('!')==0:
+        if line.count('=')==1 and line.split('=')[0].count('+')==0 and line.split('=')[0].count('-')==0 and line.split('=')[0].count('*')==0 and line.split('=')[0].count('/')==0 and line.split('=')[0].count('%')==0 and line.split('=')[0].count('<')==0 and line.split('=')[0].count('>')==0 and line.split('=')[0].count('!')==0 and line.split('=')[0].count('|')==0 and line.split('=')[0].count('~')==0 and line.split('=')[0].count('&')==0 and line.split('=')[0].count('^')==0:
             new_line=line.strip()
             variable=new_line.split('=')[0].strip()
             if variable not in variable_list:
@@ -511,7 +511,7 @@ def remove_variables(file_path):
     string_of_variables='\n'.join(variable_list)
     open('%s_all_variables.txt' % file_path.replace('.py', ''), 'w').write(string_of_variables)
     counter=0
-    baby_word_string=baby_word_string.replace('(', ' ').replace(')', ' ').replace('+', ' ').replace('-', ' ').replace('*', ' ').replace('/', ' ').replace('=', ' ').replace('.', ' ').replace(':', ' ').replace(',', ' ').replace('[', ' ').replace(']', ' ').replace('{', ' ').replace('}', ' ').replace('<', ' ').replace('>', ' ').replace('%', ' ').replace('!', ' ')
+    baby_word_string=baby_word_string.replace('(', ' ').replace(')', ' ').replace('+', ' ').replace('-', ' ').replace('*', ' ').replace('/', ' ').replace('=', ' ').replace('.', ' ').replace(':', ' ').replace(',', ' ').replace('[', ' ').replace(']', ' ').replace('{', ' ').replace('}', ' ').replace('<', ' ').replace('>', ' ').replace('%', ' ').replace('!', ' ').replace(';', ' ').replace('~', ' ').replace('|', ' ').replace('&', ' ').replace('^', ' ')
     word_list=baby_word_string.splitlines()
     for c in range(0, len(word_list)):
         string_list=word_list[counter].split(' ')
@@ -747,14 +747,14 @@ def suggestions(file_path):
     class_names=[]
     for x in range(0, len(the_new_list)):
         line=the_new_list[counter]
-        if line.count('=')==1 and line.split('=')[0].count('+')==0 and line.split('=')[0].count('-')==0 and line.split('=')[0].count('*')==0 and line.split('=')[0].count('/')==0 and line.split('=')[0].count('%')==0 and line.split('=')[0].count('<')==0 and line.split('=')[0].count('>')==0 and line.split('=')[0].count('!')==0:
+        if line.count('=')==1 and line.split('=')[0].count('+')==0 and line.split('=')[0].count('-')==0 and line.split('=')[0].count('*')==0 and line.split('=')[0].count('/')==0 and line.split('=')[0].count('%')==0 and line.split('=')[0].count('<')==0 and line.split('=')[0].count('>')==0 and line.split('=')[0].count('!')==0 and line.split('=')[0].count('|')==0 and line.split('=')[0].count('~')==0 and line.split('=')[0].count('&')==0 and line.split('=')[0].count('^')==0:
             new_line=line.strip()
             variable=new_line.split('=')[0].strip()
             if variable not in variable_list:
                 variable_list.append(variable)
         counter+=1
     counter=0
-    baby_word_string=baby_word_string.replace('(', ' ').replace(')', ' ').replace('+', ' ').replace('-', ' ').replace('*', ' ').replace('/', ' ').replace('=', ' ').replace('.', ' ').replace(':', ' ').replace(',', ' ').replace('[', ' ').replace(']', ' ').replace('{', ' ').replace('}', ' ').replace('<', ' ').replace('>', ' ').replace('%', ' ').replace('!', ' ')
+    baby_word_string=baby_word_string.replace('(', ' ').replace(')', ' ').replace('+', ' ').replace('-', ' ').replace('*', ' ').replace('/', ' ').replace('=', ' ').replace('.', ' ').replace(':', ' ').replace(',', ' ').replace('[', ' ').replace(']', ' ').replace('{', ' ').replace('}', ' ').replace('<', ' ').replace('>', ' ').replace('%', ' ').replace('!', ' ').replace(';', ' ').replace('~', ' ').replace('|', ' ').replace('&', ' ').replace('^', ' ')
     word_list=baby_word_string.splitlines()
     for c in range(0, len(word_list)):
         string_list=word_list[counter].split(' ')
