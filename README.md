@@ -15,7 +15,7 @@ Notes:
 
 Credits:
 
-Made in collaboration with @d10smaradona :)
+Thanks to @d10smaradona, whose suggestions were critical to PyBroom's functioning.
 
 https://www.geeksforgeeks.org/python-string-find/
 
